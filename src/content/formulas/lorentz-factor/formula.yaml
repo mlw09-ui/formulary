@@ -1,0 +1,82 @@
+id: lorentz-factor
+name: Lorentz Factor
+aliases: [Gamma factor, Time dilation factor, Relativistic factor]
+topic: physics/modern-physics/relativity
+difficulty: intermediate
+summary: The factor by which time dilates, lengths contract and momentum grows at relativistic speeds.
+
+latex: |-
+  \sym{gamma}{\gamma} = \frac{1}{\sqrt{1 - \dfrac{\sym{v}{v}^{2}}{\sym{c}{c}^{2}}}}
+
+variables:
+  - id: gamma
+    symbol: \gamma
+    name: Lorentz factor
+    unit: '1'
+    description: Dimensionless factor, 1 at rest, growing without bound as $v \to c$.
+    searchAliases: [gamma, lorentz]
+  - id: v
+    symbol: v
+    name: Relative speed
+    unit: m/s
+    description: Speed of one inertial frame relative to another.
+    searchAliases: [speed, velocity]
+  - id: c
+    symbol: c
+    name: Speed of light
+    unit: m/s
+    kind: constant
+    description: $c = 299\,792\,458$ m/s, exact by definition of the metre.
+    searchAliases: [speed of light]
+
+assumptions:
+  - '**Special relativity**: inertial (non-accelerating) frames in flat spacetime. Strong gravity needs general relativity.'
+  - $v$ is the speed of one frame relative to the other, and must be below $c$ for any massive object.
+
+intuition: >-
+  Gamma measures how strongly relativity bites. A moving clock ticks slower by a factor $\gamma$, a moving rod
+  is shorter by $\gamma$, and momentum and energy grow by $\gamma$. At everyday speeds $\gamma$ is
+  indistinguishable from 1. Even at 10% of light speed it is only 1.005. Close to $c$ it shoots up, which is
+  why no amount of energy can push a massive object to light speed.
+
+derivation:
+  - note: >-
+      A light clock: a pulse bounces between mirrors a distance $L$ apart, so one tick at rest takes $\Delta t_0 = 2L/c$.
+      Seen from a frame where the clock moves sideways at $v$, the pulse travels a longer diagonal path.
+    latex: \left(\frac{c\,\Delta t}{2}\right)^2 = L^2 + \left(\frac{v\,\Delta t}{2}\right)^2
+  - note: Light has the same speed $c$ in both frames (Einstein's postulate). Solve for $\Delta t$.
+    latex: \Delta t = \frac{2L/c}{\sqrt{1 - v^2/c^2}} = \frac{\Delta t_0}{\sqrt{1 - v^2/c^2}}
+  - note: The moving clock's tick is longer by the factor $\gamma$.
+    latex: \Delta t = \gamma\,\Delta t_0, \qquad \gamma = \frac{1}{\sqrt{1 - v^2/c^2}}
+
+example:
+  title: Cosmic-ray muons reach the ground
+  problem: >-
+    Muons created in the upper atmosphere travel at 0.995c. Their mean lifetime at rest is 2.197 μs. Find
+    the Lorentz factor, and how far a typical muon travels before decaying.
+  given:
+    v: 298293495.71
+  solveFor: gamma
+  expected:
+    gamma: 10.012523
+  tolerance: 1.0e-6
+  steps:
+    - latex: \gamma = \frac{1}{\sqrt{1 - 0.995^2}} = \frac{1}{\sqrt{0.009975}} = 10.01
+    - note: In the Earth frame the muon's lifetime is dilated.
+      latex: \tau = \gamma\,\tau_0 = 10.01 \times 2.197\ \mu\text{s} = 22.0\ \mu\text{s}
+    - latex: d = v\tau = 0.995 \times 299\,792\,458 \times 22.0\times10^{-6} = 6.56\ \text{km}
+    - note: Without time dilation the muon would travel only 655 m on average, and almost none would reach the ground from 10–15 km. Detecting them at sea level was an early confirmation of relativity.
+  answer: $\gamma \approx 10.0$; mean travel distance about 6.6 km instead of 0.66 km.
+  sources:
+    - value: τ₀ = 2.197 μs
+      source: Muon mean lifetime, Particle Data Group (PDG) Review of Particle Physics.
+    - value: c = 299 792 458 m/s
+      source: Exact (SI definition of the metre).
+    - value: v = 0.995c
+      source: Illustrative, typical of cosmic-ray muons (as in the Rossi–Hall and Frisch–Smith experiments).
+
+calculator:
+  solvable: [gamma, v]
+
+related: [mass-energy-equivalence, momentum, kinetic-energy, doppler-effect]
+tags: [relativity, time dilation, length contraction, gamma, speed of light, special relativity, einstein]

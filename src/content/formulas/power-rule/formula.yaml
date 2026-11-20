@@ -1,0 +1,69 @@
+id: power-rule
+name: Power Rule
+aliases: [Power rule for derivatives, Derivative of xⁿ]
+topic: mathematics/calculus/differentiation
+difficulty: basic
+summary: The derivative of x to the power n is n times x to the power n − 1.
+
+latex: |-
+  \sym{ddx}{\frac{d}{dx}}\,\sym{x}{x}^{\sym{n}{n}} = \sym{n}{n}\,\sym{x}{x}^{\sym{n}{n}-1}
+
+variables:
+  - id: ddx
+    symbol: \frac{d}{dx}
+    name: Derivative with respect to x
+    unit: null
+    kind: operator
+    description: The instantaneous rate of change of what follows, as $x$ changes.
+    searchAliases: [derivative, d/dx, differentiate]
+  - id: x
+    symbol: x
+    name: Variable
+    unit: null
+    description: The independent variable.
+  - id: n
+    symbol: n
+    name: Exponent
+    unit: null
+    description: A constant real number (integer, fraction or negative).
+    searchAliases: [exponent, power]
+
+assumptions:
+  - $n$ is a **constant**. For variable exponents such as $x^x$, use logarithmic differentiation.
+  - For non-integer $n$, take $x > 0$ (e.g. $\sqrt{x}$ is not real for $x < 0$). For negative $n$, $x \neq 0$.
+  - For $n = 0$ the result is 0 (derivative of a constant), with $x \neq 0$ to avoid $0^{-1}$.
+
+intuition: >-
+  Differentiating brings the exponent down in front and lowers it by one. For $x^2$ (the area of a square of side
+  $x$), growing $x$ by $dx$ adds two thin strips of area $x\,dx$, so the area changes at the rate $2x$. For
+  $x^3$ (a cube), three thin slabs of area $x^2$ each give $3x^2$. Together with the sum rule, it differentiates
+  every polynomial.
+
+derivation:
+  - note: For a positive integer $n$, use the limit definition of the derivative and expand with the binomial theorem.
+    latex: \frac{d}{dx}x^n = \lim_{h\to 0}\frac{(x+h)^n - x^n}{h} = \lim_{h\to 0}\frac{n x^{n-1}h + \binom{n}{2}x^{n-2}h^2 + \cdots}{h}
+  - note: Every term after the first still contains $h$ and vanishes in the limit.
+    latex: \frac{d}{dx}x^n = n\,x^{n-1}
+  - note: 'For any real $n$ and $x > 0$, write $x^n = e^{n\ln x}$ and use the chain rule.'
+    latex: \frac{d}{dx}e^{n\ln x} = e^{n\ln x}\cdot\frac{n}{x} = n\,x^{n-1}
+
+example:
+  title: Derivatives of x⁵ and √x
+  problem: Differentiate $x^5$ and $\sqrt{x}$.
+  steps:
+    - latex: \frac{d}{dx}x^5 = 5x^4
+    - note: Write the square root as a power, $\sqrt{x} = x^{1/2}$.
+      latex: \frac{d}{dx}x^{1/2} = \tfrac{1}{2}x^{-1/2} = \frac{1}{2\sqrt{x}}
+    - note: 'Numerical check at $x = 4$: $(\sqrt{4.001} - \sqrt{4})/0.001 = 0.24998$, and $1/(2\sqrt{4}) = 0.25$.'
+  answer: $5x^4$ and $\dfrac{1}{2\sqrt{x}}$
+  sources:
+    - value: x⁵, √x
+      source: Illustrative choice. Exact results, checked numerically.
+
+calculator:
+  none: >-
+    The power rule produces a new function (the derivative), not a number, so a numeric calculator does not apply.
+    To get a slope at a point, substitute a value of $x$ into $n x^{n-1}$.
+
+related: [product-rule, chain-rule, taylor-series, fundamental-theorem-of-calculus]
+tags: [derivative, differentiation, calculus, polynomial, exponent, power]

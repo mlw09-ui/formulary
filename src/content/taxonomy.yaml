@@ -1,0 +1,182 @@
+# The category tree: Domain → Field → Topic.
+# Formulas attach to a topic via `topic: domain/field/topic` in their formula.yaml.
+# Icons must be names defined in src/lib/icons.ts (the build rejects unknown names).
+
+domains:
+  - id: physics
+    name: Physics
+    description: The laws governing matter, energy, motion and forces, from falling apples to quantum states.
+    icon: physics
+    fields:
+      - id: classical-mechanics
+        name: Classical Mechanics
+        description: Forces, motion, energy and gravitation for everyday speeds and scales.
+        icon: mechanics
+        topics:
+          - id: dynamics
+            name: Dynamics
+            description: How forces change the motion of bodies.
+          - id: work-and-energy
+            name: Work & Energy
+            description: Energy stored in motion and position, and the work that transfers it.
+          - id: gravitation
+            name: Gravitation
+            description: The attractive force between masses.
+
+      - id: fluid-mechanics
+        name: Fluid Mechanics
+        description: Liquids and gases at rest and in motion, from pipe flow to the Navier–Stokes equations.
+        icon: fluid
+        topics:
+          - id: fluid-statics
+            name: Fluid Statics
+            description: Pressure in fluids at rest.
+          - id: conservation-laws
+            name: Conservation Laws
+            description: Mass, momentum and energy balances that govern every flow.
+          - id: internal-flow
+            name: Internal Flow
+            description: Flow through pipes and ducts, and the pressure needed to drive it.
+          - id: dimensionless-numbers
+            name: Dimensionless Numbers
+            description: Ratios that characterise a flow regime independently of scale.
+
+      - id: aerodynamics
+        name: Aerodynamics
+        description: Forces on bodies moving through air, such as wings and aircraft.
+        icon: aero
+        topics:
+          - id: lift-and-drag
+            name: Lift & Drag
+            description: The aerodynamic forces perpendicular and parallel to the oncoming flow.
+          - id: flow-parameters
+            name: Flow Parameters
+            description: Quantities that describe the state of the oncoming airflow.
+
+      - id: thermodynamics
+        name: Thermodynamics
+        description: Heat, work, temperature and the limits on converting one into another.
+        icon: thermo
+        topics:
+          - id: energy-and-state
+            name: Energy & State
+            description: Equations of state, energy conservation and the efficiency limits of heat engines.
+          - id: heat-transfer
+            name: Heat Transfer
+            description: How much heat a body absorbs, and how heat moves through materials.
+
+      - id: electromagnetism
+        name: Electromagnetism
+        description: Electric charges, currents, and the fields they create.
+        icon: em
+        topics:
+          - id: circuits
+            name: Circuits
+            description: Voltage, current, resistance and power in electrical circuits.
+          - id: electrostatics
+            name: Electrostatics
+            description: Forces between stationary charges.
+          - id: maxwells-equations
+            name: Maxwell's Equations
+            description: The four equations that unify electricity, magnetism and light.
+
+      - id: waves-and-optics
+        name: Waves & Optics
+        description: Oscillations that carry energy, and the behaviour of light.
+        icon: waves
+        topics:
+          - id: wave-motion
+            name: Wave Motion
+            description: Propagation speed and frequency shifts of waves.
+          - id: geometric-optics
+            name: Geometric Optics
+            description: Light as rays, refracting at interfaces.
+
+      - id: modern-physics
+        name: Modern Physics
+        description: Relativity and quantum mechanics, the physics of the very fast and the very small.
+        icon: modern
+        topics:
+          - id: relativity
+            name: Relativity
+            description: Space, time and energy at speeds approaching the speed of light.
+          - id: quantum-mechanics
+            name: Quantum Mechanics
+            description: Wave–particle duality and the wavefunction.
+
+  - id: mathematics
+    name: Mathematics
+    description: The language of quantity, structure and change that every formula is written in.
+    icon: mathematics
+    fields:
+      - id: algebra
+        name: Algebra
+        description: Manipulating equations, polynomials, exponents and logarithms.
+        icon: algebra
+        topics:
+          - id: polynomials
+            name: Polynomials
+            description: Solving and expanding polynomial expressions.
+          - id: exponents-and-logarithms
+            name: Exponents & Logarithms
+            description: Rules for working with powers and their inverses.
+
+      - id: geometry-and-trigonometry
+        name: Geometry & Trigonometry
+        description: Lengths, angles, areas and volumes of shapes.
+        icon: geometry
+        topics:
+          - id: triangles
+            name: Triangles
+            description: Relations between the sides and angles of triangles.
+          - id: circles-and-spheres
+            name: Circles & Spheres
+            description: Perimeter, area and volume of round shapes.
+
+      - id: calculus
+        name: Calculus
+        description: Rates of change and accumulation.
+        icon: calculus
+        topics:
+          - id: differentiation
+            name: Differentiation
+            description: Rules for finding derivatives.
+          - id: integration
+            name: Integration
+            description: Techniques and theorems for computing integrals.
+          - id: series
+            name: Series
+            description: Representing functions as infinite sums.
+
+      - id: linear-algebra
+        name: Linear Algebra
+        description: Vectors, matrices and the linear maps between spaces.
+        icon: linalg
+        topics:
+          - id: determinants
+            name: Determinants
+            description: The scalar that measures how a matrix scales area and volume.
+          - id: vector-products
+            name: Vector Products
+            description: Combining two vectors into a scalar or a new vector.
+
+      - id: probability-and-statistics
+        name: Probability & Statistics
+        description: Describing data and reasoning under uncertainty.
+        icon: stats
+        topics:
+          - id: descriptive-statistics
+            name: Descriptive Statistics
+            description: Summarising a data set with a few numbers.
+          - id: probability
+            name: Probability
+            description: Distributions and updating beliefs with evidence.
+
+      - id: complex-numbers
+        name: Complex Numbers
+        description: Numbers with real and imaginary parts, and their geometry.
+        icon: complex
+        topics:
+          - id: exponential-form
+            name: Exponential Form
+            description: Writing complex numbers with the complex exponential.

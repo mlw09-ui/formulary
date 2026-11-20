@@ -1,0 +1,77 @@
+id: pythagorean-theorem
+name: Pythagorean Theorem
+aliases: [Pythagoras' theorem, a² + b² = c², Right-triangle theorem]
+topic: mathematics/geometry-and-trigonometry/triangles
+difficulty: basic
+summary: In a right triangle, the square on the hypotenuse equals the sum of the squares on the other two sides.
+
+latex: |-
+  \sym{a}{a}^{2} + \sym{b}{b}^{2} = \sym{c}{c}^{2}
+
+variables:
+  - id: a
+    symbol: a
+    name: First leg
+    unit: m
+    description: One of the two sides that form the right angle (any length unit works, if used consistently).
+    searchAliases: [leg, side, cathetus]
+  - id: b
+    symbol: b
+    name: Second leg
+    unit: m
+    description: The other side adjacent to the right angle.
+  - id: c
+    symbol: c
+    name: Hypotenuse
+    unit: m
+    description: The side opposite the right angle, always the longest side.
+    searchAliases: [hypotenuse]
+
+assumptions:
+  - The triangle has a **right angle** (90°) between $a$ and $b$. For other triangles use the law of cosines, of which this is the special case $C = 90^\circ$.
+  - '**Euclidean (flat) geometry.** On a sphere, such as for long distances on Earth, it fails.'
+  - $c$ is the side opposite the right angle.
+
+intuition: >-
+  Build a square on each side of a right triangle. The two smaller squares together have exactly the area of
+  the large one. The theorem turns geometry into arithmetic: it gives the straight-line distance between
+  two points from their horizontal and vertical separations, $d = \sqrt{\Delta x^2 + \Delta y^2}$, which is the
+  basis of all distance calculations in coordinates.
+
+derivation:
+  - note: >-
+      Proof by rearrangement. Place four copies of the triangle inside a square of side $a + b$, so that their
+      hypotenuses enclose a tilted inner square of side $c$.
+    latex: (a + b)^2 = 4\cdot\tfrac{1}{2}ab + c^2
+  - note: Expand the left side.
+    latex: a^2 + 2ab + b^2 = 2ab + c^2
+  - note: Cancel $2ab$.
+    latex: a^2 + b^2 = c^2
+
+example:
+  title: How high does a ladder reach?
+  problem: A 5 m ladder leans against a vertical wall with its foot 1.5 m from the wall. How high up the wall does it reach?
+  given:
+    c: 5
+    a: 1.5
+  solveFor: b
+  expected:
+    b: 4.7696960
+  tolerance: 1.0e-7
+  steps:
+    - note: The wall and ground form the right angle; the ladder is the hypotenuse.
+      latex: b = \sqrt{c^2 - a^2} = \sqrt{5^2 - 1.5^2} = \sqrt{25 - 2.25} = \sqrt{22.75}
+    - latex: b = 4.770\ \text{m}
+    - note: The ladder's angle to the ground is $\arccos(1.5/5) = 72.5^\circ$, close to the 75° that ladder safety guides recommend (the "1 out for every 4 up" rule).
+  answer: $b \approx 4.77\ \text{m}$
+  sources:
+    - value: c = 5 m, a = 1.5 m
+      source: Illustrative choice.
+    - value: 75° / "1 in 4" rule
+      source: 'UK HSE, Safe use of ladders and stepladders (INDG455).'
+
+calculator:
+  solvable: [c, a, b]
+
+related: [law-of-cosines, law-of-sines, dot-product]
+tags: [triangle, right angle, hypotenuse, distance, geometry, pythagoras]

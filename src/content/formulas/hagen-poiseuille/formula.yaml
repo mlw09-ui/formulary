@@ -1,0 +1,119 @@
+id: hagen-poiseuille
+name: Hagen–Poiseuille Equation
+aliases: [Poiseuille's law, Hagen–Poiseuille law, Laminar pipe flow]
+topic: physics/fluid-mechanics/internal-flow
+difficulty: intermediate
+summary: Volumetric flow rate of steady laminar flow through a circular pipe, driven by a pressure drop.
+
+latex: |-
+  \sym{Q}{Q} = \frac{\pi \sym{R}{R}^{4} \sym{dP}{\Delta P}}{8 \sym{mu}{\mu} \sym{L}{L}}
+
+variables:
+  - id: Q
+    symbol: Q
+    name: Volumetric flow rate
+    unit: m³/s
+    description: Volume of fluid passing a cross-section per unit time.
+    searchAliases: [flow rate, discharge]
+  - id: R
+    symbol: R
+    name: Pipe inner radius
+    unit: m
+    description: Internal radius of the pipe. In terms of diameter, $R^4 = D^4/16$.
+    searchAliases: [radius]
+  - id: dP
+    symbol: \Delta P
+    name: Pressure drop
+    unit: Pa
+    description: >-
+      Pressure difference between the pipe inlet and outlet. For an inclined pipe, use the
+      piezometric pressure difference $\Delta(p + \rho g z)$.
+    searchAliases: [pressure difference, delta p, dp]
+  - id: mu
+    symbol: \mu
+    name: Dynamic viscosity
+    unit: Pa·s
+    description: The fluid's resistance to shearing. Strongly temperature-dependent for liquids.
+    searchAliases: [viscosity]
+  - id: L
+    symbol: L
+    name: Pipe length
+    unit: m
+    description: Length of pipe over which the pressure drop $\Delta P$ acts.
+    searchAliases: [length]
+
+assumptions:
+  - >-
+    **Laminar flow**: Reynolds number $\mathrm{Re} = \rho \bar{v} D / \mu \lesssim 2300$.
+    Above that, flow may become turbulent and the real pressure drop is much larger.
+  - Newtonian fluid (constant viscosity, independent of shear rate). Not valid for blood in small vessels, polymer solutions or slurries.
+  - Incompressible fluid with constant density and viscosity (isothermal flow).
+  - Steady flow, with no pulsation or start-up transient.
+  - >-
+    **Fully developed** flow: the pipe is much longer than the entrance length
+    $L_e \approx 0.05\,\mathrm{Re}\,D$, so the velocity profile no longer changes along the pipe.
+  - Straight, rigid pipe of constant circular cross-section.
+  - No-slip at the wall (fluid velocity is zero at the wall). This fails for rarefied gases in micro-channels.
+
+intuition: >-
+  Pressure pushes the fluid forward, viscosity holds it back, and the balance gives a parabolic
+  velocity profile, fastest on the axis and zero at the wall. The striking part is $Q \propto R^4$.
+  Halving the radius cuts the flow sixteen-fold at the same pressure drop, which is why a small
+  narrowing of an artery or a partly blocked pipe matters so much. Like Ohm's law,
+  $\Delta P = Q \cdot R_h$ with a hydraulic resistance $R_h = 8\mu L / (\pi R^4)$.
+
+derivation:
+  - note: >-
+      Start from the incompressible Navier–Stokes equations in cylindrical coordinates $(r, \theta, x)$
+      with the flow along the pipe axis $x$. For steady, fully developed, axisymmetric flow the only
+      velocity component is $u(r)$. The convective acceleration vanishes, and the axial momentum equation reduces to
+    latex: \frac{\mu}{r}\frac{d}{dr}\!\left(r\,\frac{du}{dr}\right) = \frac{dp}{dx} = -\frac{\Delta P}{L}
+  - note: Multiply by $r/\mu$ and integrate once.
+    latex: r\,\frac{du}{dr} = -\frac{\Delta P}{2\mu L}\,r^2 + C_1
+  - note: The shear rate must be finite on the axis $r = 0$, so $C_1 = 0$. Integrate again.
+    latex: u(r) = -\frac{\Delta P}{4\mu L}\,r^2 + C_2
+  - note: No-slip at the wall, $u(R) = 0$, gives $C_2$ and the parabolic profile.
+    latex: u(r) = \frac{\Delta P}{4\mu L}\left(R^2 - r^2\right)
+  - note: Integrate the velocity over the cross-section (rings of area $2\pi r\,dr$).
+    latex: Q = \int_0^R u(r)\,2\pi r\,dr = \frac{\pi \Delta P}{2\mu L}\int_0^R \left(R^2 r - r^3\right)dr = \frac{\pi \Delta P}{2\mu L}\cdot\frac{R^4}{4}
+  - note: Which is the Hagen–Poiseuille equation. As a by-product, the mean velocity is exactly half the centreline velocity.
+    latex: Q = \frac{\pi R^4 \Delta P}{8 \mu L}, \qquad \bar{v} = \frac{Q}{\pi R^2} = \tfrac{1}{2}\,u_{\max}
+
+example:
+  title: Water through a 2 mm capillary tube
+  problem: >-
+    Water at 20 °C flows through a horizontal tube of inner radius 1 mm and length 1 m. The pressure
+    drop along the tube is 100 Pa. Find the volumetric flow rate, and confirm that Hagen–Poiseuille applies.
+  given:
+    R: 1.0e-3
+    dP: 100
+    mu: 1.002e-3
+    L: 1
+    rho: 998.2
+  solveFor: Q
+  expected:
+    Q: 3.9192e-8
+  tolerance: 1.0e-4
+  steps:
+    - note: Substitute into the equation (all SI units).
+      latex: Q = \frac{\pi\,(1.0\times10^{-3}\ \text{m})^4\,(100\ \text{Pa})}{8\,(1.002\times10^{-3}\ \text{Pa·s})\,(1\ \text{m})} = 3.919\times10^{-8}\ \text{m}^3/\text{s}
+    - note: 'That is about 0.039 mL/s, or 141 mL per hour. Mean velocity in the tube:'
+      latex: \bar{v} = \frac{Q}{\pi R^2} = \frac{3.919\times10^{-8}}{\pi\,(10^{-3})^2} = 0.01248\ \text{m/s}
+    - note: 'Check laminar flow with the Reynolds number ($D = 2R = 2$ mm):'
+      latex: \mathrm{Re} = \frac{\rho \bar{v} D}{\mu} = \frac{998.2 \times 0.01248 \times 0.002}{1.002\times10^{-3}} = 24.9 \ll 2300
+    - note: 'Check fully developed flow: the entrance length is tiny compared with the 1 m tube.'
+      latex: L_e \approx 0.05\,\mathrm{Re}\,D = 0.05 \times 24.9 \times 0.002\ \text{m} = 2.5\ \text{mm} \ll 1\ \text{m}
+  answer: $Q \approx 3.92 \times 10^{-8}\ \text{m}^3/\text{s}$ (≈ 141 mL/h). Flow is laminar and fully developed, so the result is valid.
+  sources:
+    - value: μ = 1.002 × 10⁻³ Pa·s, ρ = 998.2 kg/m³
+      source: Water at 20 °C, standard property tables (e.g. CRC Handbook of Chemistry and Physics; White, Fluid Mechanics, Table A.1).
+    - value: Re_crit ≈ 2300, L_e ≈ 0.05 Re D
+      source: Standard laminar-flow criteria for circular pipes (White, Fluid Mechanics, §6.2 and §6.4).
+    - value: R = 1 mm, L = 1 m, ΔP = 100 Pa
+      source: Illustrative choice.
+
+calculator:
+  solvable: [Q, R, dP, mu, L]
+
+related: [navier-stokes-incompressible, darcy-weisbach, reynolds-number, continuity-equation]
+tags: [pipe flow, laminar, viscous flow, poiseuille flow, capillary, pressure drop, flow rate]

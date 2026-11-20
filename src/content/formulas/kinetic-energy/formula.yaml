@@ -1,0 +1,78 @@
+id: kinetic-energy
+name: Kinetic Energy
+aliases: [KE, Energy of motion, ½mv²]
+topic: physics/classical-mechanics/work-and-energy
+difficulty: basic
+summary: Energy a body has because of its motion, proportional to mass and to speed squared.
+
+latex: |-
+  \sym{Ek}{E_k} = \tfrac{1}{2}\,\sym{m}{m}\,\sym{v}{v}^{2}
+
+variables:
+  - id: Ek
+    symbol: E_k
+    name: Kinetic energy
+    unit: J
+    description: Translational kinetic energy of the body.
+    searchAliases: [KE, kinetic energy, energy]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Mass of the body.
+    searchAliases: [mass]
+  - id: v
+    symbol: v
+    name: Speed
+    unit: m/s
+    description: Speed of the body (or of its centre of mass) in the chosen frame.
+    searchAliases: [speed, velocity]
+
+assumptions:
+  - >-
+    **Speeds much smaller than the speed of light** ($v \ll c$). The relativistic kinetic energy is
+    $(\gamma - 1)mc^2$; the Newtonian formula is 0.75% low at $v = 0.1c$ and badly wrong beyond.
+  - '**Translation only.** A rotating body also has rotational energy $\tfrac{1}{2}I\omega^2$.'
+  - Kinetic energy depends on the reference frame; $v$ must be measured in an inertial frame.
+
+intuition: >-
+  Speed counts twice. Double the speed and the energy quadruples, which is why stopping distance
+  grows so fast with speed: brakes have to remove four times the energy at twice the speed. The
+  work-energy theorem says that the net work done on a body equals the change in its kinetic
+  energy, so $E_k$ is exactly the work needed to bring a body from rest to speed $v$.
+
+derivation:
+  - note: Apply a net force to a body initially at rest, and add up the work done as it speeds up.
+    latex: E_k = W = \int F\,dx = \int m\frac{dv}{dt}\,dx
+  - note: Since $dx/dt = v$, change variables from position to speed.
+    latex: E_k = \int_0^v m\,v'\,dv'
+  - note: Integrate.
+    latex: E_k = \tfrac{1}{2} m v^2
+
+example:
+  title: A car at motorway speed
+  problem: What is the kinetic energy of a 1200 kg car travelling at 25 m/s (90 km/h)?
+  given:
+    m: 1200
+    v: 25
+  solveFor: Ek
+  expected:
+    Ek: 375000
+  tolerance: 1.0e-9
+  steps:
+    - latex: E_k = \tfrac{1}{2} m v^2 = \tfrac{1}{2} \times 1200 \times 25^2 = 375\,000\ \text{J}
+    - note: >-
+        That is the energy the brakes turn into heat in a full stop, about the energy needed to
+        heat 1.1 litres of water from 20 °C to boiling.
+  answer: $E_k = 375\ \text{kJ}$
+  sources:
+    - value: m = 1200 kg, v = 25 m/s
+      source: Illustrative choice.
+    - value: Water comparison
+      source: Using c = 4184 J/(kg·K) and ΔT = 80 K (see Sensible Heat).
+
+calculator:
+  solvable: [Ek, m, v]
+
+related: [work, momentum, gravitational-potential-energy, mass-energy-equivalence]
+tags: [energy, kinetic energy, speed, work-energy theorem, mechanics]

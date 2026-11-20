@@ -1,0 +1,79 @@
+id: determinant-2x2
+name: Determinant of a 2×2 Matrix
+aliases: [2 by 2 determinant, ad − bc]
+topic: mathematics/linear-algebra/determinants
+difficulty: basic
+summary: The determinant of a 2×2 matrix is ad − bc, the signed area scale factor of the linear map.
+
+latex: |-
+  \sym{D}{\det}\begin{pmatrix} \sym{a}{a} & \sym{b}{b} \\ \sym{c}{c} & \sym{d}{d} \end{pmatrix} = \sym{a}{a}\sym{d}{d} - \sym{b}{b}\sym{c}{c}
+
+variables:
+  - id: D
+    symbol: \det
+    name: Determinant
+    unit: null
+    description: A single number summarising the matrix. Zero means the matrix is not invertible.
+    searchAliases: [determinant, det]
+  - id: a
+    symbol: a
+    name: Top-left entry
+    unit: null
+    description: Row 1, column 1.
+  - id: b
+    symbol: b
+    name: Top-right entry
+    unit: null
+    description: Row 1, column 2.
+  - id: c
+    symbol: c
+    name: Bottom-left entry
+    unit: null
+    description: Row 2, column 1.
+  - id: d
+    symbol: d
+    name: Bottom-right entry
+    unit: null
+    description: Row 2, column 2.
+
+assumptions:
+  - A **square** 2×2 matrix with real or complex entries.
+  - Entries are in a commutative number system (ordinary numbers), so that $ad = da$.
+
+intuition: >-
+  A 2×2 matrix maps the unit square to a parallelogram spanned by its columns $(a, c)$ and $(b, d)$. The determinant is
+  that parallelogram's area, with a sign: negative means the map flips orientation, like a mirror. A determinant of
+  zero means the parallelogram is flat (the columns are parallel), so information is lost and the matrix cannot be
+  inverted. It also appears in the inverse, $A^{-1} = \frac{1}{ad - bc}\begin{pmatrix} d & -b \\ -c & a\end{pmatrix}$.
+
+derivation:
+  - note: The columns $\mathbf{u} = (a, c)$ and $\mathbf{v} = (b, d)$ span a parallelogram. Its signed area is the $z$-component of the cross product of the two vectors embedded in 3D.
+    latex: (a, c, 0)\times(b, d, 0) = (0,\ 0,\ ad - bc)
+  - note: So the signed area, and the determinant, is
+    latex: \det\begin{pmatrix} a & b \\ c & d\end{pmatrix} = ad - bc
+
+example:
+  title: Is this matrix invertible?
+  problem: Compute the determinant of $\begin{pmatrix} 3 & 8 \\ 4 & 6 \end{pmatrix}$.
+  given:
+    a: 3
+    b: 8
+    c: 4
+    d: 6
+  solveFor: D
+  expected:
+    D: -14
+  tolerance: 1.0e-12
+  steps:
+    - latex: \det = (3)(6) - (8)(4) = 18 - 32 = -14
+    - note: The determinant is non-zero, so the matrix is invertible. The negative sign means it reverses orientation, and it scales areas by a factor of 14.
+  answer: $\det = -14$
+  sources:
+    - value: Matrix entries
+      source: Illustrative choice. Exact result.
+
+calculator:
+  solvable: [D, a, b, c, d]
+
+related: [determinant-3x3, cross-product, dot-product]
+tags: [matrix, determinant, linear algebra, invertible, area, 2x2]

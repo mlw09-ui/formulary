@@ -1,0 +1,108 @@
+id: standard-deviation
+name: Standard Deviation
+aliases: [SD, Sample standard deviation, Population standard deviation, Spread]
+topic: mathematics/probability-and-statistics/descriptive-statistics
+difficulty: basic
+summary: How spread out data are around their mean. Sample (n − 1) and population (N) versions.
+
+latex: |-
+  \sym{s}{s} = \sqrt{\frac{1}{\sym{n}{n} - 1}\sum_{\sym{i}{i}=1}^{\sym{n}{n}} \left(\sym{x}{x}_{\sym{i}{i}} - \sym{xbar}{\bar{x}}\right)^2}, \qquad \sym{sigma}{\sigma} = \sqrt{\frac{1}{\sym{N}{N}}\sum_{\sym{i}{i}=1}^{\sym{N}{N}} \left(\sym{x}{x}_{\sym{i}{i}} - \sym{mu}{\mu}\right)^2}
+
+variables:
+  - id: s
+    symbol: s
+    name: Sample standard deviation
+    unit: null
+    description: Use when the data are a **sample** from a larger population. Divides by $n - 1$ (Bessel's correction).
+    searchAliases: [sample standard deviation, sd, stdev]
+  - id: sigma
+    symbol: \sigma
+    name: Population standard deviation
+    unit: null
+    description: Use when the data are the **entire population**. Divides by $N$.
+    searchAliases: [population standard deviation, sigma, stdevp]
+  - id: x
+    symbol: x_i
+    name: Data values
+    unit: null
+    shape: list
+    description: The individual observations.
+    searchAliases: [data, values]
+  - id: xbar
+    symbol: \bar{x}
+    name: Sample mean
+    unit: null
+    inCalculator: false
+    description: Mean of the sample.
+  - id: mu
+    symbol: \mu
+    name: Population mean
+    unit: null
+    inCalculator: false
+    description: Mean of the population. Numerically, the mean of the data.
+  - id: n
+    symbol: n
+    name: Sample size
+    unit: null
+    kind: index
+    description: Number of values in the sample.
+  - id: N
+    symbol: N
+    name: Population size
+    unit: null
+    kind: index
+    description: Number of values in the population.
+  - id: i
+    symbol: i
+    name: Index
+    unit: null
+    kind: index
+    description: Runs over the data values.
+
+assumptions:
+  - '**Choose the right version.** Sample data (almost always, in practice) use $s$ with $n - 1$. Use $\sigma$ only when you have every member of the population.'
+  - The sample version needs at least 2 values.
+  - Numeric data on an interval or ratio scale. Like the mean, it is sensitive to outliers.
+  - The "68–95–99.7% within 1–2–3 SD" rule applies **only** to (approximately) normal data.
+
+intuition: >-
+  The standard deviation is the typical distance of data points from the mean, in the data's own units. Squaring the
+  deviations stops positives and negatives from cancelling and penalises large ones; the square root brings the units
+  back. Dividing by $n - 1$ for a sample corrects a bias: the sample mean is, by construction, closer to the
+  sample's points than the true mean is, so raw deviations from it understate the true spread.
+
+derivation:
+  - note: The population variance is the mean squared deviation from the mean, and the standard deviation is its square root.
+    latex: \sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2
+  - note: For a sample, deviations are measured from $\bar{x}$ instead of the unknown $\mu$. One can show that their expected sum of squares is $(n-1)\sigma^2$, not $n\sigma^2$.
+    latex: \mathbb{E}\left[\sum_{i=1}^{n}(x_i - \bar{x})^2\right] = (n - 1)\,\sigma^2
+  - note: Dividing by $n - 1$ therefore gives an unbiased estimate of the variance (Bessel's correction).
+    latex: s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad \mathbb{E}[s^2] = \sigma^2
+
+example:
+  title: Spread of a small data set
+  problem: Find the sample and the population standard deviation of 2, 4, 4, 4, 5, 5, 7, 9.
+  given:
+    x: [2, 4, 4, 4, 5, 5, 7, 9]
+  solveFor: s
+  expected:
+    s: 2.13808994
+    sigma: 2
+  tolerance: 1.0e-8
+  steps:
+    - note: The mean is 5 (see Arithmetic Mean). Squared deviations from it are
+      latex: 9,\ 1,\ 1,\ 1,\ 0,\ 0,\ 4,\ 16 \qquad \text{sum} = 32
+    - note: As a sample ($n = 8$), divide by $n - 1 = 7$.
+      latex: s = \sqrt{32/7} = \sqrt{4.571} = 2.138
+    - note: As a whole population ($N = 8$), divide by 8.
+      latex: \sigma = \sqrt{32/8} = \sqrt{4} = 2
+  answer: $s \approx 2.138$ (sample); $\sigma = 2$ (population).
+  sources:
+    - value: Data 2, 4, 4, 4, 5, 5, 7, 9
+      source: Standard textbook data set (population SD exactly 2).
+
+calculator:
+  solvable: [s, sigma]
+
+related: [arithmetic-mean, normal-distribution]
+tags: [standard deviation, variance, spread, statistics, bessel correction, dispersion]

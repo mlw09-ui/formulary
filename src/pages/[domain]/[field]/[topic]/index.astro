@@ -1,0 +1,50 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import PageHeader from '../../../../components/PageHeader.astro';
+import FormulaCard from '../../../../components/FormulaCard.astro';
+import { getLibrary } from '../../../../lib/content';
+import { href } from '../../../../lib/url';
+
+export function getStaticPaths() {
+  return getLibrary().domains.flatMap((d) =>
+    d.fields.flatMap((fl) =>
+      fl.topics.map((t) => ({
+        params: { domain: d.id, field: fl.id, topic: t.id },
+        props: { path: t.path },
+      })),
+    ),
+  );
+}
+
+const lib = getLibrary();
+const [d, fl, tp] = Astro.props.path.split('/');
+const domain = lib.domains.find((x) => x.id === d)!;
+const field = domain.fields.find((x) => x.id === fl)!;
+const topic = field.topics.find((x) => x.id === tp)!;
+---
+
+<Base title={`${topic.name} · ${field.name}`} description={topic.description}>
+  <PageHeader
+    crumbs={[
+      { label: domain.name, path: domain.path },
+      { label: field.name, path: field.path },
+    ]}
+    title={topic.name}
+    description={topic.description}
+    eyebrow={field.name}
+  />
+  <div class="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
+    <h2 class="sr-only">Formulas</h2>
+    {
+      topic.formulas.length ? (
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {topic.formulas.map((f) => (
+            <FormulaCard formula={f} href={href(lib.formulaPath(f))} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted">No formulas in this topic yet.</p>
+      )
+    }
+  </div>
+</Base>

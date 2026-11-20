@@ -1,0 +1,92 @@
+id: reynolds-number
+name: Reynolds Number
+aliases: [Re, Reynolds criterion]
+topic: physics/fluid-mechanics/dimensionless-numbers
+difficulty: basic
+summary: Ratio of inertial to viscous forces; predicts whether a flow is laminar or turbulent.
+
+latex: |-
+  \sym{Re}{\mathrm{Re}} = \frac{\sym{rho}{\rho}\,\sym{v}{v}\,\sym{L}{L}}{\sym{mu}{\mu}}
+
+variables:
+  - id: Re
+    symbol: \mathrm{Re}
+    name: Reynolds number
+    unit: '1'
+    description: Dimensionless ratio of inertial to viscous forces.
+    searchAliases: [Re, reynolds]
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the fluid.
+    searchAliases: [density]
+  - id: v
+    symbol: v
+    name: Characteristic velocity
+    unit: m/s
+    description: Typical flow speed, e.g. the mean velocity in a pipe or the freestream speed past a body.
+    searchAliases: [velocity, speed]
+  - id: L
+    symbol: L
+    name: Characteristic length
+    unit: m
+    description: Typical length scale, e.g. the inner diameter for pipe flow or the chord for a wing.
+    searchAliases: [diameter, length, chord]
+  - id: mu
+    symbol: \mu
+    name: Dynamic viscosity
+    unit: Pa·s
+    description: The fluid's resistance to shear. $\mu/\rho = \nu$ is the kinematic viscosity.
+    searchAliases: [viscosity]
+
+assumptions:
+  - >-
+    The **critical values depend on geometry**, and on the choice of $L$ and $v$. For flow in a circular
+    pipe ($L = D$, $v$ = mean velocity): laminar below about 2300, turbulent above about 4000. For a flat
+    plate (with $L$ = distance from the leading edge), transition is around $5\times10^5$.
+  - Transition is not sharp. Very smooth, undisturbed pipes can stay laminar far above 2300.
+  - Newtonian fluid, so that a single viscosity describes it.
+
+intuition: >-
+  Re compares the fluid's tendency to keep going (inertia, $\rho v^2$) with its tendency to be smoothed out
+  by friction (viscosity, $\mu v/L$). At low Re viscosity wins: the flow is orderly and layered
+  (laminar), like honey or blood in capillaries. At high Re inertia wins: small disturbances grow into
+  eddies and the flow becomes turbulent, like a river or the air behind a car. Two flows with the same
+  Re and geometry behave alike, which is why scale models in wind tunnels work.
+
+derivation:
+  - note: Estimate the inertial force per volume, $\rho\,(\mathbf{u}\cdot\nabla)\mathbf{u}$, and the viscous force per volume, $\mu\nabla^2\mathbf{u}$, with scales $v$ and $L$.
+    latex: \rho\,(\mathbf{u}\cdot\nabla)\mathbf{u} \sim \frac{\rho v^2}{L}, \qquad \mu\nabla^2\mathbf{u} \sim \frac{\mu v}{L^2}
+  - note: Their ratio is the Reynolds number. It is also the only dimensionless group in the non-dimensionalised Navier–Stokes equations.
+    latex: \mathrm{Re} = \frac{\rho v^2/L}{\mu v/L^2} = \frac{\rho v L}{\mu}
+
+example:
+  title: Water in a household pipe
+  problem: Water at 20 °C flows at a mean velocity of 1 m/s through a pipe with 50 mm inner diameter. Is the flow laminar or turbulent?
+  given:
+    rho: 998.2
+    v: 1
+    L: 0.05
+    mu: 1.002e-3
+  solveFor: Re
+  expected:
+    Re: 49810.38
+  tolerance: 1.0e-6
+  steps:
+    - latex: \mathrm{Re} = \frac{\rho v D}{\mu} = \frac{998.2 \times 1 \times 0.05}{1.002\times10^{-3}} = 49\,810
+    - note: That is well above 4000, so the flow is turbulent. Use Darcy–Weisbach with a turbulent friction factor for its pressure drop; Hagen–Poiseuille would underestimate it badly.
+  answer: $\mathrm{Re} \approx 4.98\times10^{4}$, turbulent.
+  sources:
+    - value: ρ = 998.2 kg/m³, μ = 1.002 × 10⁻³ Pa·s
+      source: Water at 20 °C, standard property tables (e.g. CRC Handbook; White, Fluid Mechanics, Table A.1).
+    - value: Re ≈ 2300 / 4000 thresholds
+      source: Standard pipe-flow criteria (White, Fluid Mechanics, §6.2).
+    - value: v = 1 m/s, D = 50 mm
+      source: Illustrative choice.
+
+calculator:
+  solvable: [Re, rho, v, L, mu]
+
+related: [hagen-poiseuille, darcy-weisbach, navier-stokes-incompressible, mach-number]
+tags: [dimensionless, laminar, turbulent, transition, viscosity, similarity, fluid dynamics]

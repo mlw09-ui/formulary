@@ -1,0 +1,247 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
+import DifficultyBadge from '../../../../components/DifficultyBadge.astro';
+import FormulaDisplay from '../../../../components/FormulaDisplay.astro';
+import VariableTable from '../../../../components/VariableTable.astro';
+import Section from '../../../../components/Section.astro';
+import Steps from '../../../../components/Steps.astro';
+import RichText from '../../../../components/RichText.astro';
+import FormulaCard from '../../../../components/FormulaCard.astro';
+import Calculator, { type CalcVar } from '../../../../components/Calculator.tsx';
+import { calcVariables, getLibrary, solverInputs } from '../../../../lib/content';
+import { renderInlineMath } from '../../../../lib/latex';
+import { formatNumber } from '../../../../lib/format';
+import { href } from '../../../../lib/url';
+import type { Formula } from '../../../../lib/schema';
+
+export function getStaticPaths() {
+  const lib = getLibrary();
+  return lib.formulas.map((f) => {
+    const [domain, field, topic] = f.topic.split('/');
+    return { params: { domain, field, topic, formula: f.id }, props: { id: f.id } };
+  });
+}
+
+const lib = getLibrary();
+const f = lib.byId.get(Astro.props.id) as Formula;
+const t = lib.topicOf(f);
+const calc = lib.calculators.get(f.id);
+
+const crumbs = [
+  { label: t.domain.name, path: t.domain.id },
+  { label: t.field.name, path: `${t.domain.id}/${t.field.id}` },
+  { label: t.name, path: t.path },
+];
+
+// Calculator props (serialisable data only; the solver code is loaded client-side).
+const varById = new Map(f.variables.map((v) => [v.id, v]));
+const calcVars: CalcVar[] = calcVariables(f).map((v) => ({
+  id: v.id, name: v.name, unit: v.unit, symbolHtml: renderInlineMath(v.symbol), list: v.shape === 'list',
+}));
+const inputsFor = Object.fromEntries(
+  ('solvable' in f.calculator ? f.calculator.solvable : []).map((t) => [t, solverInputs(f, calc!, t)]),
+);
+const auxVars: CalcVar[] = Object.entries(calc?.aux ?? {}).map(([id, a]) => ({
+  id, name: a.name, unit: a.unit, description: a.description,
+  symbolHtml: '',
+}));
+const defaults: Record<string, number | number[]> = {
+  ...Object.fromEntries(Object.entries(calc?.aux ?? {}).map(([k, a]) => [k, a.default])),
+  ...f.example.given,
+};
+
+// "Given" table rows for the worked example.
+const givenRows = Object.entries(f.example.given ?? {}).map(([id, value]) => {
+  const v = varById.get(id);
+  const a = calc?.aux?.[id];
+  return {
+    symbolHtml: v ? renderInlineMath(v.symbol) : '',
+    name: v?.name ?? a?.name ?? id,
+    value: Array.isArray(value) ? value.map((x) => formatNumber(x, 6)).join(', ') : formatNumber(value, 6),
+    unit: (v?.unit ?? a?.unit ?? null) === '1' ? '' : (v?.unit ?? a?.unit ?? ''),
+  };
+});
+
+// Describe the calculator's units accurately: SI, SI with angles in degrees, or none (pure maths).
+const calcUnits = [...calcVars, ...auxVars].map((v) => v.unit);
+const unitNote = calcUnits.every((u) => u === null)
+  ? ''
+  : calcUnits.includes('°')
+    ? 'Values in SI units, angles in degrees. '
+    : calcUnits.includes('rad')
+      ? 'Angles in radians. '
+      : 'All values in SI units. ';
+const related = f.related.map((id) => lib.byId.get(id)!);
+const description = `${f.name}: ${f.summary}`;
+---
+
+<Base title={f.name} description={description}>
+  <article class="mx-auto max-w-3xl px-4 pt-6 sm:px-6">
+    <Breadcrumbs items={crumbs} current={f.name} />
+
+    <header class="mt-8">
+      <div class="flex flex-wrap items-center gap-3">
+        <DifficultyBadge level={f.difficulty} />
+        <span class="text-xs text-muted">{t.field.name} · {t.name}</span>
+      </div>
+      <h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{f.name}</h1>
+      {f.aliases.length > 0 && <p class="mt-2 text-sm text-muted">Also known as: {f.aliases.join(' · ')}</p>}
+      <p class="mt-4 text-lg leading-relaxed text-muted">{f.summary}</p>
+    </header>
+
+    <!-- 1. Formula -->
+    <div class="mt-8">
+      <FormulaDisplay latex={f.latex} name={f.name} />
+    </div>
+
+    <!-- 2. Variables -->
+    <Section id="variables" title="Variables">
+      <VariableTable variables={f.variables} />
+    </Section>
+
+    <!-- 3. Validity -->
+    <section aria-labelledby="validity" class="mt-14 rounded-xl border border-accent/30 border-l-4 border-l-accent bg-accent-soft px-6 py-5">
+      <h2 id="validity" class="flex items-center gap-2 text-lg font-semibold tracking-tight">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5 text-accent" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"></path><path d="m8.5 12 2.5 2.5 4.5-5"></path>
+        </svg>
+        When does this hold?
+      </h2>
+      <ul class="mt-4 space-y-2.5">
+        {
+          f.assumptions.map((a) => (
+            <li class="prose-text flex gap-3 text-text">
+              <span aria-hidden="true" class="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              <span>
+                <RichText text={a} />
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- 4. Intuition -->
+    <Section id="intuition" title="What it says">
+      <p class="prose-text text-[1.05rem] text-text"><RichText text={f.intuition} /></p>
+    </Section>
+
+    <!-- 5. Calculator -->
+    <Section id="calculator" title="Calculator">
+      {
+        'solvable' in f.calculator ? (
+          <>
+            <p class="-mt-2 mb-4 text-sm text-muted">
+              {unitNote}Pre-filled with the worked example below. Validity checks update as you type.
+            </p>
+            <Calculator
+              client:idle
+              formulaId={f.id}
+              variables={calcVars}
+              aux={auxVars}
+              solvable={f.calculator.solvable}
+              inputsFor={inputsFor}
+              defaults={defaults}
+              initialTarget={f.example.solveFor!}
+            />
+          </>
+        ) : (
+          <div class="rounded-xl border border-dashed border-border-strong px-5 py-4 text-sm leading-relaxed text-muted">
+            <p class="font-medium text-text">No calculator for this formula</p>
+            <p class="mt-1">
+              <RichText text={f.calculator.none} />
+            </p>
+          </div>
+        )
+      }
+    </Section>
+
+    <!-- 6. Worked example -->
+    <Section id="example" title="Worked example">
+      <div class="rounded-xl border border-border">
+        <div class="border-b border-border bg-surface px-5 py-4">
+          <h3 class="font-semibold">{f.example.title}</h3>
+          <p class="prose-text mt-1 text-text"><RichText text={f.example.problem} /></p>
+        </div>
+        {
+          givenRows.length > 0 && (
+            <div class="border-b border-border px-5 py-4">
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-muted">Given</h4>
+              <dl class="mt-2 grid gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+                {givenRows.map((g) => (
+                  <div class="flex items-baseline gap-2">
+                    <dt class="flex items-baseline gap-2 text-muted">
+                      {g.symbolHtml && <span class="text-text" set:html={g.symbolHtml} />}
+                      <span>{g.name}</span>
+                    </dt>
+                    <dd class="ml-auto font-mono tabular-nums text-text">
+                      {g.value} {g.unit && <span class="font-sans text-muted">{g.unit}</span>}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )
+        }
+        <div class="px-5 py-5">
+          <Steps steps={f.example.steps} />
+        </div>
+        <div class="border-t border-border bg-accent-soft/60 px-5 py-4">
+          <p class="prose-text"><span class="font-semibold">Answer: </span><RichText text={f.example.answer} /></p>
+        </div>
+      </div>
+      <details class="group mt-3 text-sm">
+        <summary class="cursor-pointer rounded text-muted hover:text-text">Where the numbers come from</summary>
+        <dl class="mt-3 space-y-2 border-l-2 border-border pl-4">
+          {
+            f.example.sources.map((s) => (
+              <div>
+                <dt class="font-medium text-text">{s.value}</dt>
+                <dd class="text-muted">{s.source}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </details>
+    </Section>
+
+    <!-- 7. Derivation -->
+    {
+      f.derivation && (
+        <Section id="derivation" title="Derivation">
+          <details class="group rounded-xl border border-border">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl px-5 py-4 font-medium hover:bg-surface [&::-webkit-details-marker]:hidden">
+              <span>
+                Show step-by-step derivation <span class="font-normal text-muted">({f.derivation.length} steps)</span>
+              </span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 text-muted transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="border-t border-border px-5 py-6">
+              <Steps steps={f.derivation} />
+            </div>
+          </details>
+        </Section>
+      )
+    }
+
+    <!-- 8. Related -->
+    {
+      related.length > 0 && (
+        <Section id="related" title="Related formulas">
+          <div class="grid gap-4 sm:grid-cols-2">
+            {related.map((r) => {
+              const rt = lib.topicOf(r);
+              return <FormulaCard formula={r} href={href(lib.formulaPath(r))} context={`${rt.field.name} › ${rt.name}`} />;
+            })}
+          </div>
+        </Section>
+      )
+    }
+
+    <p class="mt-14 flex flex-wrap gap-2 text-xs">
+      <span class="sr-only">Tags:</span>
+      {f.tags.map((tag) => <span class="rounded-full border border-border px-2.5 py-0.5 text-muted">{tag}</span>)}
+    </p>
+  </article>
+</Base>

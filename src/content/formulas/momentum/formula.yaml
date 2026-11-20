@@ -1,0 +1,70 @@
+id: momentum
+name: Linear Momentum
+aliases: [Momentum, p = mv, Quantity of motion]
+topic: physics/classical-mechanics/dynamics
+difficulty: basic
+summary: Momentum is mass times velocity, the conserved quantity of motion.
+
+latex: |-
+  \sym{p}{\mathbf{p}} = \sym{m}{m}\,\sym{v}{\mathbf{v}}
+
+variables:
+  - id: p
+    symbol: \mathbf{p}
+    name: Momentum
+    unit: kg·m/s
+    description: Linear momentum, a vector in the direction of motion. Equivalent unit N·s.
+    searchAliases: [momentum, impulse]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Mass of the body.
+    searchAliases: [mass]
+  - id: v
+    symbol: \mathbf{v}
+    name: Velocity
+    unit: m/s
+    description: Velocity of the body (the calculator uses its magnitude, the speed).
+    searchAliases: [velocity, speed]
+
+assumptions:
+  - Speeds much smaller than the speed of light ($v \ll c$). Relativistically, $\mathbf{p} = \gamma m \mathbf{v}$, which grows without bound as $v \to c$.
+  - $\mathbf{v}$ is measured in an inertial reference frame. Momentum depends on the frame; its conservation holds in every inertial frame.
+  - For an extended body or a system, $\mathbf{v}$ is the velocity of the centre of mass and $m$ the total mass.
+  - Total momentum is conserved only when the net **external** force on the system is zero.
+
+intuition: >-
+  Momentum measures how hard it is to stop something. A slow truck and a fast bullet can carry the
+  same momentum. Its real importance is conservation: in a collision or explosion with no outside
+  force, the total momentum before equals the total after, however complicated the
+  interaction. Force is the rate at which momentum changes, $\mathbf{F} = d\mathbf{p}/dt$, so the
+  impulse $\mathbf{F}\,\Delta t$ equals the change in momentum.
+
+example:
+  title: Momentum of a pitched baseball
+  problem: A 0.145 kg baseball is thrown at 40 m/s (about 144 km/h). What is its momentum?
+  given:
+    m: 0.145
+    v: 40
+  solveFor: p
+  expected:
+    p: 5.8
+  tolerance: 1.0e-9
+  steps:
+    - latex: p = m v = 0.145\ \text{kg} \times 40\ \text{m/s} = 5.8\ \text{kg·m/s}
+    - note: >-
+        If the catcher's glove stops the ball in 0.01 s, the average force is
+        $F = \Delta p/\Delta t = 5.8/0.01 = 580\ \text{N}$, roughly the weight of a 59 kg person.
+  answer: $p = 5.8\ \text{kg·m/s}$ in the direction of travel.
+  sources:
+    - value: m = 0.145 kg
+      source: Regulation baseball mass 142–149 g (MLB Official Baseball Rules, rule 3.01).
+    - value: v = 40 m/s
+      source: Illustrative pitch speed (fast amateur, about 90 mph).
+
+calculator:
+  solvable: [p, m, v]
+
+related: [newtons-second-law, kinetic-energy, de-broglie-wavelength, lorentz-factor]
+tags: [momentum, impulse, collision, conservation, mechanics, velocity]

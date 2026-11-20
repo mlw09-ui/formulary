@@ -1,0 +1,89 @@
+id: coulombs-law
+name: Coulomb's Law
+aliases: [Electrostatic force, Inverse-square law of electrostatics]
+topic: physics/electromagnetism/electrostatics
+difficulty: basic
+summary: Force between two point charges, proportional to both charges and inversely to distance squared.
+
+latex: |-
+  \sym{F}{F} = \frac{1}{4\pi\sym{eps0}{\varepsilon_0}}\,\frac{\sym{q1}{q_1}\,\sym{q2}{q_2}}{\sym{r}{r}^{2}}
+
+variables:
+  - id: F
+    symbol: F
+    name: Electrostatic force
+    unit: N
+    description: Force on each charge. Positive means repulsive (like charges), negative means attractive.
+    searchAliases: [force, electric force]
+  - id: eps0
+    symbol: \varepsilon_0
+    name: Vacuum permittivity
+    unit: F/m
+    kind: constant
+    description: $\varepsilon_0 = 8.854\,187\,8188 \times 10^{-12}$ F/m (CODATA 2022). $1/(4\pi\varepsilon_0) \approx 8.988 \times 10^{9}$ N·m²/C².
+    searchAliases: [epsilon, permittivity, coulomb constant]
+  - id: q1
+    symbol: q_1
+    name: First charge
+    unit: C
+    description: Charge of the first body, with sign.
+    searchAliases: [charge]
+  - id: q2
+    symbol: q_2
+    name: Second charge
+    unit: C
+    description: Charge of the second body, with sign.
+  - id: r
+    symbol: r
+    name: Separation
+    unit: m
+    description: Distance between the two charges (centre to centre).
+    searchAliases: [distance, separation]
+
+assumptions:
+  - '**Point charges**, or spherically symmetric charge distributions with $r$ between centres.'
+  - '**Stationary charges** (electrostatics). Moving charges also feel magnetic forces.'
+  - >-
+    **Vacuum.** In a uniform dielectric medium replace $\varepsilon_0$ by $\varepsilon_r\varepsilon_0$; in water
+    ($\varepsilon_r \approx 80$) the force is about 80 times weaker.
+
+intuition: >-
+  Coulomb's law has the same inverse-square form as gravity, with charge in place of mass. Unlike gravity it
+  can repel, and it is enormously stronger: between two protons the electric force exceeds gravity by
+  about $10^{36}$. We don't notice it day to day because matter is almost perfectly neutral, so positive and
+  negative charges cancel. It's what holds atoms, molecules and solids together.
+
+derivation:
+  - note: >-
+      Coulomb's law was found by experiment (Coulomb's torsion balance, 1785). In modern form it follows from Gauss's
+      law: a sphere of radius $r$ around a point charge $q_1$ has, by symmetry, a uniform radial field.
+    latex: \oint \mathbf{E}\cdot d\mathbf{A} = E\,4\pi r^2 = \frac{q_1}{\varepsilon_0} \quad\Rightarrow\quad E = \frac{q_1}{4\pi\varepsilon_0 r^2}
+  - note: The force on a second charge in this field is $F = q_2 E$.
+    latex: F = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r^2}
+
+example:
+  title: Two 1 μC charges
+  problem: Two small spheres each carry +1 μC and are 10 cm apart in air. What force acts between them?
+  given:
+    q1: 1.0e-6
+    q2: 1.0e-6
+    r: 0.1
+  solveFor: F
+  expected:
+    F: 0.89875518
+  tolerance: 1.0e-7
+  steps:
+    - latex: F = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r^2} = 8.988\times10^{9} \times \frac{(10^{-6})(10^{-6})}{(0.1)^2} = 0.899\ \text{N}
+    - note: Positive, so repulsive. That is about the weight of a 92 g object, from just a microcoulomb each. Air's relative permittivity (1.0006) changes this by less than 0.1%.
+  answer: $F \approx 0.90\ \text{N}$, repulsive.
+  sources:
+    - value: ε₀ = 8.8541878188 × 10⁻¹² F/m
+      source: CODATA 2022 recommended value (NIST).
+    - value: q = 1 μC, r = 0.1 m
+      source: Illustrative choice.
+
+calculator:
+  solvable: [F, q1, q2, r]
+
+related: [universal-gravitation, gauss-law, ohms-law]
+tags: [electrostatics, charge, electric force, inverse square, coulomb, electricity]

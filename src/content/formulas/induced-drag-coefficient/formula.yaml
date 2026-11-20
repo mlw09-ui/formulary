@@ -1,0 +1,92 @@
+id: induced-drag-coefficient
+name: Lift-Induced Drag Coefficient
+aliases: [Induced drag, Vortex drag, Drag due to lift]
+topic: physics/aerodynamics/lift-and-drag
+difficulty: intermediate
+summary: Drag a finite wing pays for producing lift, from lift coefficient, aspect ratio and span efficiency.
+
+latex: |-
+  \sym{CDi}{C_{D,i}} = \frac{\sym{CL}{C_L}^{2}}{\pi\,\sym{e}{e}\,\sym{AR}{\mathit{AR}}}
+
+variables:
+  - id: CDi
+    symbol: C_{D,i}
+    name: Induced drag coefficient
+    unit: '1'
+    description: Part of the drag coefficient caused by producing lift, based on wing area.
+    searchAliases: [induced drag, CDi]
+  - id: CL
+    symbol: C_L
+    name: Lift coefficient
+    unit: '1'
+    description: Wing lift coefficient. The calculator returns its magnitude when solving for it.
+    searchAliases: [CL, lift coefficient]
+  - id: e
+    symbol: e
+    name: Span efficiency factor
+    unit: '1'
+    description: >-
+      Oswald efficiency. $e = 1$ for an ideal elliptical lift distribution. Real aircraft
+      have about 0.7–0.85.
+    searchAliases: [oswald, efficiency]
+  - id: AR
+    symbol: \mathit{AR}
+    name: Aspect ratio
+    unit: '1'
+    description: Wingspan squared over wing area, $b^2/S$. About 7–8 for light aircraft, 9–10 for airliners, 30+ for gliders.
+    searchAliases: [aspect ratio, span]
+
+assumptions:
+  - '**Subsonic, attached flow** on a finite wing, below stall.'
+  - Based on Prandtl's lifting-line theory, which is most accurate for straight, moderate-to-high aspect ratio wings (AR ≳ 4).
+  - $e$ absorbs deviations from the ideal elliptical lift distribution, and (as the Oswald factor) other lift-dependent drag. It must come from data or estimates for the actual aircraft.
+  - Planar wing, without ground effect (near the ground induced drag is lower).
+
+intuition: >-
+  A finite wing leaks air around its tips from the high-pressure underside to the low-pressure top. This
+  creates trailing vortices that tilt the airflow downward (downwash), which tilts the lift vector
+  backward. Its backward component is induced drag. It grows with $C_L^2$, so it dominates at low speed
+  and high lift (take-off, climb), and it falls with aspect ratio. That is why gliders have long, slender
+  wings.
+
+derivation:
+  - note: >-
+      Lifting-line theory: a wing with an elliptical lift distribution has a uniform downwash angle $\alpha_i$
+      that is proportional to the lift coefficient.
+    latex: \alpha_i = \frac{C_L}{\pi\,\mathit{AR}}
+  - note: The lift vector tilts back by $\alpha_i$. Its streamwise component is the induced drag (small angles).
+    latex: C_{D,i} = C_L \sin\alpha_i \approx C_L\,\alpha_i = \frac{C_L^2}{\pi\,\mathit{AR}}
+  - note: Non-elliptical lift distributions do worse; the span efficiency factor $e \le 1$ accounts for this.
+    latex: C_{D,i} = \frac{C_L^2}{\pi e\,\mathit{AR}}
+
+example:
+  title: Induced drag of a light aircraft in cruise
+  problem: >-
+    The aircraft from the lift-equation example cruises at $C_L = 0.359$. Its wingspan is 11.0 m and its wing
+    area 16.2 m². Assuming a span efficiency of 0.80, what is its induced drag coefficient?
+  given:
+    CL: 0.359
+    e: 0.8
+    AR: 7.469135802469136
+  solveFor: CDi
+  expected:
+    CDi: 0.0068656
+  tolerance: 1.0e-4
+  steps:
+    - latex: \mathit{AR} = \frac{b^2}{S} = \frac{11.0^2}{16.2} = 7.47
+    - latex: C_{D,i} = \frac{C_L^2}{\pi e\,\mathit{AR}} = \frac{0.359^2}{\pi \times 0.80 \times 7.47} = \frac{0.1289}{18.77} = 0.00686
+    - note: >-
+        That is about 23% of the total cruise drag coefficient of 0.030 used in the drag-equation example.
+        At the low speeds of approach, where $C_L$ is about 1.2, induced drag becomes the largest part.
+  answer: $C_{D,i} \approx 0.0069$
+  sources:
+    - value: C_L = 0.359, S = 16.2 m²
+      source: The lift-equation worked example.
+    - value: b = 11.0 m, e = 0.80
+      source: Illustrative values typical of a four-seat light aircraft (Raymer, Aircraft Design, gives e ≈ 0.7–0.85).
+
+calculator:
+  solvable: [CDi, CL, e, AR]
+
+related: [lift-equation, drag-equation, dynamic-pressure]
+tags: [induced drag, aspect ratio, oswald efficiency, wingtip vortices, downwash, aerodynamics]

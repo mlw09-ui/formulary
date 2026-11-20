@@ -1,0 +1,118 @@
+id: bernoulli-equation
+name: Bernoulli's Equation
+aliases: [Bernoulli's principle, Bernoulli equation, Energy equation for flow]
+topic: physics/fluid-mechanics/conservation-laws
+difficulty: intermediate
+summary: Along a streamline of steady, inviscid, incompressible flow, pressure + kinetic + potential energy per volume is constant.
+
+latex: |-
+  \sym{p1}{p_1} + \tfrac{1}{2}\sym{rho}{\rho}\sym{v1}{v_1}^{2} + \sym{rho}{\rho}\sym{g}{g}\sym{z1}{z_1} = \sym{p2}{p_2} + \tfrac{1}{2}\sym{rho}{\rho}\sym{v2}{v_2}^{2} + \sym{rho}{\rho}\sym{g}{g}\sym{z2}{z_2}
+
+variables:
+  - id: p1
+    symbol: p_1
+    name: Pressure at point 1
+    unit: Pa
+    description: Static pressure at point 1 (absolute or gauge, as long as both points use the same).
+    searchAliases: [pressure, static pressure]
+  - id: v1
+    symbol: v_1
+    name: Velocity at point 1
+    unit: m/s
+    description: Flow speed at point 1.
+    searchAliases: [velocity, speed]
+  - id: z1
+    symbol: z_1
+    name: Elevation at point 1
+    unit: m
+    description: Height of point 1 above a reference level.
+    searchAliases: [height, elevation]
+  - id: p2
+    symbol: p_2
+    name: Pressure at point 2
+    unit: Pa
+    description: Static pressure at point 2.
+  - id: v2
+    symbol: v_2
+    name: Velocity at point 2
+    unit: m/s
+    description: Flow speed at point 2.
+  - id: z2
+    symbol: z_2
+    name: Elevation at point 2
+    unit: m
+    description: Height of point 2 above the same reference level.
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the fluid, constant along the flow.
+    searchAliases: [density]
+  - id: g
+    symbol: g
+    name: Gravitational acceleration
+    unit: m/s²
+    description: Local acceleration due to gravity.
+    searchAliases: [gravity]
+
+assumptions:
+  - '**Inviscid flow**: no friction losses. Real pipes lose pressure to friction (add a head-loss term, see Darcy–Weisbach).'
+  - '**Steady flow.**'
+  - '**Incompressible fluid.** For gases, acceptable below about Mach 0.3.'
+  - >-
+    Points 1 and 2 lie on the **same streamline**. (If the flow is also irrotational, the equation holds
+    between any two points.)
+  - No pumps, turbines or heat transfer between the two points.
+
+intuition: >-
+  Bernoulli's equation is energy conservation for a moving fluid, written per unit volume. Pressure
+  energy, kinetic energy ($\tfrac12\rho v^2$) and potential energy ($\rho g z$) can trade places, but
+  their sum stays constant. Where the fluid speeds up, its pressure must drop. That pressure drop is
+  how a Venturi meter measures flow, and it is part of how a carburettor draws in fuel. A common
+  misconception: the equation does **not** say that lift comes from "air on top having to travel
+  further". The speed difference over a wing is real, but its cause is different.
+
+derivation:
+  - note: >-
+      Newton's second law along a streamline for a small fluid parcel in steady, inviscid flow (the Euler
+      equation, with $s$ the distance along the streamline):
+    latex: \rho\,v\frac{dv}{ds} = -\frac{dp}{ds} - \rho g\frac{dz}{ds}
+  - note: Write $v\,dv/ds = \tfrac12\,d(v^2)/ds$ and move everything to one side; with constant $\rho$, it is an exact derivative.
+    latex: \frac{d}{ds}\left(p + \tfrac{1}{2}\rho v^2 + \rho g z\right) = 0
+  - note: So the bracket is constant along the streamline, and its values at points 1 and 2 are equal.
+    latex: p_1 + \tfrac{1}{2}\rho v_1^2 + \rho g z_1 = p_2 + \tfrac{1}{2}\rho v_2^2 + \rho g z_2
+
+example:
+  title: Pressure drop in a pipe reducer
+  problem: >-
+    Water (20 °C) enters a horizontal reducer at 2 m/s with an absolute pressure of 200 kPa and leaves
+    at 8 m/s (the continuity-equation example). Neglecting friction, what is the outlet pressure?
+  given:
+    p1: 200000
+    v1: 2
+    z1: 0
+    v2: 8
+    z2: 0
+    rho: 998.2
+    g: 9.80665
+  solveFor: p2
+  expected:
+    p2: 170054
+  tolerance: 1.0e-9
+  steps:
+    - note: The pipe is horizontal ($z_1 = z_2$), so the gravity terms cancel.
+      latex: p_2 = p_1 + \tfrac{1}{2}\rho\left(v_1^2 - v_2^2\right)
+    - latex: p_2 = 200\,000 + \tfrac{1}{2}(998.2)(2^2 - 8^2) = 200\,000 - 29\,946 = 170\,054\ \text{Pa}
+    - note: The fluid gains kinetic energy and pays for it in pressure. A real reducer loses a little more pressure to friction.
+  answer: $p_2 \approx 170\ \text{kPa}$, a drop of about 30 kPa.
+  sources:
+    - value: ρ = 998.2 kg/m³
+      source: Water at 20 °C, standard property tables (e.g. CRC Handbook).
+    - value: p₁ = 200 kPa, v₁ = 2 m/s, v₂ = 8 m/s
+      source: Illustrative choice, continuing the continuity-equation example.
+
+calculator:
+  solvable: [p1, v1, z1, p2, v2, z2]
+
+related: [continuity-equation, hydrostatic-pressure, dynamic-pressure, darcy-weisbach, navier-stokes-incompressible]
+tags: [energy conservation, pressure, velocity, venturi, pitot, streamline, fluid dynamics]

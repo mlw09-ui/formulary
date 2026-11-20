@@ -1,0 +1,29 @@
+---
+import DifficultyBadge from './DifficultyBadge.astro';
+import type { Formula } from '../lib/schema';
+import { previewLatex, renderDisplay } from '../lib/latex';
+
+interface Props {
+  formula: Formula;
+  href: string;
+  /** Show "Field › Topic" (used for related formulas from other topics). */
+  context?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { formula: f, href, context, headingLevel: H = 'h3' } = Astro.props;
+// Preview shows only the first line of multi-line (aligned) formulas.
+const preview = previewLatex(f.latex);
+---
+
+<a
+  href={href}
+  class="group flex h-full flex-col rounded-xl border border-border bg-raised p-5 transition-[border-color,box-shadow] hover:border-accent hover:shadow-[0_1px_0_var(--c-border),0_4px_16px_-8px_rgb(0_0_0/0.15)]"
+>
+  <div class="flex items-start justify-between gap-3">
+    <H class="font-semibold tracking-tight text-text group-hover:text-accent">{f.name}</H>
+    <DifficultyBadge level={f.difficulty} />
+  </div>
+  {context && <p class="mt-0.5 text-xs text-muted">{context}</p>}
+  <div class="formula-preview my-4 overflow-hidden text-text" aria-hidden="true" set:html={renderDisplay(preview)} />
+  <p class="mt-auto text-sm leading-relaxed text-muted">{f.summary}</p>
+</a>

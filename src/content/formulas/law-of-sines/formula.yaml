@@ -1,0 +1,97 @@
+id: law-of-sines
+name: Law of Sines
+aliases: [Sine rule, Sine law]
+topic: mathematics/geometry-and-trigonometry/triangles
+difficulty: basic
+summary: In any triangle, each side divided by the sine of its opposite angle gives the same ratio.
+
+latex: |-
+  \frac{\sym{a}{a}}{\sin\sym{A}{A}} = \frac{\sym{b}{b}}{\sin\sym{B}{B}} = \frac{\sym{c}{c}}{\sin\sym{C}{C}} = 2\sym{R}{R}
+
+variables:
+  - id: a
+    symbol: a
+    name: Side a
+    unit: m
+    description: Side opposite angle $A$.
+    searchAliases: [side]
+  - id: A
+    symbol: A
+    name: Angle A
+    unit: °
+    description: Interior angle opposite side $a$. The calculator uses degrees.
+    searchAliases: [angle]
+  - id: b
+    symbol: b
+    name: Side b
+    unit: m
+    description: Side opposite angle $B$.
+  - id: B
+    symbol: B
+    name: Angle B
+    unit: °
+    description: Interior angle opposite side $b$.
+  - id: c
+    symbol: c
+    name: Side c
+    unit: m
+    description: Side opposite angle $C$. The calculator reports it as a check.
+    inCalculator: false
+  - id: C
+    symbol: C
+    name: Angle C
+    unit: °
+    description: The third angle, $C = 180^\circ - A - B$.
+    inCalculator: false
+  - id: R
+    symbol: R
+    name: Circumradius
+    unit: m
+    description: Radius of the circle through all three vertices.
+    inCalculator: false
+    searchAliases: [circumradius, circumcircle]
+
+assumptions:
+  - Any triangle in a **flat (Euclidean) plane**. Spherical triangles have their own sine rule.
+  - 'Interior angles sum to 180°, so $A + B < 180^\circ$.'
+  - >-
+    **Ambiguous case (SSA)**: given two sides and a non-included angle, solving for an angle can give **two** valid
+    triangles, because $\sin B = \sin(180^\circ - B)$. The calculator reports both when both exist.
+
+intuition: >-
+  Larger angles face longer sides, and the law of sines makes that exact: side and the sine of the opposite angle are
+  in fixed proportion around the whole triangle. Measure one side and two angles and you know everything. This
+  is how surveyors triangulate distances to points they cannot reach, from a measured baseline and two sightings.
+
+derivation:
+  - note: Drop the altitude $h$ from the vertex at $C$ onto side $c$. It is the opposite side of two right triangles.
+    latex: h = b\sin A = a\sin B
+  - note: Divide by $\sin A \sin B$.
+    latex: \frac{a}{\sin A} = \frac{b}{\sin B}
+  - note: The same construction from another vertex brings in $c$. The common ratio equals the diameter of the circumscribed circle (inscribed angle theorem).
+    latex: \frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C} = 2R
+
+example:
+  title: Triangulating a side
+  problem: In a triangle, angle $A = 40^\circ$, angle $B = 60^\circ$, and the side opposite $A$ is $a = 10$ m. Find side $b$.
+  given:
+    a: 10
+    A: 40
+    B: 60
+  solveFor: b
+  expected:
+    b: 13.4729636
+  tolerance: 1.0e-7
+  steps:
+    - latex: b = a\,\frac{\sin B}{\sin A} = 10 \times \frac{\sin 60^\circ}{\sin 40^\circ} = 10 \times \frac{0.8660}{0.6428} = 13.47\ \text{m}
+    - note: Then $C = 180^\circ - 40^\circ - 60^\circ = 80^\circ$ and $c = 10\,\sin 80^\circ/\sin 40^\circ = 15.32$ m. The longest side faces the largest angle.
+  answer: $b \approx 13.47\ \text{m}$
+  sources:
+    - value: A = 40°, B = 60°, a = 10 m
+      source: Illustrative choice.
+
+calculator:
+  solvable: [b, a, B, A]
+
+related: [law-of-cosines, pythagorean-theorem]
+tags: [triangle, trigonometry, sine, triangulation, surveying, angles, geometry]

@@ -1,0 +1,97 @@
+id: schrodinger-equation
+name: Time-Independent Schrödinger Equation
+aliases: [Schrödinger equation, TISE, Stationary Schrödinger equation, Energy eigenvalue equation]
+topic: physics/modern-physics/quantum-mechanics
+difficulty: advanced
+summary: Eigenvalue equation for the allowed energies and stationary wavefunctions of a quantum particle.
+
+latex: |-
+  -\frac{\sym{hbar}{\hbar}^{2}}{2\sym{m}{m}}\,\sym{lap}{\nabla^{2}}\sym{psi}{\psi} + \sym{V}{V}\sym{psi}{\psi} = \sym{E}{E}\sym{psi}{\psi}
+
+variables:
+  - id: hbar
+    symbol: \hbar
+    name: Reduced Planck constant
+    unit: J·s
+    kind: constant
+    description: $\hbar = h/2\pi = 1.054\,571\,817 \times 10^{-34}$ J·s.
+    searchAliases: [hbar, planck, h-bar]
+  - id: m
+    symbol: m
+    name: Particle mass
+    unit: kg
+    description: Mass of the particle.
+    searchAliases: [mass]
+  - id: lap
+    symbol: \nabla^{2}
+    name: Laplacian operator
+    unit: 1/m²
+    kind: operator
+    description: Sum of second spatial derivatives. With the prefactor it forms the kinetic-energy operator $\hat{T} = -\tfrac{\hbar^2}{2m}\nabla^2$.
+    searchAliases: [laplacian]
+  - id: psi
+    symbol: \psi
+    name: Wavefunction
+    unit: m^(−3/2)
+    description: Spatial wavefunction $\psi(\mathbf{r})$. $|\psi|^2$ is the probability density of finding the particle at $\mathbf{r}$.
+    searchAliases: [wavefunction, psi, wave function]
+  - id: V
+    symbol: V
+    name: Potential energy
+    unit: J
+    description: Potential energy as a function of position, $V(\mathbf{r})$ (not voltage).
+    searchAliases: [potential]
+  - id: E
+    symbol: E
+    name: Energy eigenvalue
+    unit: J
+    description: Total energy of the stationary state. Only certain values allow normalisable solutions.
+    searchAliases: [energy, eigenvalue]
+
+assumptions:
+  - '**Time-independent potential** $V(\mathbf{r})$. The solutions are stationary states with definite energy.'
+  - '**Non-relativistic**: kinetic energies much smaller than $mc^2$. Relativistic electrons need the Dirac equation.'
+  - A single particle without spin (or with spin-independent forces). Many-particle systems need a wavefunction of all coordinates.
+  - '$\psi$ must be normalisable ($\int|\psi|^2\,dV = 1$) and continuous. These conditions are what quantise $E$.'
+
+intuition: >-
+  The equation is energy conservation for a wave: kinetic energy (the curvature of $\psi$) plus potential energy
+  equals total energy. A wave confined in a region can only fit certain patterns, like a guitar string can only
+  vibrate at certain notes, so only certain energies are allowed. That is why atoms have discrete energy levels
+  and emit sharp spectral lines. Sharper curvature (shorter wavelength) means more kinetic energy.
+
+derivation:
+  - note: Start from the time-dependent Schrödinger equation for a particle in a potential $V(\mathbf{r})$.
+    latex: i\hbar\frac{\partial\Psi}{\partial t} = -\frac{\hbar^2}{2m}\nabla^2\Psi + V\Psi
+  - note: For a time-independent potential, try a separable solution $\Psi(\mathbf{r},t) = \psi(\mathbf{r})\,\phi(t)$ and divide by $\psi\phi$.
+    latex: i\hbar\frac{1}{\phi}\frac{d\phi}{dt} = \frac{1}{\psi}\left(-\frac{\hbar^2}{2m}\nabla^2\psi + V\psi\right) = E
+  - note: The left side depends only on $t$ and the right only on $\mathbf{r}$, so both equal a constant $E$. The time part gives $\phi = e^{-iEt/\hbar}$, and the space part is the time-independent equation.
+    latex: -\frac{\hbar^2}{2m}\nabla^2\psi + V\psi = E\psi
+
+example:
+  title: An electron in a 1 nm box
+  problem: >-
+    An electron is confined to a one-dimensional infinite square well of width $L = 1$ nm
+    ($V = 0$ inside, $V = \infty$ outside). Find its lowest allowed energy.
+  steps:
+    - note: Inside the well $V = 0$, and in one dimension the equation becomes
+      latex: -\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2} = E\psi \quad\Rightarrow\quad \psi = A\sin(kx) + B\cos(kx), \quad k = \frac{\sqrt{2mE}}{\hbar}
+    - note: The wavefunction must vanish at the walls. $\psi(0) = 0$ forces $B = 0$, and $\psi(L) = 0$ forces $kL = n\pi$.
+      latex: E_n = \frac{n^2\pi^2\hbar^2}{2 m L^2}, \qquad n = 1, 2, 3, \ldots
+    - latex: E_1 = \frac{\pi^2 (1.0546\times10^{-34})^2}{2 \times 9.109\times10^{-31} \times (10^{-9})^2} = 6.02\times10^{-20}\ \text{J} = 0.376\ \text{eV}
+    - note: The energy can never be zero (zero-point energy), and the levels grow as $n^2$. Quantum dots of this size are tuned to emit specific colours this way.
+  answer: $E_1 \approx 6.0\times10^{-20}\ \text{J} \approx 0.38\ \text{eV}$; higher levels are $4E_1$, $9E_1$, …
+  sources:
+    - value: ħ = 1.054571817 × 10⁻³⁴ J·s (from exact h), m_e = 9.1093837139 × 10⁻³¹ kg
+      source: CODATA 2022 recommended values (NIST).
+    - value: L = 1 nm
+      source: Illustrative choice.
+
+calculator:
+  none: >-
+    The Schrödinger equation is an eigenvalue problem: you solve it for the allowed energies and wavefunctions of
+    a given potential, analytically for a few textbook cases (box, harmonic oscillator, hydrogen) and numerically
+    otherwise. There is no single formula to plug numbers into.
+
+related: [de-broglie-wavelength, photon-energy, wave-speed]
+tags: [quantum mechanics, wavefunction, energy levels, eigenvalue, particle in a box, schrodinger, hamiltonian]

@@ -1,0 +1,101 @@
+id: hydrostatic-pressure
+name: Hydrostatic Pressure
+aliases: [Pressure at depth, Hydrostatic equation, p = p₀ + ρgh]
+topic: physics/fluid-mechanics/fluid-statics
+difficulty: basic
+summary: Pressure in a fluid at rest increases linearly with depth below the surface.
+
+latex: |-
+  \sym{p}{p} = \sym{p0}{p_0} + \sym{rho}{\rho}\,\sym{g}{g}\,\sym{h}{h}
+
+variables:
+  - id: p
+    symbol: p
+    name: Pressure at depth
+    unit: Pa
+    description: Absolute pressure at depth $h$ below the free surface.
+    searchAliases: [pressure, absolute pressure]
+  - id: p0
+    symbol: p_0
+    name: Surface pressure
+    unit: Pa
+    description: Pressure at the free surface, usually atmospheric (101 325 Pa at standard sea level). Set to 0 for gauge pressure.
+    searchAliases: [atmospheric pressure, surface pressure]
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the fluid, assumed constant with depth.
+    searchAliases: [density]
+  - id: g
+    symbol: g
+    name: Gravitational acceleration
+    unit: m/s²
+    description: Local acceleration due to gravity.
+    searchAliases: [gravity]
+  - id: h
+    symbol: h
+    name: Depth
+    unit: m
+    description: Vertical depth below the free surface (positive downward).
+    searchAliases: [depth, height]
+
+assumptions:
+  - '**Fluid at rest** (or moving as a rigid body without acceleration). Flowing fluids need Bernoulli or Navier–Stokes.'
+  - >-
+    **Constant density** (incompressible). Excellent for liquids. For the atmosphere, density falls with
+    height and the linear law only holds over a few hundred metres.
+  - Uniform gravitational field.
+  - $h$ is the **vertical** depth. Container shape is irrelevant (the hydrostatic paradox).
+
+intuition: >-
+  The pressure at a depth is the weight of the column of fluid above each square metre, plus whatever
+  presses on the surface. Every 10 m of water adds about one atmosphere. Only the vertical depth
+  matters, not the shape or the amount of water: a thin tube 10 m tall and a lake 10 m deep produce
+  the same pressure at the bottom. That's why dams are thick at the base, and why ears hurt at the
+  bottom of a pool.
+
+derivation:
+  - note: >-
+      Consider a thin horizontal slab of fluid, area $A$ and thickness $dz$ ($z$ upward), at rest.
+      The pressure force from below must balance the pressure from above plus the slab's weight.
+    latex: p(z)\,A = p(z + dz)\,A + \rho g A\,dz
+  - note: Divide by $A\,dz$ to get the hydrostatic equation.
+    latex: \frac{dp}{dz} = -\rho g
+  - note: Integrate from the surface down to depth $h$ (that is, $z$ from 0 to $-h$), with constant $\rho$ and $g$.
+    latex: p = p_0 + \rho g h
+
+example:
+  title: Pressure on a diver
+  problem: >-
+    A diver is 10 m below the surface of the sea. What is the absolute pressure on them? Use seawater
+    density 1025 kg/m³ and standard atmospheric pressure at the surface.
+  given:
+    p0: 101325
+    rho: 1025
+    g: 9.80665
+    h: 10
+  solveFor: p
+  expected:
+    p: 201843.1625
+  tolerance: 1.0e-9
+  steps:
+    - note: The water adds
+      latex: \rho g h = 1025 \times 9.80665 \times 10 = 100\,518\ \text{Pa}
+    - note: Add the atmosphere pressing on the surface.
+      latex: p = 101\,325 + 100\,518 = 201\,843\ \text{Pa} \approx 1.99\ \text{atm}
+    - note: The pressure has doubled in 10 m. By Boyle's law, the air in the diver's lungs is compressed to about half its surface volume.
+  answer: $p \approx 2.02 \times 10^{5}\ \text{Pa}$ absolute, about 2 atmospheres (gauge pressure $1.01 \times 10^5$ Pa).
+  sources:
+    - value: p₀ = 101 325 Pa
+      source: Standard atmosphere (exact by definition).
+    - value: ρ = 1025 kg/m³
+      source: Typical surface seawater density (varies about 1020–1030 kg/m³ with temperature and salinity).
+    - value: g = 9.80665 m/s²
+      source: Standard gravity.
+
+calculator:
+  solvable: [p, p0, rho, g, h]
+
+related: [bernoulli-equation, gravitational-potential-energy, ideal-gas-law]
+tags: [pressure, depth, fluid statics, hydrostatics, diving, manometer, buoyancy]

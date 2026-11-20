@@ -1,0 +1,90 @@
+id: gauss-law
+name: Gauss's Law
+aliases: [Gauss's law for electricity, Maxwell's first equation, Divergence of E]
+topic: physics/electromagnetism/maxwells-equations
+difficulty: advanced
+summary: Electric charge is the source of the electric field; the field's divergence equals charge density over ε₀.
+
+latex: |-
+  \sym{nabla}{\nabla}\cdot\sym{E}{\mathbf{E}} = \frac{\sym{rho}{\rho}}{\sym{eps0}{\varepsilon_0}}
+
+variables:
+  - id: nabla
+    symbol: \nabla\cdot
+    name: Divergence operator
+    unit: 1/m
+    kind: operator
+    description: $\nabla\cdot\mathbf{E} = \partial_x E_x + \partial_y E_y + \partial_z E_z$, the net outflow of the field from a point per unit volume.
+    searchAliases: [divergence, del, nabla]
+  - id: E
+    symbol: \mathbf{E}
+    name: Electric field
+    unit: V/m
+    description: Electric field vector (force per unit charge, equivalently N/C).
+    searchAliases: [electric field, E field]
+  - id: rho
+    symbol: \rho
+    name: Charge density
+    unit: C/m³
+    description: Total electric charge per unit volume at the point (free and bound).
+    searchAliases: [charge density]
+  - id: eps0
+    symbol: \varepsilon_0
+    name: Vacuum permittivity
+    unit: F/m
+    kind: constant
+    description: $\varepsilon_0 = 8.854\,187\,8188 \times 10^{-12}$ F/m (CODATA 2022).
+    searchAliases: [epsilon, permittivity]
+
+assumptions:
+  - >-
+    **Microscopic (vacuum) form**: $\rho$ is the **total** charge density, including charges bound in materials.
+    In matter it is usually more convenient to use $\nabla\cdot\mathbf{D} = \rho_{\text{free}}$.
+  - Holds at every instant, for static and time-varying fields alike.
+  - Requires differentiable fields. At surface charges or point charges, use the integral form $\oint \mathbf{E}\cdot d\mathbf{A} = Q_{\text{enc}}/\varepsilon_0$.
+  - SI units. In Gaussian units it reads $\nabla\cdot\mathbf{E} = 4\pi\rho$.
+
+intuition: >-
+  Field lines start on positive charges and end on negative ones. The divergence measures how much field
+  "springs out" of a tiny volume, and Gauss's law says it springs out in exact proportion to the charge
+  inside. In integral form: count the field lines crossing any closed surface and you know the charge
+  inside, whatever its arrangement. Combined with symmetry, this is the quickest way to find fields of
+  spheres, wires and plates.
+
+derivation:
+  - note: >-
+      Start from the integral form, equivalent to Coulomb's law for static charges (and taken as a postulate
+      in general): the flux of $\mathbf{E}$ through any closed surface equals the enclosed charge over $\varepsilon_0$.
+    latex: \oint_{\partial V} \mathbf{E}\cdot d\mathbf{A} = \frac{1}{\varepsilon_0}\int_V \rho\,dV
+  - note: The divergence theorem turns the surface integral into a volume integral.
+    latex: \oint_{\partial V} \mathbf{E}\cdot d\mathbf{A} = \int_V \nabla\cdot\mathbf{E}\,dV
+  - note: Both volume integrals agree for every volume $V$, however small, so the integrands must be equal.
+    latex: \int_V \left(\nabla\cdot\mathbf{E} - \frac{\rho}{\varepsilon_0}\right) dV = 0 \ \ \forall V \quad\Rightarrow\quad \nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0}
+
+example:
+  title: Field of a charged sphere
+  problem: >-
+    A small metal sphere carries a charge of 1 nC. Using Gauss's law, find the electric field 0.5 m from
+    its centre.
+  steps:
+    - note: >-
+        By symmetry the field is radial and has the same magnitude everywhere on a sphere of radius $r$
+        around the charge. Choose that sphere as the Gaussian surface.
+      latex: \oint \mathbf{E}\cdot d\mathbf{A} = E \cdot 4\pi r^2 = \frac{Q}{\varepsilon_0}
+    - latex: E = \frac{Q}{4\pi\varepsilon_0 r^2} = \frac{10^{-9}}{4\pi \times 8.854\times10^{-12} \times 0.5^2} = 35.95\ \text{V/m}
+    - note: The result is independent of the sphere's own radius, as long as we are outside it. Gauss's law shows that a spherical charge acts like a point charge, the electric version of the shell theorem.
+  answer: $E \approx 36\ \text{V/m}$, pointing radially outward.
+  sources:
+    - value: ε₀ = 8.8541878188 × 10⁻¹² F/m
+      source: CODATA 2022 recommended value (NIST).
+    - value: Q = 1 nC, r = 0.5 m
+      source: Illustrative choice.
+
+calculator:
+  none: >-
+    Gauss's law is a differential equation relating a field to its sources at every point. It has no
+    single output to compute; you use it with symmetry (as in the example) or solve it numerically.
+    For the force between point charges, use Coulomb's law.
+
+related: [gauss-law-for-magnetism, faraday-law, ampere-maxwell-law, coulombs-law]
+tags: [maxwell, electric field, charge, divergence, flux, electrostatics, electromagnetism]

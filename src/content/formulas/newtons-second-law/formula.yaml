@@ -1,0 +1,78 @@
+id: newtons-second-law
+name: Newton's Second Law
+aliases: [F = ma, Law of acceleration, Equation of motion]
+topic: physics/classical-mechanics/dynamics
+difficulty: basic
+summary: The net force on a body equals its mass times its acceleration.
+
+latex: |-
+  \sym{F}{\mathbf{F}} = \sym{m}{m}\,\sym{a}{\mathbf{a}}
+
+variables:
+  - id: F
+    symbol: \mathbf{F}
+    name: Net force
+    unit: N
+    description: Vector sum of all external forces acting on the body. The calculator works with magnitudes along one direction.
+    searchAliases: [force]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Inertial mass of the body, its resistance to changes in motion.
+    searchAliases: [mass]
+  - id: a
+    symbol: \mathbf{a}
+    name: Acceleration
+    unit: m/s²
+    description: Rate of change of the body's velocity, in the same direction as the net force.
+    searchAliases: [acceleration]
+
+assumptions:
+  - '**Inertial reference frame**: not accelerating or rotating. In a rotating frame, add fictitious forces (centrifugal, Coriolis).'
+  - '**Constant mass.** For variable-mass systems (rockets, conveyor belts) use the general form $\mathbf{F} = d\mathbf{p}/dt$ and account for the mass flow.'
+  - $\mathbf{F}$ is the **net** force, the vector sum of all forces, not any single one of them.
+  - Speeds much smaller than the speed of light ($v \ll c$). Near $c$, use relativistic momentum $\mathbf{p} = \gamma m \mathbf{v}$.
+  - For an extended body, $\mathbf{a}$ is the acceleration of its centre of mass.
+
+intuition: >-
+  Force is what changes motion. Push twice as hard and the acceleration doubles; push a body twice as
+  heavy and it accelerates half as much. Mass appears here as inertia, the resistance to being
+  accelerated. Force and acceleration are vectors pointing the same way. A body moving at
+  constant velocity, even a fast one, has zero net force on it.
+
+derivation:
+  - note: >-
+      Newton's second law is a postulate, tested by experiment, not derived from something more basic.
+      Its general form says force equals the rate of change of momentum $\mathbf{p} = m\mathbf{v}$.
+    latex: \mathbf{F} = \frac{d\mathbf{p}}{dt} = \frac{d(m\mathbf{v})}{dt}
+  - note: If the mass is constant, it comes out of the derivative, and $d\mathbf{v}/dt$ is the acceleration.
+    latex: \mathbf{F} = m\frac{d\mathbf{v}}{dt} = m\mathbf{a}
+
+example:
+  title: Accelerating a car
+  problem: >-
+    A 1200 kg car accelerates in a straight line at 2.5 m/s². What net force acts on it?
+  given:
+    m: 1200
+    a: 2.5
+  solveFor: F
+  expected:
+    F: 3000
+  tolerance: 1.0e-9
+  steps:
+    - note: Substitute mass and acceleration.
+      latex: F = m a = 1200\ \text{kg} \times 2.5\ \text{m/s}^2 = 3000\ \text{N}
+    - note: >-
+        This is the **net** force. The engine must supply more than 3000 N at the wheels, because
+        rolling resistance and air drag oppose the motion.
+  answer: $F = 3000\ \text{N}$ (net), in the direction of the acceleration.
+  sources:
+    - value: m = 1200 kg, a = 2.5 m/s²
+      source: Illustrative choice (typical compact car, moderate acceleration).
+
+calculator:
+  solvable: [F, m, a]
+
+related: [momentum, centripetal-force, universal-gravitation, work]
+tags: [force, mass, acceleration, dynamics, newton, mechanics]

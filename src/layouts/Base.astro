@@ -1,0 +1,87 @@
+---
+import '@fontsource-variable/inter';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import Search from '../components/Search.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { href } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const fullTitle = title === 'Formulary' ? 'Formulary: maths & physics formula reference' : `${title} · Formulary`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={href('favicon.svg')} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      // Apply theme before first paint to avoid a flash.
+      (() => {
+        const t = localStorage.getItem('theme');
+        const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col bg-bg text-text">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
+      >Skip to content</a
+    >
+    <header class="sticky top-0 z-30 border-b border-border bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
+      <div class="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
+        <a href={href()} class="flex items-center gap-2 rounded font-semibold tracking-tight text-text">
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="h-6 w-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+            <path d="M14.5 7c-1.6-.4-2.5.4-2.5 1.8v6.4c0 1.4-.9 2.2-2.5 1.8M9.5 11h5"></path>
+          </svg>
+          <span>Formulary</span>
+        </a>
+        <div class="ml-auto flex items-center gap-2">
+          <button
+            type="button"
+            data-search-open
+            class="group flex h-9 items-center gap-2 rounded-lg border border-border bg-surface px-3 text-sm text-muted transition-colors hover:border-border-strong hover:text-text sm:w-64"
+            aria-label="Search formulas"
+            aria-keyshortcuts="Control+K Meta+K"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <span class="hidden sm:inline">Search formulas…</span>
+            <kbd class="ml-auto hidden rounded border border-border bg-bg px-1.5 font-sans text-xs text-muted sm:inline" data-shortcut-label>Ctrl K</kbd>
+          </button>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="flex-1" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="mt-24 border-t border-border">
+      <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-muted sm:flex-row sm:justify-between sm:px-6">
+        <p>Formulary: formulas with their assumptions, derivations and calculators.</p>
+        <p>Values in SI units. Always check the validity conditions before relying on a result.</p>
+      </div>
+    </footer>
+
+    <Search />
+  </body>
+</html>
+
+<script>
+  const isApple = /Mac|iPhone|iPad/.test(navigator.userAgent);
+  if (isApple) document.querySelectorAll('[data-shortcut-label]').forEach((el) => (el.textContent = '⌘K'));
+</script>

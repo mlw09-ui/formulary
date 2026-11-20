@@ -1,0 +1,97 @@
+id: centripetal-force
+name: Centripetal Force
+aliases: [Centripetal acceleration, Circular motion force, F = mv²/r]
+topic: physics/classical-mechanics/dynamics
+difficulty: basic
+summary: The inward net force needed to keep a mass moving on a circle at constant speed.
+
+latex: |-
+  \sym{F}{F_c} = \frac{\sym{m}{m}\,\sym{v}{v}^{2}}{\sym{r}{r}}
+
+variables:
+  - id: F
+    symbol: F_c
+    name: Centripetal force
+    unit: N
+    description: Net force directed toward the centre of the circle.
+    searchAliases: [centripetal force, radial force]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Mass of the moving body.
+    searchAliases: [mass]
+  - id: v
+    symbol: v
+    name: Speed
+    unit: m/s
+    description: Constant speed along the circular path.
+    searchAliases: [speed, velocity]
+  - id: r
+    symbol: r
+    name: Radius
+    unit: m
+    description: Radius of the circular path.
+    searchAliases: [radius]
+
+assumptions:
+  - >-
+    **Uniform circular motion**: constant speed on a circle of constant radius. If the speed changes,
+    this gives only the radial component; there is also a tangential force $m\,dv/dt$.
+  - >-
+    $F_c$ is not an extra force. It is the **net inward force** that something real must provide:
+    friction, string tension, gravity, a normal force.
+  - Inertial reference frame. In the rotating frame the same quantity appears as an outward "centrifugal" force.
+  - Speeds much smaller than the speed of light ($v \ll c$).
+
+intuition: >-
+  A body left alone moves in a straight line. To bend its path into a circle, something must keep
+  pulling it toward the centre. The required pull grows with the square of speed (twice as fast
+  needs four times the force) and falls with radius (a gentler curve needs less). This is why
+  sharp, fast turns are dangerous: the needed force can exceed what tyre friction can supply.
+  Equivalently, $F_c = m\omega^2 r$ with angular speed $\omega = v/r$.
+
+derivation:
+  - note: >-
+      On a circle at constant speed, the velocity vector keeps its length $v$ but turns. In a short
+      time $\Delta t$ it sweeps the angle $\Delta\theta = v\,\Delta t / r$.
+    latex: \Delta\theta = \frac{v\,\Delta t}{r}
+  - note: For a small angle, the change in velocity points toward the centre and has magnitude $v\,\Delta\theta$.
+    latex: \lvert\Delta \mathbf{v}\rvert \approx v\,\Delta\theta = \frac{v^2\,\Delta t}{r}
+  - note: Dividing by $\Delta t$ gives the centripetal acceleration; Newton's second law gives the force.
+    latex: a_c = \frac{v^2}{r} \quad\Rightarrow\quad F_c = m a_c = \frac{m v^2}{r}
+
+example:
+  title: A car on a curve
+  problem: >-
+    A 1500 kg car takes a flat curve of radius 50 m at 20 m/s (72 km/h). What centripetal force is
+    needed, and can tyre friction supply it?
+  given:
+    m: 1500
+    v: 20
+    r: 50
+  solveFor: F
+  expected:
+    F: 12000
+  tolerance: 1.0e-9
+  steps:
+    - latex: F_c = \frac{m v^2}{r} = \frac{1500 \times 20^2}{50} = 12\,000\ \text{N}
+    - note: On a flat road only friction can provide this, so the friction coefficient must be at least
+      latex: \mu_{\min} = \frac{F_c}{m g} = \frac{12\,000}{1500 \times 9.80665} = 0.816
+    - note: >-
+        Dry asphalt gives roughly $\mu \approx 0.7$–$0.8$, so this is at the limit of grip. On a wet road
+        ($\mu \approx 0.4$) the car would slide outward. Speed matters most: at 15 m/s the force drops to 6750 N.
+  answer: $F_c = 12\,000\ \text{N}$, which needs $\mu \geq 0.82$. Marginal on dry asphalt, impossible on wet.
+  sources:
+    - value: m = 1500 kg, v = 20 m/s, r = 50 m
+      source: Illustrative choice.
+    - value: μ ≈ 0.7–0.8 (dry), ≈ 0.4 (wet)
+      source: Typical tyre–asphalt friction coefficients (e.g. Wong, Theory of Ground Vehicles, ch. 1).
+    - value: g = 9.80665 m/s²
+      source: Standard gravity (exact by definition).
+
+calculator:
+  solvable: [F, m, v, r]
+
+related: [newtons-second-law, universal-gravitation, kinetic-energy]
+tags: [circular motion, centripetal acceleration, curve, rotation, orbit, mechanics]

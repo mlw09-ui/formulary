@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import RichText from './RichText.astro';
+import type { IconName } from '../lib/icons';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  count: number;
+  icon?: IconName;
+  meta?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { href, title, description, count, icon, meta, headingLevel: H = 'h2' } = Astro.props;
+const countLabel = `${count} formula${count === 1 ? '' : 's'}`;
+---
+
+<a
+  href={href}
+  class="group flex h-full flex-col rounded-xl border border-border bg-raised p-5 transition-[border-color,box-shadow] hover:border-accent hover:shadow-[0_1px_0_var(--c-border),0_4px_16px_-8px_rgb(0_0_0/0.15)]"
+>
+  {
+    icon && (
+      <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-accent">
+        <Icon name={icon} class="h-6 w-6" />
+      </span>
+    )
+  }
+  <H class="text-base font-semibold tracking-tight text-text group-hover:text-accent">{title}</H>
+  <p class="mt-1.5 flex-1 text-sm leading-relaxed text-muted"><RichText text={description} /></p>
+  <p class="mt-4 flex items-center gap-2 text-xs font-medium text-muted">
+    {meta && <span>{meta}</span>}
+    {meta && <span aria-hidden="true">·</span>}
+    <span class={count === 0 ? 'italic' : ''}>{count === 0 ? 'No formulas yet' : countLabel}</span>
+  </p>
+</a>

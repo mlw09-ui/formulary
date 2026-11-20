@@ -1,0 +1,76 @@
+id: mach-number
+name: Mach Number
+aliases: [M, Ma, Mach]
+topic: physics/aerodynamics/flow-parameters
+difficulty: basic
+summary: Flow speed divided by the local speed of sound; measures how compressible a flow is.
+
+latex: |-
+  \sym{M}{\mathrm{M}} = \frac{\sym{v}{v}}{\sym{a}{a}}
+
+variables:
+  - id: M
+    symbol: \mathrm{M}
+    name: Mach number
+    unit: '1'
+    description: Dimensionless ratio of flow speed to speed of sound.
+    searchAliases: [mach, Ma]
+  - id: v
+    symbol: v
+    name: Flow speed
+    unit: m/s
+    description: Speed of the body relative to the surrounding air (true airspeed).
+    searchAliases: [speed, velocity, airspeed]
+  - id: a
+    symbol: a
+    name: Speed of sound
+    unit: m/s
+    description: Local speed of sound. For an ideal gas $a = \sqrt{\gamma R T}$, so it depends on temperature, not pressure.
+    searchAliases: [speed of sound, sound speed]
+
+assumptions:
+  - $a$ must be the speed of sound **in the same air, at the same temperature** as the flow. It falls with altitude in the troposphere (about 340 m/s at sea level, 295 m/s above 11 km).
+  - $v$ is the speed relative to the air, not relative to the ground.
+
+intuition: >-
+  The Mach number tells you whether the air can get out of the way in time. Pressure disturbances
+  travel at the speed of sound. Below about Mach 0.3 the air ahead is warned early and barely compresses.
+  Approaching Mach 1, the disturbances pile up, shock waves form, and drag rises sharply. Above Mach 1
+  the body outruns its own sound and leaves a shock cone behind, heard on the ground as a sonic boom.
+
+derivation:
+  - note: Mach number is a definition. Its significance comes from the density change in a flow, which for isentropic flow scales with its square.
+    latex: \frac{\Delta\rho}{\rho} \approx \tfrac{1}{2}\mathrm{M}^2 \qquad (\mathrm{M} \ll 1)
+  - note: At $\mathrm{M} = 0.3$ density changes by about 5%, the usual limit for treating air as incompressible. The speed of sound itself, for an ideal gas, is
+    latex: a = \sqrt{\gamma R T}, \qquad \gamma = 1.4,\ R = 287.05\ \text{J/(kg·K)}\ \text{for air}
+
+example:
+  title: An airliner in cruise
+  problem: >-
+    An airliner cruises at a true airspeed of 250 m/s at 35 000 ft (10 668 m). Find its Mach number,
+    using the ISA temperature at that altitude.
+  given:
+    v: 250
+    a: 296.535
+  solveFor: M
+  expected:
+    M: 0.843070
+  tolerance: 1.0e-5
+  steps:
+    - note: ISA temperature falls 6.5 K per km in the troposphere.
+      latex: T = 288.15 - 0.0065 \times 10\,668 = 218.81\ \text{K}
+    - latex: a = \sqrt{\gamma R T} = \sqrt{1.4 \times 287.05 \times 218.81} = 296.5\ \text{m/s}
+    - latex: \mathrm{M} = \frac{v}{a} = \frac{250}{296.5} = 0.843
+    - note: At sea level the same airspeed would be only Mach 0.73. The speed of sound is lower in cold air.
+  answer: $\mathrm{M} \approx 0.84$, high subsonic (typical airliner cruise).
+  sources:
+    - value: T = 288.15 − 0.0065 h, γ = 1.4, R = 287.05287 J/(kg·K)
+      source: ICAO / ISA Standard Atmosphere (ISO 2533:1975).
+    - value: v = 250 m/s at 35 000 ft
+      source: Illustrative, typical jet airliner cruise.
+
+calculator:
+  solvable: [M, v, a]
+
+related: [dynamic-pressure, lift-equation, reynolds-number, doppler-effect]
+tags: [mach, speed of sound, compressibility, supersonic, transonic, aerodynamics]

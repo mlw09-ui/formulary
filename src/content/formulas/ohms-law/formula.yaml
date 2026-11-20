@@ -1,0 +1,73 @@
+id: ohms-law
+name: Ohm's Law
+aliases: [V = IR, Resistance law]
+topic: physics/electromagnetism/circuits
+difficulty: basic
+summary: The voltage across a resistor is proportional to the current through it.
+
+latex: |-
+  \sym{V}{V} = \sym{I}{I}\,\sym{R}{R}
+
+variables:
+  - id: V
+    symbol: V
+    name: Voltage
+    unit: V
+    description: Potential difference across the component.
+    searchAliases: [voltage, potential difference, volts]
+  - id: I
+    symbol: I
+    name: Current
+    unit: A
+    description: Electric current through the component.
+    searchAliases: [current, amps, ampere]
+  - id: R
+    symbol: R
+    name: Resistance
+    unit: Ω
+    description: Electrical resistance of the component.
+    searchAliases: [resistance, ohm, omega]
+
+assumptions:
+  - '**Ohmic component**: $R$ does not depend on $V$ or $I$. True for metal resistors and wires; false for diodes, LEDs, transistors and gas discharges.'
+  - '**Constant temperature.** Resistance changes with temperature; an incandescent bulb filament is about 10× more resistive hot than cold.'
+  - DC, or AC with a purely resistive load using RMS values. With capacitors or inductors, use the impedance $Z$ instead of $R$.
+
+intuition: >-
+  Voltage is the push, current is the flow, resistance is the narrowness of the path. For many
+  materials, doubling the push doubles the flow, and that proportionality is all Ohm's law says.
+  It is a property of particular materials, not a law of nature like energy conservation, which is
+  why it fails for semiconductors. The thermal analogue is Fourier's law: heat flow through a wall
+  behaves like current through a resistor.
+
+derivation:
+  - note: In an ohmic material the current density is proportional to the electric field (microscopic Ohm's law, explained by the Drude model of electrons scattering off the lattice).
+    latex: \mathbf{J} = \sigma\,\mathbf{E}
+  - note: 'For a uniform wire of length $L$ and cross-section $A$: $V = EL$ and $I = JA$.'
+    latex: I = J A = \sigma A\,\frac{V}{L} \quad\Rightarrow\quad V = I\,\frac{L}{\sigma A}
+  - note: The factor $L/(\sigma A) = \rho_e L/A$ is the resistance, with $\rho_e = 1/\sigma$ the resistivity.
+    latex: V = I R, \qquad R = \frac{\rho_e L}{A}
+
+example:
+  title: Current through a resistor
+  problem: A 4 Ω resistor is connected across a 12 V battery. What current flows?
+  given:
+    V: 12
+    R: 4
+  solveFor: I
+  expected:
+    I: 3
+  tolerance: 1.0e-9
+  steps:
+    - latex: I = \frac{V}{R} = \frac{12\ \text{V}}{4\ \Omega} = 3\ \text{A}
+    - note: The resistor dissipates $P = VI = 36$ W as heat, so it needs a power rating above that.
+  answer: $I = 3\ \text{A}$
+  sources:
+    - value: V = 12 V, R = 4 Ω
+      source: Illustrative choice (ideal battery with no internal resistance).
+
+calculator:
+  solvable: [V, I, R]
+
+related: [electric-power, coulombs-law, fourier-law]
+tags: [circuit, voltage, current, resistance, electricity, electronics]

@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { getLibrary } from '../lib/content';
+import { renderDisplay } from '../lib/latex';
+import { href } from '../lib/url';
+
+const lib = getLibrary();
+const fieldCount = lib.domains.reduce((n, d) => n + d.fields.length, 0);
+---
+
+<Base title="Formulary" description="A navigable reference of mathematics and physics formulas with variables, validity conditions, derivations, worked examples and calculators.">
+  <section class="border-b border-border bg-surface">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.2fr_1fr] md:py-24">
+      <div>
+        <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Formulary</h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          A reference library of mathematics and physics formulas. Each one comes with its variables and units,
+          the conditions under which it holds, a derivation, a worked example and a calculator.
+        </p>
+        <button
+          type="button"
+          data-search-open
+          class="mt-8 flex h-12 w-full max-w-md items-center gap-3 rounded-xl border border-border-strong bg-raised px-4 text-left text-muted shadow-sm transition-colors hover:border-accent"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <span>Search by name, symbol or topic</span>
+          <kbd class="ml-auto rounded border border-border px-1.5 text-xs" data-shortcut-label>Ctrl K</kbd>
+        </button>
+        <p class="mt-4 text-sm text-muted">
+          {lib.formulas.length} formulas · {fieldCount} fields · {lib.domains.length} domains
+        </p>
+      </div>
+      <div aria-hidden="true" class="hidden select-none space-y-5 text-muted md:block">
+        <div class="rounded-xl border border-border bg-raised px-6 py-5 text-text" set:html={renderDisplay('L = \\tfrac{1}{2}\\rho v^2 S C_L')} />
+        <div class="ml-10 rounded-xl border border-border bg-raised px-6 py-5 text-text" set:html={renderDisplay('Q = \\frac{\\pi R^4 \\Delta P}{8 \\mu L}')} />
+        <div class="rounded-xl border border-border bg-raised px-6 py-5 text-text" set:html={renderDisplay('x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}')} />
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4 pt-14 sm:px-6">
+    <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Browse by domain</h2>
+    <div class="mt-5 grid gap-4 md:grid-cols-2">
+      {
+        lib.domains.map((d) => (
+          <CategoryCard
+            href={href(d.path)}
+            title={d.name}
+            description={d.description}
+            count={d.count}
+            icon={d.icon}
+            meta={`${d.fields.length} fields`}
+            headingLevel="h3"
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-14 grid gap-10 md:grid-cols-2">
+      {
+        lib.domains.map((d) => (
+          <nav aria-label={`${d.name} fields`}>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">{d.name} fields</h2>
+            <ul class="mt-4 divide-y divide-border border-y border-border">
+              {d.fields.map((f) => (
+                <li>
+                  <a href={href(f.path)} class="flex items-center justify-between gap-4 py-3 text-text hover:text-accent">
+                    <span>{f.name}</span>
+                    <span class="text-sm tabular-nums text-muted">{f.count}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,99 @@
+id: universal-gravitation
+name: Newton's Law of Universal Gravitation
+aliases: [Law of gravity, Inverse-square law of gravitation, Gravitational force]
+topic: physics/classical-mechanics/gravitation
+difficulty: intermediate
+summary: Every pair of masses attracts with a force proportional to both masses and inversely to distance squared.
+
+latex: |-
+  \sym{F}{F} = \sym{G}{G}\,\frac{\sym{m1}{m_1}\,\sym{m2}{m_2}}{\sym{r}{r}^{2}}
+
+variables:
+  - id: F
+    symbol: F
+    name: Gravitational force
+    unit: N
+    description: Magnitude of the attractive force each body exerts on the other (equal and opposite).
+    searchAliases: [gravity, force]
+  - id: G
+    symbol: G
+    name: Gravitational constant
+    unit: N·m²/kg²
+    kind: constant
+    description: $G = 6.674\,30 \times 10^{-11}$ N·m²/kg² (CODATA 2022).
+    searchAliases: [big G, newton constant]
+  - id: m1
+    symbol: m_1
+    name: First mass
+    unit: kg
+    description: Mass of the first body.
+    searchAliases: [mass]
+  - id: m2
+    symbol: m_2
+    name: Second mass
+    unit: kg
+    description: Mass of the second body.
+  - id: r
+    symbol: r
+    name: Distance between centres
+    unit: m
+    description: Distance between the centres of mass of the two bodies.
+    searchAliases: [distance, radius, separation]
+
+assumptions:
+  - >-
+    **Point masses or spherically symmetric bodies**, with $r$ measured between centres. For a sphere this
+    holds exactly outside it (shell theorem). For irregular bodies close together it is only approximate.
+  - >-
+    **Newtonian gravity**: weak fields and speeds much smaller than $c$. General relativity is needed near
+    very compact masses and for precision effects (Mercury's perihelion, GPS clock corrections).
+  - Gravity acts instantaneously in this model. In reality changes propagate at the speed of light.
+
+intuition: >-
+  Gravity is always attractive and weakens with the square of distance. Double the separation and
+  the force falls to a quarter, because the "influence" spreads over a sphere whose area grows as $r^2$.
+  $G$ is tiny, so gravity between everyday objects is negligible. Only planet-sized masses make it
+  dominant. The same law makes apples fall and holds the Moon in orbit, which was Newton's key insight.
+
+derivation:
+  - note: >-
+      Newton's argument, simplified to circular orbits. A planet of mass $m$ in a circular orbit of radius
+      $r$ and period $T$ needs a centripetal force.
+    latex: F = \frac{m v^2}{r} = \frac{4\pi^2 m r}{T^2}, \qquad v = \frac{2\pi r}{T}
+  - note: Kepler's third law, found from observation, says $T^2 = k\,r^3$ with the same $k$ for every planet.
+    latex: F = \frac{4\pi^2 m r}{k\,r^3} = \frac{4\pi^2}{k}\cdot\frac{m}{r^2}
+  - note: >-
+      So the force falls as $1/r^2$ and is proportional to the planet's mass. By Newton's third law it
+      must also be proportional to the Sun's mass $M$, which gives the symmetric form with one universal constant.
+    latex: F = G\,\frac{M m}{r^2}
+
+example:
+  title: The Earth–Moon attraction
+  problem: Find the gravitational force between the Earth and the Moon at their mean separation.
+  given:
+    m1: 5.9722e24
+    m2: 7.346e22
+    r: 3.844e8
+  solveFor: F
+  expected:
+    F: 1.98164e20
+  tolerance: 1.0e-4
+  steps:
+    - latex: F = G\frac{m_1 m_2}{r^2} = 6.6743\times10^{-11} \times \frac{(5.9722\times10^{24})(7.346\times10^{22})}{(3.844\times10^{8})^2}
+    - latex: F = 6.6743\times10^{-11} \times \frac{4.387\times10^{47}}{1.4776\times10^{17}} = 1.98\times10^{20}\ \text{N}
+    - note: >-
+        This force provides the Moon's centripetal acceleration,
+        $a = F/m_2 = 2.70\times10^{-3}\ \text{m/s}^2$, which is $g/3630$. Newton used exactly this
+        comparison ($(60\ R_E)^2 \approx 3600$) to test the inverse-square law.
+  answer: $F \approx 1.98 \times 10^{20}\ \text{N}$
+  sources:
+    - value: G = 6.67430 × 10⁻¹¹ N·m²/kg²
+      source: CODATA 2022 recommended value (NIST).
+    - value: m_Earth = 5.9722 × 10²⁴ kg, m_Moon = 7.346 × 10²² kg, r = 3.844 × 10⁸ m
+      source: NASA Earth and Moon Fact Sheets (Moon's orbital semi-major axis).
+
+calculator:
+  solvable: [F, m1, m2, r]
+
+related: [newtons-second-law, centripetal-force, gravitational-potential-energy, coulombs-law]
+tags: [gravity, gravitation, inverse square, orbit, planets, newton, kepler, mechanics]

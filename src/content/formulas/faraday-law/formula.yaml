@@ -1,0 +1,84 @@
+id: faraday-law
+name: Faraday's Law of Induction
+aliases: [Maxwell–Faraday equation, Maxwell's third equation, Electromagnetic induction, Curl of E]
+topic: physics/electromagnetism/maxwells-equations
+difficulty: advanced
+summary: A changing magnetic field creates a circulating electric field, the basis of generators and transformers.
+
+latex: |-
+  \sym{nabla}{\nabla}\times\sym{E}{\mathbf{E}} = -\frac{\partial \sym{B}{\mathbf{B}}}{\partial \sym{t}{t}}
+
+variables:
+  - id: nabla
+    symbol: \nabla\times
+    name: Curl operator
+    unit: 1/m
+    kind: operator
+    description: Measures the circulation (rotation) of a vector field around a point, per unit area.
+    searchAliases: [curl, rotation, nabla]
+  - id: E
+    symbol: \mathbf{E}
+    name: Electric field
+    unit: V/m
+    description: Electric field vector.
+    searchAliases: [electric field]
+  - id: B
+    symbol: \mathbf{B}
+    name: Magnetic flux density
+    unit: T
+    description: Magnetic field vector.
+    searchAliases: [magnetic field]
+  - id: t
+    symbol: t
+    name: Time
+    unit: s
+    description: $\partial\mathbf{B}/\partial t$ is the rate of change of the magnetic field at a fixed point.
+    searchAliases: [time]
+
+assumptions:
+  - Holds in vacuum and in matter, at every point and instant, in an inertial frame.
+  - >-
+    The differential form describes fields at fixed points. For the EMF in a **moving** circuit, use the integral
+    "flux rule" $\mathcal{E} = -d\Phi_B/dt$, which also includes the motional EMF from the Lorentz force.
+  - Requires differentiable fields; otherwise use the integral form.
+
+intuition: >-
+  A changing magnetic field makes an electric field that curls around it. Put a loop of wire there and the
+  curling field pushes charges around it, which is induction. Every generator, transformer, induction cooker and
+  wireless charger relies on this. The minus sign (Lenz's law) says the induced current opposes the change that
+  caused it. Without it, induction would amplify itself and create energy from nothing.
+
+derivation:
+  - note: >-
+      Start from Faraday's experimental law: the EMF around a closed loop equals minus the rate of change of the
+      magnetic flux through it. For a stationary loop,
+    latex: \oint_{\partial S} \mathbf{E}\cdot d\mathbf{l} = -\frac{d}{dt}\int_S \mathbf{B}\cdot d\mathbf{A} = -\int_S \frac{\partial\mathbf{B}}{\partial t}\cdot d\mathbf{A}
+  - note: Stokes' theorem turns the line integral into a surface integral of the curl.
+    latex: \oint_{\partial S} \mathbf{E}\cdot d\mathbf{l} = \int_S (\nabla\times\mathbf{E})\cdot d\mathbf{A}
+  - note: The two surface integrals are equal for every surface $S$, so the integrands are equal.
+    latex: \nabla\times\mathbf{E} = -\frac{\partial\mathbf{B}}{\partial t}
+
+example:
+  title: EMF in a coil
+  problem: >-
+    A 100-turn coil of area 0.01 m² sits in a magnetic field perpendicular to its plane. The field rises
+    uniformly from 0 to 0.5 T in 0.1 s. What EMF is induced?
+  steps:
+    - note: Flux through one turn changes at the rate
+      latex: \frac{d\Phi_B}{dt} = A\frac{dB}{dt} = 0.01\ \text{m}^2 \times \frac{0.5\ \text{T}}{0.1\ \text{s}} = 0.05\ \text{Wb/s}
+    - note: Each turn contributes the same EMF, and the turns are in series.
+      latex: \mathcal{E} = -N\frac{d\Phi_B}{dt} = -100 \times 0.05 = -5\ \text{V}
+    - note: The sign means the induced current circulates so that its own magnetic field opposes the increase (Lenz's law). Once the field stops changing, the EMF drops to zero.
+  answer: $|\mathcal{E}| = 5\ \text{V}$ while the field is rising.
+  sources:
+    - value: N = 100, A = 0.01 m², ΔB = 0.5 T in 0.1 s
+      source: Illustrative choice.
+
+calculator:
+  none: >-
+    The differential form relates the curl of one field to the rate of change of another at every point,
+    so it has no single numeric output. For coils, the integral form EMF = −N dΦ/dt, used in the
+    example, gives a number.
+
+related: [gauss-law, gauss-law-for-magnetism, ampere-maxwell-law, ohms-law]
+tags: [maxwell, induction, emf, generator, transformer, lenz, curl, electromagnetism]

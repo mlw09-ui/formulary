@@ -1,0 +1,63 @@
+id: circle-circumference
+name: Circumference of a Circle
+aliases: [Perimeter of a circle, 2πr, πd]
+topic: mathematics/geometry-and-trigonometry/circles-and-spheres
+difficulty: basic
+summary: The distance around a circle is 2π times its radius (π times its diameter).
+
+latex: |-
+  \sym{C}{C} = 2\pi\,\sym{r}{r}
+
+variables:
+  - id: C
+    symbol: C
+    name: Circumference
+    unit: m
+    description: Length of the circle itself (its perimeter).
+    searchAliases: [circumference, perimeter]
+  - id: r
+    symbol: r
+    name: Radius
+    unit: m
+    description: Distance from the centre to the circle. With diameter $d = 2r$, $C = \pi d$.
+    searchAliases: [radius, diameter]
+
+assumptions:
+  - A perfect circle in a **flat (Euclidean) plane**.
+  - Uses the radius. With the diameter, $C = \pi d$.
+
+intuition: >-
+  This is really the definition of $\pi$: the ratio of any circle's circumference to its diameter, the same for
+  every circle (about 3.14159). Circumference grows **linearly** with radius, which leads to a famous puzzle.
+  A rope hugging the equator, lengthened by just 1 m, would stand about 16 cm off the ground all the way around.
+  The gap is $1/(2\pi)$ m, whatever the size of the circle.
+
+derivation:
+  - note: By definition, $\pi$ is the ratio of a circle's circumference to its diameter. All circles are similar, so this ratio is the same for every circle.
+    latex: \pi \equiv \frac{C}{d} \quad\Rightarrow\quad C = \pi d = 2\pi r
+  - note: Consistency with the area formula, since area grows by a thin ring of length $C$ when the radius grows by $dr$.
+    latex: \frac{dA}{dr} = \frac{d}{dr}\left(\pi r^2\right) = 2\pi r = C
+
+example:
+  title: The Earth's equator
+  problem: Using the WGS 84 equatorial radius, how long is the Earth's equator? And if a rope around it were made 1 m longer, how high would it stand off the ground?
+  given:
+    r: 6378137
+  solveFor: C
+  expected:
+    C: 40075016.69
+  tolerance: 1.0e-9
+  steps:
+    - latex: C = 2\pi r = 2\pi \times 6\,378\,137\ \text{m} = 40\,075\,017\ \text{m} \approx 40\,075\ \text{km}
+    - note: A rope 1 m longer has radius $r + \Delta r$ with $2\pi\,\Delta r = 1$ m.
+      latex: \Delta r = \frac{1\ \text{m}}{2\pi} = 0.159\ \text{m}
+  answer: $C \approx 40\,075\ \text{km}$. The lengthened rope stands about 16 cm off the ground everywhere.
+  sources:
+    - value: r = 6 378 137 m
+      source: WGS 84 reference ellipsoid, semi-major (equatorial) axis (NGA / NIMA TR8350.2).
+
+calculator:
+  solvable: [C, r]
+
+related: [circle-area, sphere-surface-area, eulers-formula]
+tags: [circle, circumference, perimeter, pi, radius, diameter, geometry]

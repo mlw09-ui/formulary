@@ -1,0 +1,94 @@
+id: ideal-gas-law
+name: Ideal Gas Law
+aliases: [Equation of state of an ideal gas, pV = nRT, Clapeyron equation]
+topic: physics/thermodynamics/energy-and-state
+difficulty: basic
+summary: Relates pressure, volume, amount and absolute temperature of a gas with weak molecular interactions.
+
+latex: |-
+  \sym{p}{p}\,\sym{V}{V} = \sym{n}{n}\,\sym{R}{R}\,\sym{T}{T}
+
+variables:
+  - id: p
+    symbol: p
+    name: Pressure
+    unit: Pa
+    description: Absolute pressure of the gas (not gauge pressure).
+    searchAliases: [pressure]
+  - id: V
+    symbol: V
+    name: Volume
+    unit: m³
+    description: Volume occupied by the gas.
+    searchAliases: [volume]
+  - id: n
+    symbol: n
+    name: Amount of substance
+    unit: mol
+    description: Number of moles of gas.
+    searchAliases: [moles, amount]
+  - id: R
+    symbol: R
+    name: Molar gas constant
+    unit: J/(mol·K)
+    kind: constant
+    description: $R = 8.314\,462\,618$ J/(mol·K), exact in the SI since 2019 ($R = N_A k_B$).
+    searchAliases: [gas constant]
+  - id: T
+    symbol: T
+    name: Absolute temperature
+    unit: K
+    description: Thermodynamic temperature in kelvin. $T[\mathrm{K}] = T[^\circ\mathrm{C}] + 273.15$.
+    searchAliases: [temperature, kelvin]
+
+assumptions:
+  - >-
+    **Ideal gas**: molecules take up negligible volume and do not attract or repel each other. Good for
+    most gases at low pressure and well above their condensation temperature (e.g. air at room conditions,
+    error under 0.1%).
+  - Fails at **high pressure** or **near condensation**. Use a real-gas equation (van der Waals) or a compressibility factor $Z = pV/(nRT)$.
+  - '**$T$ must be absolute (kelvin)** and $p$ absolute (not gauge).'
+  - The gas is in equilibrium, with uniform pressure and temperature.
+
+intuition: >-
+  Gas pressure is molecules drumming on the walls. Heat the gas and they move faster and hit harder
+  ($p \propto T$). Squeeze it into less space and they hit more often ($p \propto 1/V$). Add more gas and there are
+  more hits ($p \propto n$). Remarkably, the type of gas does not matter: one mole of any ideal gas at 0 °C and 1 atm
+  fills 22.4 litres.
+
+derivation:
+  - note: >-
+      Kinetic theory: $N$ molecules of mass $m$ bounce elastically in a box. The momentum they transfer
+      to the walls per unit time and area gives the pressure, in terms of the mean squared speed.
+    latex: p V = \tfrac{1}{3} N m \langle v^2 \rangle = \tfrac{2}{3} N \langle E_k \rangle
+  - note: Temperature is a measure of mean kinetic energy per molecule (equipartition, 3 translational degrees of freedom).
+    latex: \langle E_k \rangle = \tfrac{3}{2} k_B T \quad\Rightarrow\quad pV = N k_B T
+  - note: 'With $N = n N_A$ and $R = N_A k_B$:'
+    latex: pV = nRT
+
+example:
+  title: Molar volume at 0 °C and 1 atm
+  problem: What volume does one mole of an ideal gas occupy at 0 °C and 101 325 Pa?
+  given:
+    p: 101325
+    n: 1
+    T: 273.15
+  solveFor: V
+  expected:
+    V: 0.0224139695
+  tolerance: 1.0e-8
+  steps:
+    - latex: V = \frac{nRT}{p} = \frac{1 \times 8.314462618 \times 273.15}{101\,325} = 0.022414\ \text{m}^3
+    - note: That is 22.414 L, the familiar molar volume. Nitrogen deviates by only about 0.05% here, so it behaves almost ideally.
+  answer: $V \approx 0.022414\ \text{m}^3 = 22.414\ \text{L}$
+  sources:
+    - value: R = 8.314 462 618 J/(mol·K)
+      source: Exact in the 2019 SI (CODATA / BIPM SI Brochure).
+    - value: 101 325 Pa, 273.15 K
+      source: Standard atmosphere and 0 °C, both exact by definition.
+
+calculator:
+  solvable: [p, V, n, T]
+
+related: [first-law-of-thermodynamics, carnot-efficiency, hydrostatic-pressure]
+tags: [gas, pressure, volume, temperature, mole, kelvin, equation of state, thermodynamics]

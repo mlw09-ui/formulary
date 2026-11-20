@@ -1,0 +1,68 @@
+id: sphere-volume
+name: Volume of a Sphere
+aliases: [⁴⁄₃πr³, Ball volume]
+topic: mathematics/geometry-and-trigonometry/circles-and-spheres
+difficulty: basic
+summary: The volume enclosed by a sphere is four-thirds π times the radius cubed.
+
+latex: |-
+  \sym{V}{V} = \tfrac{4}{3}\pi\,\sym{r}{r}^{3}
+
+variables:
+  - id: V
+    symbol: V
+    name: Volume
+    unit: m³
+    description: Volume enclosed by the sphere.
+    searchAliases: [volume]
+  - id: r
+    symbol: r
+    name: Radius
+    unit: m
+    description: Radius of the sphere.
+    searchAliases: [radius]
+
+assumptions:
+  - A **perfect sphere** in Euclidean space.
+  - $r$ is the radius, not the diameter. In diameter form, $V = \pi d^3/6$.
+
+intuition: >-
+  Volume grows with the cube of radius: double the radius and the volume grows eightfold, while the surface area
+  grows only fourfold. That mismatch shapes biology and engineering. Big animals have relatively little skin to
+  shed heat through, and small droplets evaporate quickly because they have a lot of surface per unit volume.
+  A sphere holds exactly two thirds of the volume of the cylinder that encloses it (Archimedes).
+
+derivation:
+  - note: Build the ball from thin spherical shells of radius $\rho$ and thickness $d\rho$. Each has volume equal to its area times its thickness.
+    latex: dV = 4\pi\rho^2\,d\rho
+  - note: Integrate from the centre to the surface.
+    latex: V = \int_0^r 4\pi\rho^2\,d\rho = \tfrac{4}{3}\pi r^3
+  - note: Equivalently, the derivative of volume with respect to radius is the surface area, $dV/dr = 4\pi r^2$.
+
+example:
+  title: The volume and density of the Earth
+  problem: Treating the Earth as a sphere of mean radius 6371 km, find its volume, and from its mass its mean density.
+  given:
+    r: 6371000
+  solveFor: V
+  expected:
+    V: 1.08320692e21
+  tolerance: 1.0e-8
+  steps:
+    - latex: V = \tfrac{4}{3}\pi r^3 = \tfrac{4}{3}\pi \times (6.371\times10^{6}\ \text{m})^3 = 1.083\times10^{21}\ \text{m}^3
+    - latex: \bar{\rho} = \frac{M}{V} = \frac{5.9722\times10^{24}\ \text{kg}}{1.083\times10^{21}\ \text{m}^3} = 5513\ \text{kg/m}^3
+    - note: Surface rocks are only about 2700 kg/m³, so the interior must be much denser. That was early evidence for an iron core.
+  answer: $V \approx 1.083\times10^{21}\ \text{m}^3$; mean density about 5510 kg/m³.
+  sources:
+    - value: r = 6371 km
+      source: Earth's mean radius (IUGG value 6371.0088 km).
+    - value: M = 5.9722 × 10²⁴ kg; mean density 5513 kg/m³
+      source: NASA Earth Fact Sheet.
+    - value: Crustal rock ≈ 2700 kg/m³
+      source: Typical density of granite / continental crust (standard geology references).
+
+calculator:
+  solvable: [V, r]
+
+related: [sphere-surface-area, circle-area]
+tags: [sphere, volume, ball, density, planet, geometry]

@@ -1,0 +1,84 @@
+id: taylor-series
+name: Taylor Series
+aliases: [Taylor expansion, Maclaurin series (a = 0), Power series expansion]
+topic: mathematics/calculus/series
+difficulty: advanced
+summary: Represents a smooth function as an infinite polynomial built from its derivatives at one point.
+
+latex: |-
+  \sym{f}{f}(\sym{x}{x}) = \sum_{\sym{n}{n}=0}^{\infty} \frac{\sym{fn}{f^{(n)}}(\sym{a}{a})}{\sym{n}{n}!}\,(\sym{x}{x} - \sym{a}{a})^{\sym{n}{n}}
+
+variables:
+  - id: f
+    symbol: f
+    name: Function
+    unit: null
+    description: The function being expanded, infinitely differentiable at $a$.
+  - id: x
+    symbol: x
+    name: Evaluation point
+    unit: null
+    description: Where the function is evaluated.
+  - id: a
+    symbol: a
+    name: Expansion point
+    unit: null
+    description: The point the series is built around. For $a = 0$ it is called a Maclaurin series.
+    searchAliases: [center, centre]
+  - id: n
+    symbol: n
+    name: Term index
+    unit: null
+    kind: index
+    description: Order of the term, $0, 1, 2, \ldots$
+  - id: fn
+    symbol: f^{(n)}
+    name: n-th derivative
+    unit: null
+    description: The $n$-th derivative of $f$ ($f^{(0)} = f$), evaluated at $a$.
+    searchAliases: [derivative]
+
+assumptions:
+  - $f$ is infinitely differentiable at $a$.
+  - '**Convergence is not guaranteed.** The series converges only within its radius of convergence, e.g. $|x| < 1$ for $\ln(1 + x)$ at $a = 0$.'
+  - >-
+    Even when it converges, the series may not equal $f$. The classic counterexample is $e^{-1/x^2}$, whose Maclaurin
+    series is identically 0. Functions that do equal their Taylor series are called analytic.
+  - 'A truncated series has error (Lagrange remainder) $R_N = \dfrac{f^{(N+1)}(\xi)}{(N+1)!}(x - a)^{N+1}$ for some $\xi$ between $a$ and $x$.'
+
+intuition: >-
+  Near a point, any smooth function looks like a polynomial. Matching the value gives a constant, matching the slope
+  gives a line, matching the curvature gives a parabola, and so on. Each extra term fixes one more derivative. This is
+  how calculators compute $\sin$ and $e^x$, and it is behind every physics approximation such as
+  $\sin\theta \approx \theta$ for small angles, which is just the series cut after its first term.
+
+derivation:
+  - note: Assume $f$ can be written as a power series around $a$.
+    latex: f(x) = c_0 + c_1(x-a) + c_2(x-a)^2 + c_3(x-a)^3 + \cdots
+  - note: Differentiate $n$ times and set $x = a$. Every term except the $n$-th vanishes.
+    latex: f^{(n)}(a) = n!\,c_n \quad\Rightarrow\quad c_n = \frac{f^{(n)}(a)}{n!}
+  - note: Substituting the coefficients gives the Taylor series.
+    latex: f(x) = \sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n
+
+example:
+  title: Approximating √e with four terms
+  problem: Use the first four terms of the Maclaurin series of $e^x$ to approximate $e^{0.5}$, and bound the error.
+  steps:
+    - note: Every derivative of $e^x$ is $e^x$, which equals 1 at $a = 0$.
+      latex: e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+    - latex: e^{0.5} \approx 1 + 0.5 + 0.125 + 0.020833 = 1.645833
+    - note: The true value is $e^{0.5} = 1.648721$, so the actual error is $0.002888$.
+    - note: 'Lagrange bound with $N = 3$ (the 4th derivative is at most $e^{0.5}$ on $[0, 0.5]$):'
+      latex: \lvert R_3\rvert \le \frac{e^{0.5}}{4!}(0.5)^4 = \frac{1.6487 \times 0.0625}{24} = 0.00429
+  answer: $e^{0.5} \approx 1.6458$, with true error 0.0029, inside the guaranteed bound of 0.0043.
+  sources:
+    - value: e^0.5 = 1.6487212707…
+      source: Exact value to the digits shown (any reference table or high-precision computation).
+
+calculator:
+  none: >-
+    A Taylor series depends on a whole function and all its derivatives, not on a few numeric inputs. A numeric tool
+    would need a choice of function and a number of terms, which is beyond a single formula calculator.
+
+related: [power-rule, eulers-formula, binomial-theorem, fundamental-theorem-of-calculus]
+tags: [series, taylor, maclaurin, approximation, power series, calculus, small angle]

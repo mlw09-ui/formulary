@@ -1,0 +1,155 @@
+id: navier-stokes-incompressible
+name: Navier–Stokes Equations (Incompressible)
+aliases: [Navier–Stokes, Incompressible Navier–Stokes, NS equations, Momentum equation]
+topic: physics/fluid-mechanics/conservation-laws
+difficulty: advanced
+summary: Momentum and mass conservation for a viscous, incompressible Newtonian fluid, the governing equations of fluid flow.
+
+latex: |-
+  \begin{aligned}
+  \sym{rho}{\rho}\left(\frac{\partial \sym{u}{\mathbf{u}}}{\partial \sym{t}{t}} + \left(\sym{u}{\mathbf{u}}\cdot\sym{nabla}{\nabla}\right)\sym{u}{\mathbf{u}}\right) &= -\sym{nabla}{\nabla} \sym{p}{p} + \sym{mu}{\mu}\,\sym{lap}{\nabla^{2}}\sym{u}{\mathbf{u}} + \sym{f}{\mathbf{f}} \\[4pt]
+  \sym{nabla}{\nabla}\cdot\sym{u}{\mathbf{u}} &= 0
+  \end{aligned}
+
+variables:
+  - id: u
+    symbol: \mathbf{u}
+    name: Velocity field
+    unit: m/s
+    description: >-
+      Fluid velocity vector at each point and time, $\mathbf{u}(\mathbf{x}, t)$. Together with $p$,
+      this is the unknown being solved for.
+    searchAliases: [velocity, flow field]
+  - id: t
+    symbol: t
+    name: Time
+    unit: s
+    description: $\partial \mathbf{u}/\partial t$ is the rate of change of velocity at a fixed point in space.
+  - id: rho
+    symbol: \rho
+    name: Density
+    unit: kg/m³
+    description: Fluid density, constant throughout the flow under the incompressibility assumption.
+    searchAliases: [density]
+  - id: p
+    symbol: p
+    name: Pressure
+    unit: Pa
+    description: Pressure field. In incompressible flow it adjusts instantaneously to keep $\nabla\cdot\mathbf{u} = 0$.
+    searchAliases: [pressure]
+  - id: mu
+    symbol: \mu
+    name: Dynamic viscosity
+    unit: Pa·s
+    description: Resistance of the fluid to shear, assumed constant.
+    searchAliases: [viscosity]
+  - id: f
+    symbol: \mathbf{f}
+    name: Body force density
+    unit: N/m³
+    description: External force per unit volume acting on the whole fluid, most often gravity, $\mathbf{f} = \rho\mathbf{g}$.
+    searchAliases: [gravity, body force]
+  - id: nabla
+    symbol: \nabla
+    name: Del (gradient) operator
+    unit: 1/m
+    kind: operator
+    description: >-
+      Vector of spatial partial derivatives $(\partial_x, \partial_y, \partial_z)$. $\nabla p$ is the
+      pressure gradient, $\nabla\cdot\mathbf{u}$ the divergence, and $(\mathbf{u}\cdot\nabla)$ a derivative along the flow.
+    searchAliases: [nabla, del, gradient, divergence]
+  - id: lap
+    symbol: \nabla^{2}
+    name: Laplacian operator
+    unit: 1/m²
+    kind: operator
+    description: >-
+      Sum of second spatial derivatives, $\partial_x^2 + \partial_y^2 + \partial_z^2$, applied to each velocity
+      component. It measures how much a value differs from the average of its surroundings.
+    searchAliases: [laplacian]
+
+assumptions:
+  - >-
+    **Continuum**: the fluid can be treated as continuous, i.e. Knudsen number $\mathrm{Kn} = \lambda/\ell \ll 1$
+    (mean free path much smaller than the flow's length scale). This fails in rarefied gases and nanochannels.
+  - >-
+    **Incompressible**: density is constant. True for liquids in most situations; for gases only when
+    the Mach number is below about 0.3 (density changes under ~5%).
+  - '**Newtonian fluid**: viscous stress is proportional to the strain rate (water, air, oils; not blood, paint or polymer melts).'
+  - Constant viscosity. This requires isothermal flow or small temperature differences, so the energy equation decouples.
+  - Inertial (non-rotating) reference frame. In a rotating frame, add Coriolis and centrifugal terms.
+  - Single-phase fluid without chemical reactions.
+
+intuition: >-
+  The first equation is Newton's second law for a small blob of fluid, written per unit volume.
+  Mass times acceleration on the left. The acceleration has two parts: the flow changing in time
+  ($\partial\mathbf{u}/\partial t$), and the blob being carried to where the velocity is different
+  ($(\mathbf{u}\cdot\nabla)\mathbf{u}$). On the right are the forces: pressure pushing from high to low,
+  viscosity smoothing out velocity differences, and body forces such as gravity. The second equation
+  says the fluid cannot be compressed, so whatever flows into a region must flow out. The nonlinear
+  convective term is the source of turbulence. Whether smooth 3D solutions always exist is still an
+  unsolved Millennium Prize problem.
+
+derivation:
+  - note: >-
+      **Mass conservation.** For any fluid, $\partial\rho/\partial t + \nabla\cdot(\rho\mathbf{u}) = 0$.
+      With constant density this reduces to the incompressibility constraint.
+    latex: \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho\mathbf{u}) = 0 \quad\xrightarrow{\ \rho\ =\ \text{const}\ }\quad \nabla\cdot\mathbf{u} = 0
+  - note: >-
+      **Newton's second law for a fluid parcel** (Cauchy momentum equation). The acceleration of a parcel
+      is the material derivative $D\mathbf{u}/Dt$. Forces are the divergence of the stress tensor
+      $\boldsymbol{\sigma}$ plus body forces.
+    latex: \rho\frac{D\mathbf{u}}{Dt} = \nabla\cdot\boldsymbol{\sigma} + \mathbf{f}, \qquad \frac{D\mathbf{u}}{Dt} = \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}
+  - note: >-
+      **Newtonian constitutive law.** Stress is isotropic pressure plus a viscous part linear in the
+      strain rate. The bulk-viscosity term $\lambda(\nabla\cdot\mathbf{u})\mathbf{I}$ vanishes because $\nabla\cdot\mathbf{u} = 0$.
+    latex: \boldsymbol{\sigma} = -p\,\mathbf{I} + \mu\left(\nabla\mathbf{u} + (\nabla\mathbf{u})^{\mathsf{T}}\right)
+  - note: >-
+      **Take the divergence** with constant $\mu$. The transpose term becomes the gradient of the
+      divergence, which is zero.
+    latex: \nabla\cdot\boldsymbol{\sigma} = -\nabla p + \mu\nabla^2\mathbf{u} + \mu\,\nabla(\nabla\cdot\mathbf{u}) = -\nabla p + \mu\nabla^2\mathbf{u}
+  - note: Substitute into the Cauchy equation to obtain the incompressible Navier–Stokes momentum equation.
+    latex: \rho\left(\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}\right) = -\nabla p + \mu\nabla^2\mathbf{u} + \mathbf{f}
+
+example:
+  title: Reducing Navier–Stokes to laminar pipe flow
+  problem: >-
+    Water at 20 °C flows steadily through a horizontal pipe of radius 1 mm and length 1 m under a pressure
+    drop of 100 Pa. Use the Navier–Stokes equations to find the velocity profile, the centreline velocity
+    and the wall shear stress.
+  steps:
+    - note: >-
+        **Simplify.** Steady ($\partial/\partial t = 0$), fully developed axial flow $\mathbf{u} = u(r)\,\hat{\mathbf{x}}$.
+        Continuity holds automatically. Because $u$ does not vary along $x$, the convective term
+        $(\mathbf{u}\cdot\nabla)\mathbf{u} = u\,\partial u/\partial x\,\hat{\mathbf{x}} = 0$. The pipe is horizontal,
+        so gravity has no axial component. The left-hand side is zero.
+      latex: 0 = -\frac{dp}{dx} + \mu\,\frac{1}{r}\frac{d}{dr}\!\left(r\frac{du}{dr}\right)
+    - note: >-
+        **Solve** with $dp/dx = -\Delta P/L$, a finite velocity on the axis and no-slip $u(R) = 0$
+        (see the Hagen–Poiseuille derivation for the integration steps).
+      latex: u(r) = \frac{\Delta P}{4\mu L}\left(R^2 - r^2\right)
+    - note: '**Centreline velocity** ($r = 0$):'
+      latex: u_{\max} = \frac{\Delta P\,R^2}{4\mu L} = \frac{100 \times (10^{-3})^2}{4 \times 1.002\times10^{-3} \times 1} = 0.02495\ \text{m/s}
+    - note: '**Wall shear stress** from the Newtonian law, $\tau_w = \mu\,|du/dr|$ at $r = R$:'
+      latex: \tau_w = \mu\left|\frac{du}{dr}\right|_{r=R} = \frac{\Delta P\,R}{2L} = \frac{100 \times 10^{-3}}{2 \times 1} = 0.05\ \text{Pa}
+    - note: >-
+        A force balance on the whole fluid cylinder gives the same result, $\Delta P \cdot \pi R^2 = \tau_w \cdot 2\pi R L$,
+        an independent check. Integrating $u(r)$ over the cross-section gives the Hagen–Poiseuille flow
+        rate, $Q = 3.92\times10^{-8}\ \text{m}^3/\text{s}$.
+  answer: >-
+    Parabolic profile $u(r) = 24\,950\,(R^2 - r^2)$ m/s with $r$ in metres. Centreline velocity
+    $u_{\max} \approx 0.0250$ m/s, wall shear stress $\tau_w = 0.05$ Pa.
+  sources:
+    - value: μ = 1.002 × 10⁻³ Pa·s
+      source: Water at 20 °C, standard property tables (e.g. CRC Handbook of Chemistry and Physics; White, Fluid Mechanics, Table A.1).
+    - value: R = 1 mm, L = 1 m, ΔP = 100 Pa
+      source: Illustrative choice, the same case as the Hagen–Poiseuille worked example so the two can be cross-checked.
+
+calculator:
+  none: >-
+    The Navier–Stokes equations are a system of nonlinear partial differential equations for entire
+    velocity and pressure fields, so there is nothing to plug numbers into. They are solved analytically
+    only in special cases (such as Hagen–Poiseuille pipe flow) and otherwise numerically with CFD.
+
+related: [hagen-poiseuille, continuity-equation, bernoulli-equation, reynolds-number]
+tags: [fluid dynamics, viscous flow, CFD, momentum equation, conservation of mass, PDE, turbulence, continuity]

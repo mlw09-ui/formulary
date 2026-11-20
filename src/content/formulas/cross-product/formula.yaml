@@ -1,0 +1,74 @@
+id: cross-product
+name: Cross Product
+aliases: [Vector product, a × b]
+topic: mathematics/linear-algebra/vector-products
+difficulty: intermediate
+summary: Multiplies two 3D vectors into a vector perpendicular to both, with length equal to the parallelogram area.
+
+latex: |-
+  \sym{x}{\sym{a}{\mathbf{a}}\times\sym{b}{\mathbf{b}}} = \begin{pmatrix} \sym{a}{a}_2\sym{b}{b}_3 - \sym{a}{a}_3\sym{b}{b}_2 \\ \sym{a}{a}_3\sym{b}{b}_1 - \sym{a}{a}_1\sym{b}{b}_3 \\ \sym{a}{a}_1\sym{b}{b}_2 - \sym{a}{a}_2\sym{b}{b}_1 \end{pmatrix}
+
+variables:
+  - id: x
+    symbol: \mathbf{a}\times\mathbf{b}
+    name: Cross product
+    unit: null
+    description: A vector perpendicular to both $\mathbf{a}$ and $\mathbf{b}$ (right-hand rule), with length $\lVert\mathbf{a}\rVert\lVert\mathbf{b}\rVert\sin\theta$.
+    searchAliases: [cross product, vector product]
+  - id: a
+    symbol: \mathbf{a}
+    name: Vector a
+    unit: null
+    shape: list
+    description: First vector, with components $(a_1, a_2, a_3)$.
+    searchAliases: [vector]
+  - id: b
+    symbol: \mathbf{b}
+    name: Vector b
+    unit: null
+    shape: list
+    description: Second vector, with components $(b_1, b_2, b_3)$.
+
+assumptions:
+  - '**Three dimensions only.** (A 7-dimensional analogue exists; in other dimensions use the wedge product.)'
+  - Components in a **right-handed orthonormal** basis. In a left-handed basis the direction flips.
+  - '**Order matters**: $\mathbf{b}\times\mathbf{a} = -\,\mathbf{a}\times\mathbf{b}$.'
+
+intuition: >-
+  The cross product builds the vector that "sticks out" of the plane of $\mathbf{a}$ and $\mathbf{b}$. Its direction follows the
+  right-hand rule: curl your fingers from $\mathbf{a}$ to $\mathbf{b}$ and your thumb points along $\mathbf{a}\times\mathbf{b}$.
+  Its length is the area of the parallelogram they span, so it is zero for parallel vectors. Physics uses it for
+  anything involving rotation: torque $\mathbf{r}\times\mathbf{F}$, angular momentum $\mathbf{r}\times\mathbf{p}$, and the magnetic force
+  $q\,\mathbf{v}\times\mathbf{B}$.
+
+derivation:
+  - note: Write the vectors in the basis $\hat{\mathbf{i}}, \hat{\mathbf{j}}, \hat{\mathbf{k}}$ and use bilinearity with the rules $\hat{\mathbf{i}}\times\hat{\mathbf{j}} = \hat{\mathbf{k}}$ (cyclically), $\hat{\mathbf{j}}\times\hat{\mathbf{i}} = -\hat{\mathbf{k}}$, and $\hat{\mathbf{i}}\times\hat{\mathbf{i}} = \mathbf{0}$.
+    latex: \mathbf{a}\times\mathbf{b} = \sum_{j,k} a_j b_k\,(\hat{\mathbf{e}}_j\times\hat{\mathbf{e}}_k)
+  - note: Collecting terms gives the component formula, often memorised as a formal determinant.
+    latex: \mathbf{a}\times\mathbf{b} = \begin{vmatrix} \hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\ a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \end{vmatrix} = (a_2b_3 - a_3b_2,\ a_3b_1 - a_1b_3,\ a_1b_2 - a_2b_1)
+
+example:
+  title: Cross product of two vectors
+  problem: Compute $\mathbf{a}\times\mathbf{b}$ for $\mathbf{a} = (1, 2, 3)$ and $\mathbf{b} = (4, 5, 6)$.
+  given:
+    a: [1, 2, 3]
+    b: [4, 5, 6]
+  solveFor: x
+  expected:
+    x: [-3, 6, -3]
+  tolerance: 1.0e-12
+  steps:
+    - latex: x_1 = a_2 b_3 - a_3 b_2 = 2\cdot6 - 3\cdot5 = -3
+    - latex: x_2 = a_3 b_1 - a_1 b_3 = 3\cdot4 - 1\cdot6 = 6
+    - latex: x_3 = a_1 b_2 - a_2 b_1 = 1\cdot5 - 2\cdot4 = -3
+    - note: 'Check perpendicularity: $(-3, 6, -3)\cdot(1, 2, 3) = -3 + 12 - 9 = 0$, and $(-3, 6, -3)\cdot(4, 5, 6) = -12 + 30 - 18 = 0$.'
+  answer: $\mathbf{a}\times\mathbf{b} = (-3,\ 6,\ -3)$, with length $\sqrt{54} \approx 7.35$, the area of the parallelogram.
+  sources:
+    - value: a = (1, 2, 3), b = (4, 5, 6)
+      source: Illustrative choice. Exact result, checked by orthogonality.
+
+calculator:
+  solvable: [x]
+
+related: [dot-product, determinant-3x3, determinant-2x2]
+tags: [vector, cross product, vector product, torque, right-hand rule, linear algebra, normal vector]

@@ -1,0 +1,82 @@
+id: continuity-equation
+name: Continuity Equation
+aliases: [Conservation of mass, Volume flow continuity, A₁v₁ = A₂v₂]
+topic: physics/fluid-mechanics/conservation-laws
+difficulty: basic
+summary: For incompressible flow through a pipe, area times velocity is the same at every cross-section.
+
+latex: |-
+  \sym{A1}{A_1}\,\sym{v1}{v_1} = \sym{A2}{A_2}\,\sym{v2}{v_2}
+
+variables:
+  - id: A1
+    symbol: A_1
+    name: Area at section 1
+    unit: m²
+    description: Cross-sectional area of the flow at the first section.
+    searchAliases: [area]
+  - id: v1
+    symbol: v_1
+    name: Mean velocity at section 1
+    unit: m/s
+    description: Average flow velocity across section 1.
+    searchAliases: [velocity, speed]
+  - id: A2
+    symbol: A_2
+    name: Area at section 2
+    unit: m²
+    description: Cross-sectional area of the flow at the second section.
+  - id: v2
+    symbol: v_2
+    name: Mean velocity at section 2
+    unit: m/s
+    description: Average flow velocity across section 2.
+
+assumptions:
+  - '**Incompressible fluid** (constant density). For compressible flow the conserved quantity is the mass flow $\rho A v$.'
+  - '**Steady flow**: nothing changes with time, so no mass accumulates between the sections.'
+  - $v$ is the **mean** velocity over the section. The real velocity profile is non-uniform.
+  - No inflow or outflow between the two sections (no leaks, branches or injection).
+
+intuition: >-
+  Whatever goes in must come out. If a pipe narrows, the same volume per second has to squeeze through
+  a smaller opening, so it must move faster. Halve the diameter and the area drops to a quarter, so the
+  speed quadruples. Putting your thumb over a garden hose works this way, and so do the faster
+  currents in narrow parts of a river.
+
+derivation:
+  - note: >-
+      Mass conservation for a control volume between two sections: in steady flow the mass inside is
+      constant, so the mass flow in equals the mass flow out.
+    latex: \dot{m} = \rho_1 A_1 v_1 = \rho_2 A_2 v_2
+  - note: With constant density, $\rho$ cancels and the volume flow rate $Q = A v$ is conserved.
+    latex: Q = A_1 v_1 = A_2 v_2
+
+example:
+  title: A pipe reducer
+  problem: >-
+    Water flows at 2 m/s in a pipe of 100 mm inner diameter, which then narrows to 50 mm. How fast does
+    the water flow in the narrow section?
+  given:
+    A1: 0.007853981633974483
+    v1: 2
+    A2: 0.001963495408493621
+  solveFor: v2
+  expected:
+    v2: 8
+  tolerance: 1.0e-9
+  steps:
+    - note: Cross-sectional areas, $A = \pi D^2/4$.
+      latex: A_1 = \frac{\pi (0.100)^2}{4} = 7.854\times10^{-3}\ \text{m}^2, \qquad A_2 = \frac{\pi (0.050)^2}{4} = 1.963\times10^{-3}\ \text{m}^2
+    - latex: v_2 = v_1\frac{A_1}{A_2} = 2 \times \frac{7.854\times10^{-3}}{1.963\times10^{-3}} = 2 \times 4 = 8\ \text{m/s}
+    - note: Halving the diameter quarters the area, so the velocity quadruples. The flow rate is unchanged, $Q = 0.0157\ \text{m}^3/\text{s}$ (15.7 L/s).
+  answer: $v_2 = 8\ \text{m/s}$
+  sources:
+    - value: D₁ = 100 mm, D₂ = 50 mm, v₁ = 2 m/s
+      source: Illustrative choice.
+
+calculator:
+  solvable: [A1, v1, A2, v2]
+
+related: [bernoulli-equation, navier-stokes-incompressible, hagen-poiseuille]
+tags: [mass conservation, flow rate, pipe, nozzle, incompressible, fluid dynamics]

@@ -1,0 +1,77 @@
+id: de-broglie-wavelength
+name: De Broglie Wavelength
+aliases: [Matter wave, Wave–particle duality, λ = h/p]
+topic: physics/modern-physics/quantum-mechanics
+difficulty: intermediate
+summary: Every moving particle has a wavelength equal to Planck's constant divided by its momentum.
+
+latex: |-
+  \sym{lambda}{\lambda} = \frac{\sym{h}{h}}{\sym{p}{p}}
+
+variables:
+  - id: lambda
+    symbol: \lambda
+    name: De Broglie wavelength
+    unit: m
+    description: Wavelength associated with the particle's quantum-mechanical wave.
+    searchAliases: [wavelength, matter wave]
+  - id: h
+    symbol: h
+    name: Planck constant
+    unit: J·s
+    kind: constant
+    description: $h = 6.626\,070\,15 \times 10^{-34}$ J·s (exact).
+    searchAliases: [planck]
+  - id: p
+    symbol: p
+    name: Momentum
+    unit: kg·m/s
+    description: Magnitude of the particle's momentum. Non-relativistically $p = mv$; in general $p = \gamma m v$.
+    searchAliases: [momentum]
+
+assumptions:
+  - '$p$ is the **relativistic** momentum $\gamma m v$. Using $mv$ is fine below about 0.1c.'
+  - Applies to all matter (electrons, neutrons, atoms, molecules) and to photons ($p = h/\lambda = E/c$).
+  - Wave effects such as diffraction are only noticeable when $\lambda$ is comparable to the size of the structure the particle meets.
+
+intuition: >-
+  If light waves behave like particles, de Broglie reasoned, particles should behave like waves. The
+  heavier and faster something is, the shorter its wavelength. Electrons have wavelengths comparable to the
+  spacing between atoms, so they diffract off crystals, which is how electron microscopes see detail far
+  finer than light can resolve. For a thrown ball, $\lambda$ is about $10^{-34}$ m, so its wave nature
+  is undetectable.
+
+derivation:
+  - note: For a photon, special relativity ($E = pc$) and the Planck–Einstein relation ($E = hf$) combine to give
+    latex: p = \frac{E}{c} = \frac{h f}{c} = \frac{h}{\lambda}
+  - note: De Broglie (1924) postulated that the same relation holds for every particle. It was confirmed by electron diffraction (Davisson–Germer, 1927).
+    latex: \lambda = \frac{h}{p}
+
+example:
+  title: Wavelength of a slow electron
+  problem: An electron moves at $1.0\times10^{6}$ m/s. What is its de Broglie wavelength?
+  given:
+    p: 9.1093837139e-25
+  solveFor: lambda
+  expected:
+    lambda: 7.2738951e-10
+  tolerance: 1.0e-7
+  steps:
+    - note: At $v = 0.0033c$ the non-relativistic momentum is accurate.
+      latex: p = m_e v = 9.109\times10^{-31}\ \text{kg} \times 1.0\times10^{6}\ \text{m/s} = 9.109\times10^{-25}\ \text{kg·m/s}
+    - latex: \lambda = \frac{h}{p} = \frac{6.626\times10^{-34}}{9.109\times10^{-25}} = 7.27\times10^{-10}\ \text{m} = 0.727\ \text{nm}
+    - note: That is comparable to the spacing of atoms in a crystal (about 0.2–0.5 nm), so such electrons diffract strongly, which is the basis of low-energy electron diffraction (LEED).
+  answer: $\lambda \approx 0.73\ \text{nm}$
+  sources:
+    - value: m_e = 9.1093837139 × 10⁻³¹ kg
+      source: CODATA 2022 recommended value (NIST).
+    - value: h = 6.62607015 × 10⁻³⁴ J·s
+      source: Exact (2019 SI).
+    - value: v = 10⁶ m/s
+      source: Illustrative choice (an electron accelerated through about 2.8 V).
+
+calculator:
+  solvable: [lambda, p]
+
+related: [photon-energy, momentum, schrodinger-equation, wave-speed]
+tags: [quantum, wave-particle duality, matter wave, electron, diffraction, wavelength, momentum]

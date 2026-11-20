@@ -1,0 +1,94 @@
+id: dot-product
+name: Dot Product
+aliases: [Scalar product, Inner product, Euclidean inner product]
+topic: mathematics/linear-algebra/vector-products
+difficulty: basic
+summary: Multiplies two vectors into a scalar; equals the product of their lengths and the cosine of the angle between them.
+
+latex: |-
+  \sym{s}{\sym{a}{\mathbf{a}}\cdot\sym{b}{\mathbf{b}}} = \sum_{\sym{i}{i}=1}^{\sym{n}{n}} \sym{a}{a}_{\sym{i}{i}}\,\sym{b}{b}_{\sym{i}{i}} = \lVert\sym{a}{\mathbf{a}}\rVert\,\lVert\sym{b}{\mathbf{b}}\rVert\cos\sym{theta}{\theta}
+
+variables:
+  - id: s
+    symbol: \mathbf{a}\cdot\mathbf{b}
+    name: Dot product
+    unit: null
+    description: A scalar (a single number).
+    searchAliases: [dot product, scalar product]
+  - id: a
+    symbol: \mathbf{a}
+    name: Vector a
+    unit: null
+    shape: list
+    description: First vector, with components $a_1, \ldots, a_n$.
+    searchAliases: [vector]
+  - id: b
+    symbol: \mathbf{b}
+    name: Vector b
+    unit: null
+    shape: list
+    description: Second vector, with the same number of components.
+  - id: i
+    symbol: i
+    name: Component index
+    unit: null
+    kind: index
+    description: Runs over the components, $1$ to $n$.
+  - id: n
+    symbol: n
+    name: Dimension
+    unit: null
+    kind: index
+    description: Number of components in each vector.
+  - id: theta
+    symbol: \theta
+    name: Angle between the vectors
+    unit: °
+    inCalculator: false
+    description: Angle between $\mathbf{a}$ and $\mathbf{b}$, from 0° to 180°. The calculator reports it.
+    searchAliases: [angle]
+
+assumptions:
+  - Both vectors have the **same number of components** and are expressed in the same **orthonormal** basis. In skewed coordinates you need the metric.
+  - Real vectors. For complex vectors, conjugate one of them, $\sum \bar{a}_i b_i$.
+  - The angle form requires both vectors to be non-zero.
+
+intuition: >-
+  The dot product measures how much two vectors point the same way. Multiply the length of one by the length of the
+  other's shadow (projection) onto it. Parallel vectors give the full product of their lengths, perpendicular
+  vectors give zero, and opposite ones give a negative result. Physics uses it constantly: work is
+  $\mathbf{F}\cdot\mathbf{d}$, power is $\mathbf{F}\cdot\mathbf{v}$, flux is $\mathbf{B}\cdot\mathbf{A}$. It is also
+  the quickest test for perpendicularity.
+
+derivation:
+  - note: Apply the law of cosines to the triangle formed by $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{a} - \mathbf{b}$.
+    latex: \lVert\mathbf{a} - \mathbf{b}\rVert^2 = \lVert\mathbf{a}\rVert^2 + \lVert\mathbf{b}\rVert^2 - 2\lVert\mathbf{a}\rVert\lVert\mathbf{b}\rVert\cos\theta
+  - note: Expand the left side in components.
+    latex: \sum (a_i - b_i)^2 = \sum a_i^2 + \sum b_i^2 - 2\sum a_i b_i
+  - note: Compare the two expressions.
+    latex: \sum_i a_i b_i = \lVert\mathbf{a}\rVert\,\lVert\mathbf{b}\rVert\cos\theta
+
+example:
+  title: Dot product and angle of two 3D vectors
+  problem: Find $\mathbf{a}\cdot\mathbf{b}$ and the angle between $\mathbf{a} = (1, 2, 3)$ and $\mathbf{b} = (4, -5, 6)$.
+  given:
+    a: [1, 2, 3]
+    b: [4, -5, 6]
+  solveFor: s
+  expected:
+    s: 12
+  tolerance: 1.0e-12
+  steps:
+    - latex: \mathbf{a}\cdot\mathbf{b} = (1)(4) + (2)(-5) + (3)(6) = 4 - 10 + 18 = 12
+    - latex: \lVert\mathbf{a}\rVert = \sqrt{14} = 3.742, \qquad \lVert\mathbf{b}\rVert = \sqrt{77} = 8.775
+    - latex: \cos\theta = \frac{12}{3.742 \times 8.775} = 0.3655 \quad\Rightarrow\quad \theta = 68.56^\circ
+  answer: $\mathbf{a}\cdot\mathbf{b} = 12$; the angle between them is about $68.6^\circ$.
+  sources:
+    - value: a = (1, 2, 3), b = (4, −5, 6)
+      source: Illustrative choice. Exact result.
+
+calculator:
+  solvable: [s]
+
+related: [cross-product, work, law-of-cosines, pythagorean-theorem]
+tags: [vector, dot product, scalar product, angle, projection, linear algebra, inner product]

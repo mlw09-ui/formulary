@@ -1,0 +1,111 @@
+id: determinant-3x3
+name: Determinant of a 3×3 Matrix
+aliases: [3 by 3 determinant, Cofactor expansion, Rule of Sarrus]
+topic: mathematics/linear-algebra/determinants
+difficulty: intermediate
+summary: Cofactor expansion of a 3×3 determinant along the first row; the signed volume scale factor.
+
+latex: |-
+  \sym{D}{\det}\begin{pmatrix} \sym{a}{a} & \sym{b}{b} & \sym{c}{c} \\ \sym{d}{d} & \sym{e}{e} & \sym{f}{f} \\ \sym{g}{g} & \sym{h}{h} & \sym{i}{i} \end{pmatrix} = \sym{a}{a}(\sym{e}{e}\sym{i}{i} - \sym{f}{f}\sym{h}{h}) - \sym{b}{b}(\sym{d}{d}\sym{i}{i} - \sym{f}{f}\sym{g}{g}) + \sym{c}{c}(\sym{d}{d}\sym{h}{h} - \sym{e}{e}\sym{g}{g})
+
+variables:
+  - id: D
+    symbol: \det
+    name: Determinant
+    unit: null
+    description: Signed volume scale factor of the matrix. Zero means it is not invertible.
+    searchAliases: [determinant, det]
+  - id: a
+    symbol: a
+    name: Entry (1,1)
+    unit: null
+    description: Row 1, column 1.
+  - id: b
+    symbol: b
+    name: Entry (1,2)
+    unit: null
+    description: Row 1, column 2.
+  - id: c
+    symbol: c
+    name: Entry (1,3)
+    unit: null
+    description: Row 1, column 3.
+  - id: d
+    symbol: d
+    name: Entry (2,1)
+    unit: null
+    description: Row 2, column 1.
+  - id: e
+    symbol: e
+    name: Entry (2,2)
+    unit: null
+    description: Row 2, column 2.
+  - id: f
+    symbol: f
+    name: Entry (2,3)
+    unit: null
+    description: Row 2, column 3.
+  - id: g
+    symbol: g
+    name: Entry (3,1)
+    unit: null
+    description: Row 3, column 1.
+  - id: h
+    symbol: h
+    name: Entry (3,2)
+    unit: null
+    description: Row 3, column 2.
+  - id: i
+    symbol: i
+    name: Entry (3,3)
+    unit: null
+    description: Row 3, column 3.
+
+assumptions:
+  - A **square** 3×3 matrix with entries from a commutative number system (real or complex numbers).
+  - The **signs alternate** $+,\,-,\,+$ along the first row. Forgetting the minus on the middle term is the most common error.
+  - The rule of Sarrus (diagonal products) works **only** for 3×3 matrices. For larger matrices use cofactor expansion or row reduction.
+
+intuition: >-
+  The three columns of the matrix span a parallelepiped (a slanted box). The determinant is its volume, with a sign
+  that says whether the map preserves or mirrors orientation. Expanding along the first row reduces the problem
+  to three 2×2 determinants: each entry times the area of the "shadow" that is left when you delete its row and
+  column. Equivalently, it is the scalar triple product of the rows, $\mathbf{r}_1\cdot(\mathbf{r}_2\times\mathbf{r}_3)$.
+
+derivation:
+  - note: Laplace (cofactor) expansion along row 1. Each entry multiplies the determinant of the 2×2 minor left after deleting its row and column, with signs $(-1)^{1+j}$.
+    latex: \det A = a\begin{vmatrix} e & f \\ h & i\end{vmatrix} - b\begin{vmatrix} d & f \\ g & i\end{vmatrix} + c\begin{vmatrix} d & e \\ g & h\end{vmatrix}
+  - note: Evaluate each 2×2 minor as $ad - bc$.
+    latex: \det A = a(ei - fh) - b(di - fg) + c(dh - eg)
+
+example:
+  title: A 3×3 determinant
+  problem: Compute the determinant of $\begin{pmatrix} 2 & -3 & 1 \\ 2 & 0 & -1 \\ 1 & 4 & 5 \end{pmatrix}$.
+  given:
+    a: 2
+    b: -3
+    c: 1
+    d: 2
+    e: 0
+    f: -1
+    g: 1
+    h: 4
+    i: 5
+  solveFor: D
+  expected:
+    D: 49
+  tolerance: 1.0e-12
+  steps:
+    - latex: \det = 2\big(0\cdot5 - (-1)\cdot4\big) - (-3)\big(2\cdot5 - (-1)\cdot1\big) + 1\big(2\cdot4 - 0\cdot1\big)
+    - latex: = 2(4) + 3(11) + 1(8) = 8 + 33 + 8 = 49
+    - note: 'Check with the rule of Sarrus: $(0 + 3 + 8) - (0 - 8 - 30) = 11 + 38 = 49$.'
+  answer: $\det = 49$
+  sources:
+    - value: Matrix entries
+      source: Illustrative choice. Exact result, checked two ways.
+
+calculator:
+  solvable: [D]
+
+related: [determinant-2x2, cross-product, dot-product]
+tags: [matrix, determinant, linear algebra, cofactor, sarrus, volume, 3x3]

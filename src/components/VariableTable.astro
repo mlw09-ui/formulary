@@ -1,0 +1,43 @@
+---
+import RichText from './RichText.astro';
+import { renderInlineMath } from '../lib/latex';
+import type { Variable } from '../lib/schema';
+
+interface Props {
+  variables: Variable[];
+}
+const { variables } = Astro.props;
+const unitText = (u: string | null) => (u === null ? '—' : u === '1' ? 'dimensionless' : u);
+---
+
+<div class="overflow-x-auto rounded-xl border border-border">
+  <table class="w-full border-collapse text-left text-sm">
+    <thead class="bg-surface text-xs uppercase tracking-wider text-muted">
+      <tr>
+        <th scope="col" class="w-20 px-4 py-2.5 font-semibold">Symbol</th>
+        <th scope="col" class="px-4 py-2.5 font-semibold">Meaning</th>
+        <th scope="col" class="hidden w-32 px-4 py-2.5 font-semibold sm:table-cell">SI unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        variables.map((v) => (
+          <tr data-row-var={v.id} class="border-t border-border align-top transition-colors">
+            <td class="px-4 py-3 text-base" set:html={renderInlineMath(v.symbol)} />
+            <th scope="row" class="px-4 py-3 text-left font-normal">
+              <span class="font-medium text-text">{v.name}</span>
+              {v.kind !== 'variable' && (
+                <span class="ml-2 rounded border border-border px-1.5 py-px text-[0.7rem] uppercase tracking-wide text-muted">{v.kind}</span>
+              )}
+              <p class="mt-0.5 leading-relaxed text-muted">
+                <RichText text={v.description} />
+              </p>
+              {v.unit !== null && <p class="mt-1 text-muted sm:hidden">Unit: {unitText(v.unit)}</p>}
+            </th>
+            <td class="hidden whitespace-nowrap px-4 py-3 text-muted sm:table-cell">{unitText(v.unit)}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

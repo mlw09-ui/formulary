@@ -1,0 +1,94 @@
+id: drag-equation
+name: Drag Equation
+aliases: [Drag force, Aerodynamic drag, Air resistance]
+topic: physics/aerodynamics/lift-and-drag
+difficulty: basic
+summary: Drag force on a body from fluid density, speed, reference area and drag coefficient.
+
+latex: |-
+  \sym{D}{D} = \tfrac{1}{2}\,\sym{rho}{\rho}\,\sym{v}{v}^{2}\,\sym{S}{S}\,\sym{CD}{C_D}
+
+variables:
+  - id: D
+    symbol: D
+    name: Drag force
+    unit: N
+    description: Aerodynamic force component parallel to, and opposing, the oncoming flow.
+    searchAliases: [drag, air resistance]
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the undisturbed fluid.
+    searchAliases: [density]
+  - id: v
+    symbol: v
+    name: Flow speed
+    unit: m/s
+    description: Speed of the body relative to the undisturbed fluid.
+    searchAliases: [speed, velocity, airspeed]
+  - id: S
+    symbol: S
+    name: Reference area
+    unit: m²
+    description: >-
+      The area $C_D$ was defined with: wing planform area for aircraft, frontal area for cars
+      and cyclists.
+    searchAliases: [area, frontal area]
+  - id: CD
+    symbol: C_D
+    name: Drag coefficient
+    unit: '1'
+    description: Dimensionless drag coefficient. Depends on shape, Reynolds number, Mach number and (for wings) lift.
+    searchAliases: [CD, drag coefficient]
+
+assumptions:
+  - $C_D$ must be measured or computed for the **same** Reynolds number, Mach number, attitude and configuration.
+  - '$C_D$ and $S$ must use the same reference area: frontal area and planform area give very different $C_D$ values.'
+  - $v$ is relative to the undisturbed fluid (true airspeed, including any wind).
+  - Steady flow.
+  - For a wing, $C_D$ includes lift-induced drag, which changes with $C_L$. See the induced-drag coefficient.
+
+intuition: >-
+  Drag is the dynamic pressure, the kinetic energy per volume of the oncoming air, acting on an
+  effective area $C_D S$. Because it grows with $v^2$, the power needed to overcome drag ($D \cdot v$) grows
+  with $v^3$. Cycling twice as fast takes about eight times the power. Streamlining reduces $C_D$: a flat
+  plate has $C_D \approx 1.2$, a good teardrop shape about 0.04.
+
+derivation:
+  - note: Dimensional analysis, exactly as for lift. Drag on a given shape depends on $\rho$, $v$, size, viscosity $\mu$ and speed of sound $a$.
+    latex: D = f(\rho,\ v,\ S,\ \mu,\ a) \quad\Rightarrow\quad \frac{D}{\tfrac{1}{2}\rho v^2 S} = C_D(\mathrm{Re},\ \mathrm{M},\ \text{shape})
+  - note: Rearranging defines the drag equation, with all the shape physics inside $C_D$.
+    latex: D = \tfrac{1}{2}\rho v^2 S\, C_D
+
+example:
+  title: Drag on a light aircraft in cruise
+  problem: >-
+    The light aircraft from the lift-equation example (wing area 16.2 m²) cruises at 55 m/s at sea level
+    with a total drag coefficient of 0.030, based on wing area. What is the drag, and what power must the engine deliver to overcome it?
+  given:
+    rho: 1.225
+    v: 55
+    S: 16.2
+    CD: 0.03
+    a: 340.3
+  solveFor: D
+  expected:
+    D: 900.466875
+  tolerance: 1.0e-9
+  steps:
+    - latex: q = \tfrac{1}{2}\rho v^2 = \tfrac{1}{2}(1.225)(55)^2 = 1852.8\ \text{Pa}
+    - latex: D = q\,S\,C_D = 1852.8 \times 16.2 \times 0.030 = 900.5\ \text{N}
+    - note: Power to overcome drag, $P = D v = 900.5 \times 55 = 49.5$ kW. With a propeller efficiency of about 0.8, the engine must make about 62 kW (83 hp).
+  answer: $D \approx 900\ \text{N}$, requiring about 50 kW of thrust power.
+  sources:
+    - value: ρ = 1.225 kg/m³, a = 340.3 m/s
+      source: ICAO / ISA Standard Atmosphere, sea level.
+    - value: C_D = 0.030, S = 16.2 m²
+      source: Illustrative values typical of a four-seat light aircraft in cruise (total drag including induced drag).
+
+calculator:
+  solvable: [D, rho, v, S, CD]
+
+related: [lift-equation, dynamic-pressure, induced-drag-coefficient, reynolds-number]
+tags: [drag, air resistance, aerodynamics, drag coefficient, dynamic pressure, cycling, cars]

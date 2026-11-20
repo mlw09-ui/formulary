@@ -1,0 +1,78 @@
+---
+import { renderDisplay, stripSym } from '../lib/latex';
+
+interface Props {
+  latex: string;
+  name: string;
+}
+const { latex, name } = Astro.props;
+const clean = stripSym(latex);
+---
+
+<figure class="relative rounded-xl border border-border bg-raised">
+  <div
+    class="formula-main overflow-x-auto px-5 pb-8 pt-14 sm:px-10 sm:py-12"
+    tabindex="0"
+    role="region"
+    aria-label={`${name}: formula. Hover a symbol to highlight it in the variable table.`}
+    set:html={renderDisplay(latex)}
+  />
+  <figcaption class="sr-only">{name}</figcaption>
+  <button
+    type="button"
+    data-copy-latex={clean}
+    class="absolute right-3 top-3 flex items-center gap-1.5 rounded-md border border-border bg-raised px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-border-strong hover:text-text"
+  >
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
+    </svg>
+    <span data-copy-label>Copy LaTeX</span>
+  </button>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-latex]').forEach((btn) => {
+    const label = btn.querySelector('[data-copy-label]')!;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copyLatex!);
+        label.textContent = 'Copied';
+      } catch {
+        label.textContent = 'Copy failed';
+      }
+      setTimeout(() => (label.textContent = 'Copy LaTeX'), 1800);
+    });
+  });
+
+  // Mark which edges of wide formulas hide content (styled in global.css).
+  const markOverflow = (el: HTMLElement) => {
+    const left = el.scrollLeft > 1;
+    const right = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+    const v = [left && 'left', right && 'right'].filter(Boolean).join(' ');
+    if (v) el.dataset.overflow = v;
+    else delete el.dataset.overflow;
+  };
+  const resize = new ResizeObserver((entries) => entries.forEach((e) => markOverflow(e.target as HTMLElement)));
+  document.querySelectorAll<HTMLElement>('.formula-main, .math-block .katex-display').forEach((el) => {
+    el.addEventListener('scroll', () => markOverflow(el), { passive: true });
+    resize.observe(el);
+    markOverflow(el);
+  });
+
+  // Link formula symbols ↔ variable-table rows on hover.
+  const highlight = (id: string, on: boolean) => {
+    document
+      .querySelectorAll(`.formula-main [data-var="${CSS.escape(id)}"], tr[data-row-var="${CSS.escape(id)}"]`)
+      .forEach((el) => el.classList.toggle('is-hl', on));
+  };
+  const bind = (el: Element, id: string) => {
+    el.addEventListener('mouseenter', () => highlight(id, true));
+    el.addEventListener('mouseleave', () => highlight(id, false));
+  };
+  document.querySelectorAll<HTMLElement>('.formula-main [data-var]').forEach((el) => bind(el, el.dataset.var!));
+  document.querySelectorAll<HTMLElement>('tr[data-row-var]').forEach((el) => {
+    bind(el, el.dataset.rowVar!);
+    el.addEventListener('focusin', () => highlight(el.dataset.rowVar!, true));
+    el.addEventListener('focusout', () => highlight(el.dataset.rowVar!, false));
+  });
+</script>

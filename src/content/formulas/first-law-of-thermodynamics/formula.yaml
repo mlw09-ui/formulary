@@ -1,0 +1,75 @@
+id: first-law-of-thermodynamics
+name: First Law of Thermodynamics
+aliases: [Conservation of energy, Energy balance for a closed system, ΔU = Q − W]
+topic: physics/thermodynamics/energy-and-state
+difficulty: intermediate
+summary: The change in a system's internal energy equals heat added to it minus work it does.
+
+latex: |-
+  \sym{dU}{\Delta U} = \sym{Q}{Q} - \sym{W}{W}
+
+variables:
+  - id: dU
+    symbol: \Delta U
+    name: Change in internal energy
+    unit: J
+    description: Change in the system's internal energy (thermal and chemical energy of its molecules).
+    searchAliases: [internal energy, delta u]
+  - id: Q
+    symbol: Q
+    name: Heat added
+    unit: J
+    description: Heat transferred **into** the system. Negative if the system loses heat.
+    searchAliases: [heat]
+  - id: W
+    symbol: W
+    name: Work done by the system
+    unit: J
+    description: Work done **by** the system on its surroundings (e.g. a gas expanding against a piston). Negative if work is done on it.
+    searchAliases: [work]
+
+assumptions:
+  - '**Closed system**: no mass crosses the boundary. For flowing (open) systems use enthalpy: $\dot Q - \dot W_s = \dot m\,\Delta h$ (plus kinetic and potential terms).'
+  - >-
+    **Sign convention**: $W$ is work done **by** the system (engineering/physics convention). Chemistry and
+    IUPAC texts use work done **on** the system, $\Delta U = Q + W$. Same physics, opposite sign.
+  - The system's kinetic and potential energy as a whole are unchanged (otherwise $\Delta E = \Delta U + \Delta E_k + \Delta E_p$).
+
+intuition: >-
+  Energy is conserved, and heat is one of its forms. Energy you add as heat either stays inside as
+  internal energy (the system gets hotter) or leaves again as work (a piston moves). The first law cannot tell
+  you which way processes run. It allows a cold cup of tea to heat itself by cooling the room. That
+  restriction belongs to the second law.
+
+derivation:
+  - note: >-
+      The first law is a postulate, generalising Joule's experiments: the same temperature rise can be
+      produced by stirring (work) or heating (heat), in a fixed ratio. So both are forms of energy transfer,
+      and the internal energy $U$ is a state function.
+    latex: dU = \delta Q - \delta W
+  - note: For a gas expanding quasi-statically against a piston, the work is $p\,dV$. Integrating over a process gives the finite form.
+    latex: \delta W = p\,dV, \qquad \Delta U = Q - \int p\,dV = Q - W
+
+example:
+  title: Heating a gas in a cylinder
+  problem: A gas in a cylinder absorbs 500 J of heat while it expands and pushes a piston, doing 200 J of work. What is the change in its internal energy?
+  given:
+    Q: 500
+    W: 200
+  solveFor: dU
+  expected:
+    dU: 300
+  tolerance: 1.0e-9
+  steps:
+    - latex: \Delta U = Q - W = 500\ \text{J} - 200\ \text{J} = 300\ \text{J}
+    - note: The internal energy rises by 300 J, so for an ideal gas its temperature rises. The other 200 J left as mechanical work.
+  answer: $\Delta U = +300\ \text{J}$
+  sources:
+    - value: Q = 500 J, W = 200 J
+      source: Illustrative choice.
+
+calculator:
+  solvable: [dU, Q, W]
+
+related: [ideal-gas-law, sensible-heat, carnot-efficiency, work]
+tags: [energy conservation, internal energy, heat, work, thermodynamics, closed system]

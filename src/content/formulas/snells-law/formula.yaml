@@ -1,0 +1,84 @@
+id: snells-law
+name: Snell's Law
+aliases: [Law of refraction, Snell–Descartes law]
+topic: physics/waves-and-optics/geometric-optics
+difficulty: basic
+summary: How much a ray of light bends when it crosses from one medium into another.
+
+latex: |-
+  \sym{n1}{n_1}\sin\sym{th1}{\theta_1} = \sym{n2}{n_2}\sin\sym{th2}{\theta_2}
+
+variables:
+  - id: n1
+    symbol: n_1
+    name: Refractive index, medium 1
+    unit: '1'
+    description: Refractive index of the medium the light comes from (vacuum 1, air 1.0003, water 1.333, glass ≈ 1.5).
+    searchAliases: [refractive index, index of refraction]
+  - id: th1
+    symbol: \theta_1
+    name: Angle of incidence
+    unit: °
+    description: Angle between the incoming ray and the normal to the surface. The calculator uses degrees.
+    searchAliases: [incidence angle, angle]
+  - id: n2
+    symbol: n_2
+    name: Refractive index, medium 2
+    unit: '1'
+    description: Refractive index of the medium the light enters.
+  - id: th2
+    symbol: \theta_2
+    name: Angle of refraction
+    unit: °
+    description: Angle between the refracted ray and the normal.
+    searchAliases: [refraction angle]
+
+assumptions:
+  - '**Isotropic** media (the same in every direction). Birefringent crystals such as calcite split light into two rays.'
+  - A **smooth interface**, flat on the scale of the wavelength. Angles are measured from the **normal**, not from the surface.
+  - $n$ depends on wavelength (dispersion), so use values for the wavelength of interest. Tables usually give $n$ at 589 nm.
+  - '**Total internal reflection**: going from higher to lower $n$, beyond the critical angle $\theta_c = \arcsin(n_2/n_1)$, there is no refracted ray.'
+
+intuition: >-
+  Light travels slower in denser media ($v = c/n$). When a wavefront hits the boundary at an angle, the
+  part that enters first slows down first, so the front pivots, like a car whose right wheels hit sand
+  before its left. Entering a denser medium bends the ray toward the normal. Leaving it bends the ray away,
+  and past a critical angle it cannot leave at all. Optical fibres rely on that.
+
+derivation:
+  - note: >-
+      Fermat's principle: light takes the path of least time. From point A at height $a$ above the interface to B at depth
+      $b$ below it, crossing at horizontal position $x$ (total horizontal distance $d$):
+    latex: t(x) = \frac{n_1\sqrt{a^2 + x^2}}{c} + \frac{n_2\sqrt{b^2 + (d - x)^2}}{c}
+  - note: Set $dt/dx = 0$ for the fastest path.
+    latex: \frac{n_1\,x}{\sqrt{a^2 + x^2}} = \frac{n_2\,(d - x)}{\sqrt{b^2 + (d - x)^2}}
+  - note: The two fractions are the sines of the angles to the normal.
+    latex: n_1 \sin\theta_1 = n_2 \sin\theta_2
+
+example:
+  title: Light entering water
+  problem: A ray of yellow light in air strikes a calm water surface at 45° to the normal. At what angle does it travel in the water?
+  given:
+    n1: 1.000293
+    th1: 45
+    n2: 1.333
+  solveFor: th2
+  expected:
+    th2: 32.047229
+  tolerance: 1.0e-7
+  steps:
+    - latex: \sin\theta_2 = \frac{n_1}{n_2}\sin\theta_1 = \frac{1.000293}{1.333}\sin 45^\circ = 0.5306
+    - latex: \theta_2 = \arcsin(0.5306) = 32.05^\circ
+    - note: The ray bends toward the normal. In reverse, light from under water escapes only within $\theta_c = \arcsin(1.000293/1.333) = 48.6^\circ$ of the normal. Beyond that it is totally reflected, which is why the water surface looks like a mirror from below.
+  answer: $\theta_2 \approx 32.0^\circ$
+  sources:
+    - value: n_air = 1.000293, n_water = 1.333
+      source: Refractive indices at 589 nm (sodium D line), air at STP and water at 20 °C, standard tables (e.g. CRC Handbook).
+    - value: θ₁ = 45°
+      source: Illustrative choice.
+
+calculator:
+  solvable: [th2, th1, n1, n2]
+
+related: [wave-speed, photon-energy]
+tags: [refraction, optics, light, refractive index, total internal reflection, critical angle, lens]

@@ -1,0 +1,69 @@
+id: product-rule
+name: Product Rule
+aliases: [Leibniz rule, Derivative of a product]
+topic: mathematics/calculus/differentiation
+difficulty: basic
+summary: The derivative of a product of two functions is f′g + fg′.
+
+latex: |-
+  (\sym{f}{f}\,\sym{g}{g})' = \sym{fp}{f'}\,\sym{g}{g} + \sym{f}{f}\,\sym{gp}{g'}
+
+variables:
+  - id: f
+    symbol: f
+    name: First function
+    unit: null
+    description: A differentiable function $f(x)$.
+  - id: g
+    symbol: g
+    name: Second function
+    unit: null
+    description: A differentiable function $g(x)$.
+  - id: fp
+    symbol: f'
+    name: Derivative of f
+    unit: null
+    description: $f'(x) = df/dx$.
+    searchAliases: [derivative]
+  - id: gp
+    symbol: g'
+    name: Derivative of g
+    unit: null
+    description: $g'(x) = dg/dx$.
+
+assumptions:
+  - Both $f$ and $g$ are **differentiable** at the point.
+  - The derivative of a product is **not** the product of the derivatives, the most common calculus mistake.
+
+intuition: >-
+  Think of $f \cdot g$ as the area of a rectangle with sides $f$ and $g$. When $x$ changes slightly, both sides
+  grow. The area gains a strip $f'\,dx \cdot g$ along one side and a strip $f \cdot g'\,dx$ along the other. The tiny
+  corner square $f'g'\,dx^2$ is negligible. Each factor's change is weighted by the size of the other.
+
+derivation:
+  - note: Use the limit definition, and add and subtract $f(x+h)g(x)$ in the numerator.
+    latex: (fg)'(x) = \lim_{h\to0}\frac{f(x+h)g(x+h) - f(x+h)g(x) + f(x+h)g(x) - f(x)g(x)}{h}
+  - note: Group the terms.
+    latex: = \lim_{h\to0}\left[f(x+h)\,\frac{g(x+h) - g(x)}{h} + g(x)\,\frac{f(x+h) - f(x)}{h}\right]
+  - note: As $h \to 0$, $f(x+h) \to f(x)$ because differentiable functions are continuous.
+    latex: (fg)' = f\,g' + f'\,g
+
+example:
+  title: Differentiating x² sin x
+  problem: Differentiate $x^2 \sin x$.
+  steps:
+    - note: Take $f = x^2$ and $g = \sin x$, so $f' = 2x$ and $g' = \cos x$.
+      latex: \frac{d}{dx}\left(x^2\sin x\right) = 2x\,\sin x + x^2\cos x
+    - note: 'Check at $x = \pi$: $2\pi\sin\pi + \pi^2\cos\pi = -\pi^2 \approx -9.87$. A numerical difference quotient with $h = 10^{-5}$ gives $-9.8696$.'
+  answer: $2x\sin x + x^2\cos x$
+  sources:
+    - value: x² sin x
+      source: Illustrative choice. Exact result, checked numerically.
+
+calculator:
+  none: >-
+    The product rule turns two functions into the derivative of their product, a symbolic result rather than a number.
+    It has no single numeric unknown to compute.
+
+related: [chain-rule, power-rule, integration-by-parts]
+tags: [derivative, differentiation, calculus, product, leibniz]

@@ -1,0 +1,84 @@
+id: work
+name: Work Done by a Constant Force
+aliases: [Mechanical work, W = Fd cos θ]
+topic: physics/classical-mechanics/work-and-energy
+difficulty: basic
+summary: Energy transferred by a constant force acting over a straight-line displacement.
+
+latex: |-
+  \sym{W}{W} = \sym{F}{F}\,\sym{d}{d}\cos\sym{theta}{\theta}
+
+variables:
+  - id: W
+    symbol: W
+    name: Work
+    unit: J
+    description: Energy transferred to the body by the force. Negative when the force opposes the motion.
+    searchAliases: [work, energy]
+  - id: F
+    symbol: F
+    name: Force magnitude
+    unit: N
+    description: Magnitude of the (constant) applied force.
+    searchAliases: [force]
+  - id: d
+    symbol: d
+    name: Displacement
+    unit: m
+    description: Magnitude of the straight-line displacement of the point where the force acts.
+    searchAliases: [distance, displacement]
+  - id: theta
+    symbol: \theta
+    name: Angle
+    unit: °
+    description: Angle between the force and the displacement. The calculator uses degrees.
+    searchAliases: [angle, theta]
+
+assumptions:
+  - '**Constant force**, unchanged in magnitude and direction over the displacement. Otherwise integrate: $W = \int \mathbf{F}\cdot d\mathbf{s}$.'
+  - '**Straight-line displacement.** For a curved path, use the line integral.'
+  - $\theta$ is the angle between the force and the displacement, not the angle to the horizontal.
+  - This is the work done by **one** force. The net work done by all forces equals the change in kinetic energy.
+
+intuition: >-
+  Only the part of a force that points along the motion transfers energy. Pulling a sled with a
+  rope at an angle wastes the upward part of your pull, which does no work. A force perpendicular to
+  the motion ($\theta = 90^\circ$), like gravity on a puck sliding across flat ice, does no work at
+  all. Friction opposing the motion ($\theta = 180^\circ$) does negative work, taking energy away as heat.
+
+derivation:
+  - note: Work is defined as the line integral of force along the path.
+    latex: W = \int_{\text{path}} \mathbf{F}\cdot d\mathbf{s}
+  - note: For a constant force the integral of $d\mathbf{s}$ is just the displacement vector $\mathbf{d}$.
+    latex: W = \mathbf{F}\cdot\int d\mathbf{s} = \mathbf{F}\cdot\mathbf{d}
+  - note: The dot product of two vectors is the product of their magnitudes and the cosine of the angle between them.
+    latex: W = F\,d\cos\theta
+
+example:
+  title: Pulling a sled
+  problem: >-
+    You pull a sled 20 m across level snow with a rope that makes a 30° angle with the ground. The
+    tension in the rope is 100 N. How much work does the rope do?
+  given:
+    F: 100
+    d: 20
+    theta: 30
+  solveFor: W
+  expected:
+    W: 1732.0508
+  tolerance: 1.0e-6
+  steps:
+    - latex: W = F d \cos\theta = 100\ \text{N} \times 20\ \text{m} \times \cos 30^\circ = 2000 \times 0.8660 = 1732\ \text{J}
+    - note: >-
+        A horizontal pull of the same tension would do 2000 J. The 30° angle costs 13%, but the
+        upward component also lightens the sled on the snow, which reduces friction.
+  answer: $W \approx 1732\ \text{J}$
+  sources:
+    - value: F = 100 N, d = 20 m, θ = 30°
+      source: Illustrative choice.
+
+calculator:
+  solvable: [W, F, d, theta]
+
+related: [kinetic-energy, gravitational-potential-energy, newtons-second-law, dot-product]
+tags: [work, energy, force, displacement, dot product, mechanics]

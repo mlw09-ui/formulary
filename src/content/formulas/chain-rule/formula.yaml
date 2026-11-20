@@ -1,0 +1,81 @@
+id: chain-rule
+name: Chain Rule
+aliases: [Derivative of a composite function, Outer times inner derivative]
+topic: mathematics/calculus/differentiation
+difficulty: intermediate
+summary: The derivative of a function of a function is the outer derivative times the inner derivative.
+
+latex: |-
+  \sym{ddx}{\frac{d}{dx}}\,\sym{f}{f}\big(\sym{g}{g}(\sym{x}{x})\big) = \sym{fp}{f'}\big(\sym{g}{g}(\sym{x}{x})\big)\,\sym{gp}{g'}(\sym{x}{x})
+
+variables:
+  - id: ddx
+    symbol: \frac{d}{dx}
+    name: Derivative with respect to x
+    unit: null
+    kind: operator
+    description: The rate of change with respect to $x$.
+    searchAliases: [derivative, d/dx]
+  - id: f
+    symbol: f
+    name: Outer function
+    unit: null
+    description: The function applied last.
+  - id: g
+    symbol: g
+    name: Inner function
+    unit: null
+    description: The function applied first, $u = g(x)$.
+  - id: x
+    symbol: x
+    name: Variable
+    unit: null
+    description: The independent variable.
+  - id: fp
+    symbol: f'
+    name: Derivative of the outer function
+    unit: null
+    description: $f'$ evaluated at the inner value $g(x)$, **not** at $x$.
+  - id: gp
+    symbol: g'
+    name: Derivative of the inner function
+    unit: null
+    description: $g'(x) = dg/dx$.
+
+assumptions:
+  - $g$ is differentiable at $x$, and $f$ is differentiable at $g(x)$.
+  - '$f''$ is evaluated at $g(x)$. Forgetting this is the classic error.'
+  - In Leibniz notation, $\dfrac{dy}{dx} = \dfrac{dy}{du}\cdot\dfrac{du}{dx}$ with $u = g(x)$.
+
+intuition: >-
+  Rates of change multiply. If $u$ changes 3 times as fast as $x$, and $y$ changes 2 times as fast as $u$, then $y$
+  changes 6 times as fast as $x$. Like gears in a chain, each stage multiplies the rate. Leibniz notation makes this
+  look like cancelling fractions: $dy/du \cdot du/dx = dy/dx$. It isn't literally that, but it's a reliable
+  memory aid.
+
+derivation:
+  - note: Let $u = g(x)$ and $\Delta u = g(x + h) - g(x)$. When $\Delta u \neq 0$, multiply and divide by it.
+    latex: \frac{f(g(x+h)) - f(g(x))}{h} = \frac{f(u + \Delta u) - f(u)}{\Delta u}\cdot\frac{\Delta u}{h}
+  - note: As $h \to 0$, $\Delta u \to 0$ by continuity of $g$, so the first factor tends to $f'(u)$ and the second to $g'(x)$.
+    latex: \frac{d}{dx}f(g(x)) = f'(g(x))\,g'(x)
+  - note: A fully rigorous proof handles the case $\Delta u = 0$ by using an auxiliary function equal to $f'(u)$ there. The result is the same.
+
+example:
+  title: Differentiating sin(x²)
+  problem: Differentiate $\sin(x^2)$.
+  steps:
+    - note: Outer $f(u) = \sin u$ with $f'(u) = \cos u$. Inner $g(x) = x^2$ with $g'(x) = 2x$.
+      latex: \frac{d}{dx}\sin(x^2) = \cos(x^2)\cdot 2x = 2x\cos(x^2)
+    - note: 'Check at $x = 1$: $2\cos 1 = 1.0806$. The difference quotient $[\sin(1.00001^2) - \sin 1]/0.00001$ gives $1.0806$.'
+  answer: $2x\cos(x^2)$
+  sources:
+    - value: sin(x²)
+      source: Illustrative choice. Exact result, checked numerically.
+
+calculator:
+  none: >-
+    The chain rule produces the derivative of a composite function, which is a function rather than a number. There
+    is no single numeric unknown to compute.
+
+related: [product-rule, power-rule, integration-by-parts]
+tags: [derivative, differentiation, calculus, composite function, chain rule, leibniz notation]

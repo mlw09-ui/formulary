@@ -1,0 +1,77 @@
+id: sensible-heat
+name: Sensible Heat (Specific Heat Capacity)
+aliases: [Q = mcΔT, Heat capacity equation, Calorimetry equation]
+topic: physics/thermodynamics/heat-transfer
+difficulty: basic
+summary: Heat needed to change the temperature of a mass, without a change of phase.
+
+latex: |-
+  \sym{Q}{Q} = \sym{m}{m}\,\sym{c}{c}\,\sym{dT}{\Delta T}
+
+variables:
+  - id: Q
+    symbol: Q
+    name: Heat
+    unit: J
+    description: Heat added (positive) or removed (negative).
+    searchAliases: [heat, energy]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Mass of the substance being heated.
+    searchAliases: [mass]
+  - id: c
+    symbol: c
+    name: Specific heat capacity
+    unit: J/(kg·K)
+    description: Heat needed to raise 1 kg by 1 K. Water ≈ 4184, aluminium ≈ 900, iron ≈ 450.
+    searchAliases: [specific heat, heat capacity]
+  - id: dT
+    symbol: \Delta T
+    name: Temperature change
+    unit: K
+    description: Final minus initial temperature. A change of 1 K equals a change of 1 °C.
+    searchAliases: [temperature change, delta t]
+
+assumptions:
+  - '**No phase change** in the range. Melting or boiling absorbs latent heat $Q = mL$ at constant temperature.'
+  - '**$c$ is constant** over the temperature range (otherwise $Q = m\int c\,dT$). Water varies by about 1% between 0 and 100 °C.'
+  - '$c$ must match the conditions: $c_p$ (constant pressure) for liquids and solids or open containers, $c_v$ for gases at fixed volume.'
+  - No chemical reaction and no work done (otherwise use the first law).
+
+intuition: >-
+  Heating something takes energy in proportion to how much stuff there is and how much hotter you
+  make it. The specific heat says how "thermally heavy" a material is. Water's specific heat is
+  unusually high, about five times that of rock, which is why oceans moderate climate and why a pan of
+  water heats so slowly compared with the empty pan.
+
+example:
+  title: Boiling water for pasta
+  problem: How much heat is needed to raise 2 kg of water from 20 °C to 100 °C (not yet boiling it)?
+  given:
+    m: 2
+    c: 4184
+    dT: 80
+  solveFor: Q
+  expected:
+    Q: 669440
+  tolerance: 1.0e-9
+  steps:
+    - latex: \Delta T = 100 - 20 = 80\ \text{K}
+    - latex: Q = m c \Delta T = 2 \times 4184 \times 80 = 669\,440\ \text{J} \approx 670\ \text{kJ}
+    - note: On a 2 kW electric hob at about 70% efficiency, that takes $669\,440 / (0.7 \times 2000) \approx 480$ s, eight minutes. Actually boiling the water away would need a further $mL = 2 \times 2.26\ \text{MJ} = 4.5$ MJ.
+  answer: $Q \approx 670\ \text{kJ}$
+  sources:
+    - value: c = 4184 J/(kg·K)
+      source: Specific heat of liquid water near room temperature, standard tables (4.18–4.22 kJ/(kg·K) over 0–100 °C).
+    - value: L = 2.26 MJ/kg
+      source: Latent heat of vaporisation of water at 100 °C, standard tables.
+    - value: m = 2 kg, hob efficiency 70%
+      source: Illustrative choice.
+
+calculator:
+  solvable: [Q, m, c, dT]
+
+related: [first-law-of-thermodynamics, fourier-law, kinetic-energy]
+tags: [heat, specific heat, calorimetry, temperature, thermal energy, thermodynamics]

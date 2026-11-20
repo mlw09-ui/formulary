@@ -1,0 +1,37 @@
+---
+import RichText from './RichText.astro';
+import { renderDisplay } from '../lib/latex';
+import type { Step } from '../lib/schema';
+
+interface Props {
+  steps: Step[];
+  numbered?: boolean;
+}
+const { steps, numbered = true } = Astro.props;
+---
+
+<ol class="space-y-5">
+  {
+    steps.map((s, i) => (
+      <li class="flex gap-4">
+        {numbered && (
+          <span
+            aria-hidden="true"
+            class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border-strong text-xs font-medium tabular-nums text-muted"
+          >
+            {i + 1}
+          </span>
+        )}
+        <div class="min-w-0 flex-1">
+          {numbered && <span class="sr-only">Step {i + 1}: </span>}
+          {s.note && (
+            <p class="prose-text text-text">
+              <RichText text={s.note} />
+            </p>
+          )}
+          {s.latex && <div class="math-block mt-1" set:html={renderDisplay(s.latex)} />}
+        </div>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
+import { getLibrary } from '../../lib/content';
+import { href } from '../../lib/url';
+
+export function getStaticPaths() {
+  return getLibrary().domains.map((d) => ({ params: { domain: d.id }, props: { id: d.id } }));
+}
+
+const domain = getLibrary().domains.find((d) => d.id === Astro.props.id)!;
+---
+
+<Base title={domain.name} description={domain.description}>
+  <PageHeader crumbs={[]} title={domain.name} description={domain.description} icon={domain.icon} />
+  <div class="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
+    <h2 class="sr-only">Fields</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        domain.fields.map((f) => (
+          <CategoryCard
+            href={href(f.path)}
+            title={f.name}
+            description={f.description}
+            count={f.count}
+            icon={f.icon}
+            meta={`${f.topics.length} topic${f.topics.length === 1 ? '' : 's'}`}
+            headingLevel="h3"
+          />
+        ))
+      }
+    </div>
+  </div>
+</Base>

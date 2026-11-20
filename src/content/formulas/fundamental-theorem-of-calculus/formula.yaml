@@ -1,0 +1,76 @@
+id: fundamental-theorem-of-calculus
+name: Fundamental Theorem of Calculus
+aliases: [FTC, Newton–Leibniz formula, Evaluation theorem]
+topic: mathematics/calculus/integration
+difficulty: intermediate
+summary: A definite integral equals the change in any antiderivative between the limits; differentiation and integration are inverses.
+
+latex: |-
+  \int_{\sym{a}{a}}^{\sym{b}{b}} \sym{f}{f}(\sym{x}{x})\,d\sym{x}{x} = \sym{F}{F}(\sym{b}{b}) - \sym{F}{F}(\sym{a}{a}), \qquad \sym{F}{F}' = \sym{f}{f}
+
+variables:
+  - id: a
+    symbol: a
+    name: Lower limit
+    unit: null
+    description: Start of the integration interval.
+  - id: b
+    symbol: b
+    name: Upper limit
+    unit: null
+    description: End of the integration interval.
+  - id: f
+    symbol: f
+    name: Integrand
+    unit: null
+    description: The function being integrated, continuous on $[a, b]$.
+  - id: x
+    symbol: x
+    name: Integration variable
+    unit: null
+    description: The (dummy) variable of integration.
+  - id: F
+    symbol: F
+    name: Antiderivative
+    unit: null
+    description: Any function whose derivative is $f$. The constant of integration cancels.
+    searchAliases: [antiderivative, primitive, indefinite integral]
+
+assumptions:
+  - '$f$ is **continuous** on $[a, b]$ (more generally, Riemann integrable with an antiderivative $F$).'
+  - $F$ is an antiderivative on the **whole** interval. Integrating across a discontinuity, such as $1/x^2$ from −1 to 1, gives a wrong answer.
+  - 'Part 1 of the theorem: $\dfrac{d}{dx}\displaystyle\int_a^x f(t)\,dt = f(x)$. Part 2, shown above, is the evaluation formula.'
+
+intuition: >-
+  The area under a speed–time graph is the distance travelled, and distance is what you differentiate to get speed.
+  So adding up infinitely many tiny pieces (integration) undoes taking rates of change (differentiation). Instead
+  of summing slivers, you can just look at the total change in an antiderivative between the two ends. This
+  connection between areas and slopes is what makes calculus useful.
+
+derivation:
+  - note: >-
+      Part 1. Define the accumulated area $A(x) = \int_a^x f(t)\,dt$. For small $h$, the extra area from $x$ to $x + h$
+      is close to a thin rectangle of height $f(x)$.
+    latex: A(x+h) - A(x) = \int_x^{x+h} f(t)\,dt \approx f(x)\,h \quad\Rightarrow\quad A'(x) = f(x)
+  - note: 'Part 2. $A$ and any antiderivative $F$ have the same derivative, so they differ by a constant: $A(x) = F(x) + C$.'
+    latex: A(a) = 0 \Rightarrow C = -F(a), \qquad \int_a^b f(x)\,dx = A(b) = F(b) - F(a)
+
+example:
+  title: Area under a parabola
+  problem: Evaluate $\int_0^2 3x^2\,dx$.
+  steps:
+    - note: An antiderivative of $3x^2$ is $F(x) = x^3$ (power rule in reverse).
+      latex: \int_0^2 3x^2\,dx = \Big[x^3\Big]_0^2 = 2^3 - 0^3 = 8
+    - note: 'Check with a Riemann sum of 1000 midpoint rectangles: $\sum 3x_i^2\,\Delta x = 7.999998$, converging to 8.'
+  answer: $\int_0^2 3x^2\,dx = 8$
+  sources:
+    - value: ∫₀² 3x² dx
+      source: Illustrative choice. Exact result, checked numerically.
+
+calculator:
+  none: >-
+    The theorem connects integrals and antiderivatives in general. A calculator for it would need to integrate
+    arbitrary functions symbolically or numerically, which is beyond a formula calculator.
+
+related: [integration-by-parts, power-rule, taylor-series]
+tags: [integral, definite integral, antiderivative, calculus, area, newton-leibniz]

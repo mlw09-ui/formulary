@@ -1,0 +1,82 @@
+id: bayes-theorem
+name: Bayes' Theorem
+aliases: [Bayes' rule, Bayes' law, Conditional probability inversion]
+topic: mathematics/probability-and-statistics/probability
+difficulty: intermediate
+summary: Updates the probability of a hypothesis A after observing evidence B.
+
+latex: |-
+  \sym{pAgB}{P(A \mid B)} = \frac{\sym{pBgA}{P(B \mid A)}\;\sym{pA}{P(A)}}{\sym{pB}{P(B)}}
+
+variables:
+  - id: pAgB
+    symbol: P(A \mid B)
+    name: Posterior
+    unit: null
+    description: Probability of $A$ given that $B$ has been observed.
+    searchAliases: [posterior]
+  - id: pBgA
+    symbol: P(B \mid A)
+    name: Likelihood
+    unit: null
+    description: Probability of observing $B$ if $A$ is true (e.g. a test's sensitivity).
+    searchAliases: [likelihood, sensitivity]
+  - id: pA
+    symbol: P(A)
+    name: Prior
+    unit: null
+    description: Probability of $A$ before seeing the evidence (e.g. prevalence).
+    searchAliases: [prior, base rate, prevalence]
+  - id: pB
+    symbol: P(B)
+    name: Evidence (marginal probability)
+    unit: null
+    description: Overall probability of observing $B$, $P(B) = P(B \mid A)P(A) + P(B \mid \neg A)P(\neg A)$.
+    searchAliases: [evidence, marginal]
+
+assumptions:
+  - $P(B) > 0$. You cannot condition on an impossible event.
+  - '$P(B)$ must be the **total** probability of $B$, including the ways $B$ happens when $A$ is false (false positives). Leaving that out is the usual mistake.'
+  - The probabilities must describe the **same population**, for example the prevalence among people like the one being tested.
+
+intuition: >-
+  Bayes' theorem turns "how likely is the evidence if the hypothesis is true?" into "how likely is the hypothesis now
+  that we see the evidence?". Those two are very different. A test that is 99% sensitive does not make a positive
+  result 99% reliable. If the condition is rare, most positives come from the large healthy population via false
+  positives. Ignoring the prior (the "base-rate fallacy") is one of the most common reasoning errors in medicine
+  and law.
+
+derivation:
+  - note: By the definition of conditional probability, the joint probability of $A$ and $B$ can be written two ways.
+    latex: P(A \cap B) = P(A \mid B)\,P(B) = P(B \mid A)\,P(A)
+  - note: Divide by $P(B)$.
+    latex: P(A \mid B) = \frac{P(B \mid A)\,P(A)}{P(B)}
+
+example:
+  title: A positive medical test
+  problem: >-
+    A disease affects 1% of people. A test detects it 99% of the time when present (sensitivity), but also gives a false
+    positive in 5% of healthy people. If you test positive, what is the probability that you have the disease?
+  given:
+    pBgA: 0.99
+    pA: 0.01
+    pB: 0.0594
+  solveFor: pAgB
+  expected:
+    pAgB: 0.1666666667
+  tolerance: 1.0e-9
+  steps:
+    - note: '$A$ is "has the disease", $B$ is "tests positive". First, the total probability of testing positive:'
+      latex: P(B) = \underbrace{0.99 \times 0.01}_{\text{true positives}} + \underbrace{0.05 \times 0.99}_{\text{false positives}} = 0.0099 + 0.0495 = 0.0594
+    - latex: P(A \mid B) = \frac{0.99 \times 0.01}{0.0594} = \frac{0.0099}{0.0594} = 0.167
+    - note: Only 1 in 6 positive results is a true case. Out of 10 000 people, 99 sick people test positive and 495 healthy people test positive. A second, independent test would sharpen this a lot.
+  answer: $P(\text{disease} \mid \text{positive}) \approx 16.7\%$, not 99%.
+  sources:
+    - value: Prevalence 1%, sensitivity 99%, false-positive rate 5%
+      source: Illustrative values (the classic base-rate example, cf. Gigerenzer, Calculated Risks, 2002).
+
+calculator:
+  solvable: [pAgB, pBgA, pA, pB]
+
+related: [normal-distribution, arithmetic-mean]
+tags: [probability, conditional probability, bayes, posterior, prior, base rate fallacy, statistics, inference]

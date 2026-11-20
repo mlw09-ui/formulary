@@ -1,0 +1,110 @@
+id: darcy-weisbach
+name: Darcy–Weisbach Equation
+aliases: [Pipe friction loss, Head loss equation, Major losses]
+topic: physics/fluid-mechanics/internal-flow
+difficulty: intermediate
+summary: Pressure lost to friction in a pipe, for laminar or turbulent flow, via the Darcy friction factor.
+
+latex: |-
+  \sym{dp}{\Delta p} = \sym{f}{f}\,\frac{\sym{L}{L}}{\sym{D}{D}}\,\frac{\sym{rho}{\rho}\,\sym{v}{v}^{2}}{2}
+
+variables:
+  - id: dp
+    symbol: \Delta p
+    name: Pressure loss
+    unit: Pa
+    description: Pressure drop due to wall friction along the pipe. In head form, $h_f = \Delta p / (\rho g)$.
+    searchAliases: [pressure drop, head loss, friction loss, dp]
+  - id: f
+    symbol: f
+    name: Darcy friction factor
+    unit: '1'
+    description: >-
+      Dimensionless friction factor. Laminar: $f = 64/\mathrm{Re}$. Turbulent: from the Moody chart or
+      the Colebrook equation. (Not the Fanning factor, which is 4 times smaller.)
+    searchAliases: [friction factor, darcy, moody]
+  - id: L
+    symbol: L
+    name: Pipe length
+    unit: m
+    description: Length of straight pipe.
+    searchAliases: [length]
+  - id: D
+    symbol: D
+    name: Inner diameter
+    unit: m
+    description: Internal diameter of the pipe (hydraulic diameter for non-circular ducts).
+    searchAliases: [diameter]
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the fluid.
+    searchAliases: [density]
+  - id: v
+    symbol: v
+    name: Mean velocity
+    unit: m/s
+    description: Mean flow velocity, $Q/A$.
+    searchAliases: [velocity, speed]
+
+assumptions:
+  - Steady, fully developed, incompressible flow in a straight pipe of constant cross-section.
+  - '**$f$ must match the flow regime and pipe roughness.** Using the laminar $64/\mathrm{Re}$ in turbulent flow, or a smooth-pipe value for a corroded pipe, gives wrong answers.'
+  - This covers friction along straight pipe only ("major losses"). Bends, valves and fittings add "minor losses" $K\,\rho v^2/2$.
+  - For non-circular ducts, use the hydraulic diameter $D_h = 4A/P$ (accurate for turbulent flow, approximate for laminar).
+
+intuition: >-
+  Friction losses grow with the dynamic pressure $\rho v^2/2$: double the flow speed and the loss roughly
+  quadruples. They also grow with how many diameters long the pipe is ($L/D$). All the messy physics of
+  wall shear (roughness, turbulence, laminar layers) is collected into one number, $f$. In laminar flow,
+  $f = 64/\mathrm{Re}$ and the equation reproduces Hagen–Poiseuille exactly.
+
+derivation:
+  - note: >-
+      Force balance on a fully developed pipe section: the pressure force on the cross-section balances
+      the wall shear stress $\tau_w$ on the pipe wall.
+    latex: \Delta p\,\frac{\pi D^2}{4} = \tau_w\,\pi D L \quad\Rightarrow\quad \Delta p = \frac{4\tau_w L}{D}
+  - note: Dimensional analysis shows $\tau_w$ scales with the dynamic pressure, with a coefficient depending on Re and relative roughness. Define $f$ through that coefficient.
+    latex: \tau_w = \frac{f}{8}\,\rho v^2, \qquad f = f\!\left(\mathrm{Re},\ \frac{\varepsilon}{D}\right)
+  - note: Substitute into the force balance.
+    latex: \Delta p = f\,\frac{L}{D}\,\frac{\rho v^2}{2}
+  - note: 'Laminar check: with $f = 64/\mathrm{Re}$ and $\mathrm{Re} = \rho v D/\mu$, this becomes $\Delta p = 32\mu L v/D^2$, which is exactly the Hagen–Poiseuille equation.'
+
+example:
+  title: Pressure loss in a 100 m water pipe
+  problem: >-
+    Water at 20 °C flows at 1 m/s through 100 m of smooth pipe with 50 mm inner diameter (Re ≈ 49 800,
+    turbulent). Using a friction factor of 0.0211, find the pressure loss.
+  given:
+    f: 0.0211
+    L: 100
+    D: 0.05
+    rho: 998.2
+    v: 1
+    mu: 1.002e-3
+  solveFor: dp
+  expected:
+    dp: 21062.02
+  tolerance: 1.0e-6
+  steps:
+    - note: >-
+        Friction factor for a smooth pipe at Re = 49 800, from the Blasius correlation
+        (valid for smooth pipes, $4000 < \mathrm{Re} < 10^5$):
+      latex: f = \frac{0.316}{\mathrm{Re}^{1/4}} = \frac{0.316}{49\,810^{1/4}} = 0.0211
+    - latex: \Delta p = f\frac{L}{D}\frac{\rho v^2}{2} = 0.0211 \times \frac{100}{0.05} \times \frac{998.2 \times 1^2}{2} = 0.0211 \times 2000 \times 499.1 = 21\,062\ \text{Pa}
+    - note: That is about 21 kPa, or a head loss of $h_f = \Delta p/(\rho g) = 2.15$ m of water. Hagen–Poiseuille would predict only 1.28 kPa here, 16 times too low, because the flow is turbulent.
+  answer: $\Delta p \approx 21.1\ \text{kPa}$ (2.15 m of head).
+  sources:
+    - value: ρ = 998.2 kg/m³, μ = 1.002 × 10⁻³ Pa·s
+      source: Water at 20 °C, standard property tables (e.g. CRC Handbook).
+    - value: f = 0.316 Re^(−1/4)
+      source: Blasius correlation for smooth pipes (White, Fluid Mechanics, §6.6), consistent with the Moody chart.
+    - value: v = 1 m/s, L = 100 m, D = 50 mm
+      source: Illustrative choice.
+
+calculator:
+  solvable: [dp, f, L, D, v]
+
+related: [hagen-poiseuille, reynolds-number, bernoulli-equation]
+tags: [pipe flow, friction factor, head loss, pressure drop, turbulent, moody chart, colebrook]

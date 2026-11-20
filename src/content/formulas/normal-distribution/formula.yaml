@@ -1,0 +1,86 @@
+id: normal-distribution
+name: Normal Distribution
+aliases: [Gaussian distribution, Bell curve, Normal probability density function]
+topic: mathematics/probability-and-statistics/probability
+difficulty: intermediate
+summary: The bell-shaped probability density defined by a mean and a standard deviation.
+
+latex: |-
+  \sym{f}{f}(\sym{x}{x}) = \frac{1}{\sym{sigma}{\sigma}\sqrt{2\pi}}\,\exp\!\left(-\frac{(\sym{x}{x} - \sym{mu}{\mu})^2}{2\sym{sigma}{\sigma}^2}\right)
+
+variables:
+  - id: f
+    symbol: f(x)
+    name: Probability density
+    unit: null
+    description: Density at $x$, in units of 1/(units of $x$). **Not** a probability; probabilities are areas under $f$.
+    searchAliases: [pdf, density]
+  - id: x
+    symbol: x
+    name: Value
+    unit: null
+    description: The value at which to evaluate the density.
+  - id: mu
+    symbol: \mu
+    name: Mean
+    unit: null
+    description: Centre of the distribution (also its median and mode).
+    searchAliases: [mean, mu]
+  - id: sigma
+    symbol: \sigma
+    name: Standard deviation
+    unit: null
+    description: Spread of the distribution. About 68% of values lie within $\mu \pm \sigma$.
+    searchAliases: [standard deviation, sigma]
+
+assumptions:
+  - $\sigma > 0$.
+  - '$f(x)$ is a **density**, so it can exceed 1. To get a probability, integrate: $P(a < X < b) = \int_a^b f(x)\,dx$, usually via the CDF $\Phi$.'
+  - '**Modelling assumption**: real data are only approximately normal. Heights, measurement errors and averages of many independent effects often are (central limit theorem). Incomes, waiting times and anything bounded at zero with a long tail usually are not.'
+
+intuition: >-
+  The bell curve appears whenever many small, independent effects add up, which is the central limit theorem. The
+  mean sets its centre and the standard deviation its width. The famous "68–95–99.7 rule" says that 68%, 95% and
+  99.7% of values lie within 1, 2 and 3 standard deviations of the mean. The factor in front makes the total area
+  exactly 1, and the exponent makes the density fall off very fast away from the centre.
+
+derivation:
+  - note: >-
+      Gauss's argument: suppose measurement errors are independent, symmetric, and the most likely true value is the average
+      of the measurements. Gauss showed that these requirements force the error density to have the form
+    latex: f(x) = C\,e^{-k(x - \mu)^2}
+  - note: Normalisation, using the Gaussian integral $\int_{-\infty}^{\infty} e^{-k u^2}\,du = \sqrt{\pi/k}$, fixes $C$.
+    latex: \int_{-\infty}^{\infty} f\,dx = 1 \quad\Rightarrow\quad C = \sqrt{k/\pi}
+  - note: Requiring the variance to be $\sigma^2$ fixes $k = 1/(2\sigma^2)$.
+    latex: f(x) = \frac{1}{\sigma\sqrt{2\pi}}\,e^{-(x-\mu)^2/(2\sigma^2)}
+
+example:
+  title: IQ scores
+  problem: >-
+    IQ scores are normed to a normal distribution with mean 100 and standard deviation 15. Evaluate the density at
+    $x = 115$, and the fraction of people scoring 115 or less.
+  given:
+    x: 115
+    mu: 100
+    sigma: 15
+  solveFor: f
+  expected:
+    f: 0.0161313816
+  tolerance: 1.0e-8
+  steps:
+    - latex: f(115) = \frac{1}{15\sqrt{2\pi}}\,e^{-(115-100)^2/(2\cdot15^2)} = 0.026596 \times e^{-0.5} = 0.016131
+    - note: This is a density, per IQ point. Roughly 1.6% of people score within half a point either side of 115.
+    - note: 'The fraction at or below 115 is the area to its left, at $z = (115 - 100)/15 = 1$:'
+      latex: P(X \le 115) = \Phi(1) = \tfrac{1}{2}\left[1 + \operatorname{erf}\!\left(1/\sqrt{2}\right)\right] = 0.8413
+  answer: $f(115) \approx 0.0161$ per point; 84.1% of people score 115 or less.
+  sources:
+    - value: μ = 100, σ = 15
+      source: Norming convention of the Wechsler intelligence scales (WAIS).
+    - value: Φ(1) = 0.84134
+      source: Standard normal table.
+
+calculator:
+  solvable: [f]
+
+related: [standard-deviation, arithmetic-mean, bayes-theorem, binomial-theorem]
+tags: [normal distribution, gaussian, bell curve, probability, statistics, z-score, pdf, central limit theorem]

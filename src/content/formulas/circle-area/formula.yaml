@@ -1,0 +1,62 @@
+id: circle-area
+name: Area of a Circle
+aliases: [πr², Disc area]
+topic: mathematics/geometry-and-trigonometry/circles-and-spheres
+difficulty: basic
+summary: The area enclosed by a circle is π times the radius squared.
+
+latex: |-
+  \sym{A}{A} = \pi\,\sym{r}{r}^{2}
+
+variables:
+  - id: A
+    symbol: A
+    name: Area
+    unit: m²
+    description: Area of the disc enclosed by the circle.
+    searchAliases: [area]
+  - id: r
+    symbol: r
+    name: Radius
+    unit: m
+    description: Distance from the centre to the circle. The diameter is $d = 2r$, so $A = \pi d^2/4$.
+    searchAliases: [radius, diameter]
+
+assumptions:
+  - A perfect circle in a **flat (Euclidean) plane**.
+  - $r$ is the **radius**, not the diameter, which is the most common mistake. In diameter form, $A = \pi d^2/4$.
+
+intuition: >-
+  Cut a circle into many thin pizza slices and lay them alternately point-up and point-down: they form an almost
+  rectangle whose height is $r$ and whose width is half the circumference, $\pi r$. Area: $\pi r \times r$. Because
+  area grows with $r^2$, doubling the diameter of a pizza gives four times as much pizza.
+
+derivation:
+  - note: Divide the disc into thin rings of radius $\rho$ and width $d\rho$. Each ring is almost a strip of length $2\pi\rho$.
+    latex: dA = 2\pi\rho\,d\rho
+  - note: Add up the rings from the centre to the edge.
+    latex: A = \int_0^r 2\pi\rho\,d\rho = \pi r^2
+
+example:
+  title: One large pizza or two medium?
+  problem: Which has more pizza, one 50 cm pizza or two 30 cm pizzas (diameters)?
+  given:
+    r: 0.25
+  solveFor: A
+  expected:
+    A: 0.196349541
+  tolerance: 1.0e-8
+  steps:
+    - latex: A_{50} = \pi (0.25\ \text{m})^2 = 0.1963\ \text{m}^2
+    - latex: 2A_{30} = 2\pi (0.15\ \text{m})^2 = 0.1414\ \text{m}^2
+    - note: The single large pizza has 39% more area, even though its diameter is smaller than the two combined (50 cm vs 60 cm).
+  answer: One 50 cm pizza ($0.196\ \text{m}^2$) beats two 30 cm pizzas ($0.141\ \text{m}^2$).
+  sources:
+    - value: 50 cm, 30 cm
+      source: Illustrative choice.
+
+calculator:
+  solvable: [A, r]
+
+related: [circle-circumference, sphere-surface-area, sphere-volume]
+tags: [circle, area, pi, radius, diameter, disc, geometry]

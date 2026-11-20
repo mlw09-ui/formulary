@@ -1,0 +1,75 @@
+id: dynamic-pressure
+name: Dynamic Pressure
+aliases: [q, Velocity pressure, Kinetic energy per unit volume]
+topic: physics/aerodynamics/flow-parameters
+difficulty: basic
+summary: Kinetic energy per unit volume of a moving fluid; the scale for all aerodynamic forces.
+
+latex: |-
+  \sym{q}{q} = \tfrac{1}{2}\,\sym{rho}{\rho}\,\sym{v}{v}^{2}
+
+variables:
+  - id: q
+    symbol: q
+    name: Dynamic pressure
+    unit: Pa
+    description: Kinetic energy per unit volume of the flow. Has units of pressure.
+    searchAliases: [dynamic pressure, q, velocity pressure]
+  - id: rho
+    symbol: \rho
+    name: Fluid density
+    unit: kg/m³
+    description: Density of the fluid.
+    searchAliases: [density]
+  - id: v
+    symbol: v
+    name: Flow speed
+    unit: m/s
+    description: Speed of the fluid relative to the body (true airspeed).
+    searchAliases: [speed, velocity, airspeed]
+
+assumptions:
+  - >-
+    As a **definition**, $q = \tfrac12\rho v^2$ holds at any speed. Its common interpretation as the
+    pressure rise at a stagnation point (what a pitot tube measures, $p_0 - p$) holds only for
+    **incompressible** flow, below about Mach 0.3. Above that, the stagnation pressure rise exceeds $q$.
+  - $\rho$ and $v$ are local values (usually of the undisturbed freestream).
+
+intuition: >-
+  Dynamic pressure is how hard the moving air "hits". Every aerodynamic force is written as
+  $q$ times an area times a coefficient: lift, drag, moments. It grows with $v^2$ and with density, so an
+  aircraft at altitude (thin air) must fly faster to get the same $q$ and the same lift. Pilots' indicated
+  airspeed is really a measure of $q$, which is why it, not true airspeed, governs stall.
+
+derivation:
+  - note: 'Kinetic energy of a fluid parcel of volume $V$ is $\tfrac12 (\rho V) v^2$. Per unit volume:'
+    latex: q = \frac{\tfrac{1}{2}\,m v^2}{V} = \tfrac{1}{2}\rho v^2
+  - note: 'In Bernoulli''s equation, bringing the flow to rest at a stagnation point raises the pressure by exactly this amount (incompressible flow):'
+    latex: p_0 = p + \tfrac{1}{2}\rho v^2 \quad\Rightarrow\quad p_0 - p = q
+
+example:
+  title: Dynamic pressure on a light aircraft
+  problem: What is the dynamic pressure on an aircraft flying at 55 m/s at sea level (ISA)?
+  given:
+    rho: 1.225
+    v: 55
+    a: 340.3
+  solveFor: q
+  expected:
+    q: 1852.8125
+  tolerance: 1.0e-9
+  steps:
+    - latex: q = \tfrac{1}{2}\rho v^2 = \tfrac{1}{2} \times 1.225\ \text{kg/m}^3 \times (55\ \text{m/s})^2 = 1852.8\ \text{Pa}
+    - note: That is only 1.8% of atmospheric pressure, yet over a 16.2 m² wing at $C_L = 0.36$ it produces about 10.8 kN of lift.
+  answer: $q \approx 1853\ \text{Pa}$
+  sources:
+    - value: ρ = 1.225 kg/m³, a = 340.3 m/s
+      source: ICAO / ISA Standard Atmosphere, sea level.
+    - value: v = 55 m/s
+      source: Illustrative choice (same case as the lift-equation example).
+
+calculator:
+  solvable: [q, rho, v]
+
+related: [lift-equation, drag-equation, bernoulli-equation, mach-number]
+tags: [dynamic pressure, airspeed, pitot tube, aerodynamics, kinetic energy, q]

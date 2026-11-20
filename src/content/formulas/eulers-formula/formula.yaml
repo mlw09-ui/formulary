@@ -1,0 +1,82 @@
+id: eulers-formula
+name: Euler's Formula
+aliases: [Euler's identity (θ = π), Complex exponential, Cis formula]
+topic: mathematics/complex-numbers/exponential-form
+difficulty: intermediate
+summary: The complex exponential e^(iθ) is the point at angle θ on the unit circle, cos θ + i sin θ.
+
+latex: |-
+  \sym{z}{\sym{e}{e}^{\sym{i}{i}\sym{theta}{\theta}}} = \cos\sym{theta}{\theta} + \sym{i}{i}\sin\sym{theta}{\theta}
+
+variables:
+  - id: z
+    symbol: e^{i\theta}
+    name: Complex exponential
+    unit: null
+    description: A complex number of modulus 1 at angle $\theta$ on the unit circle.
+    searchAliases: [complex exponential, cis, phasor]
+  - id: e
+    symbol: e
+    name: Euler's number
+    unit: null
+    kind: constant
+    description: $e = 2.718\,281\,828\ldots$, the base of the natural logarithm.
+    searchAliases: [euler's number]
+  - id: i
+    symbol: i
+    name: Imaginary unit
+    unit: null
+    kind: constant
+    description: $i^2 = -1$. Engineers often write $j$.
+    searchAliases: [imaginary unit, j]
+  - id: theta
+    symbol: \theta
+    name: Angle
+    unit: rad
+    description: Real angle **in radians** (π rad = 180°). The formula holds only in radians.
+    searchAliases: [angle, phase, argument]
+
+assumptions:
+  - '$\theta$ is in **radians**. The formula comes from the series of $e^x$, $\cos$ and $\sin$, which assume radian measure.'
+  - The formula holds for real $\theta$, and in fact for every complex $\theta$ as an identity of power series.
+
+intuition: >-
+  Multiplying by $e^{i\theta}$ rotates a point in the complex plane by $\theta$ without stretching it. So $e^{i\theta}$ is just
+  the point reached by walking an angle $\theta$ around the unit circle: $\cos\theta$ across and $\sin\theta$ up. This
+  turns trigonometry into algebra (angles add when exponentials multiply) and is why AC circuits, waves and quantum
+  mechanics are written with complex exponentials. At $\theta = \pi$ it gives Euler's identity, $e^{i\pi} + 1 = 0$.
+
+derivation:
+  - note: Write the Taylor series of $e^x$ with $x = i\theta$, using $i^2 = -1$, $i^3 = -i$, $i^4 = 1$.
+    latex: e^{i\theta} = 1 + i\theta - \frac{\theta^2}{2!} - i\frac{\theta^3}{3!} + \frac{\theta^4}{4!} + i\frac{\theta^5}{5!} - \cdots
+  - note: Collect the real terms and the imaginary terms (the series converges absolutely, so reordering is allowed).
+    latex: e^{i\theta} = \left(1 - \frac{\theta^2}{2!} + \frac{\theta^4}{4!} - \cdots\right) + i\left(\theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \cdots\right)
+  - note: The brackets are exactly the Taylor series of cosine and sine.
+    latex: e^{i\theta} = \cos\theta + i\sin\theta
+
+example:
+  title: Evaluating e^(iπ/3), and Euler's identity
+  problem: Evaluate $e^{i\pi/3}$ in rectangular form, and show that $e^{i\pi} = -1$.
+  given:
+    theta: 1.0471975511965976
+  solveFor: z
+  expected:
+    z:
+      re: 0.5
+      im: 0.8660254038
+  tolerance: 1.0e-9
+  steps:
+    - latex: e^{i\pi/3} = \cos\frac{\pi}{3} + i\sin\frac{\pi}{3} = \frac{1}{2} + i\,\frac{\sqrt{3}}{2} \approx 0.5 + 0.8660i
+    - note: 'Check: the modulus is $\sqrt{0.25 + 0.75} = 1$, as it must be for any point on the unit circle.'
+    - note: At $\theta = \pi$, half a turn around the circle.
+      latex: e^{i\pi} = \cos\pi + i\sin\pi = -1 + 0i \quad\Rightarrow\quad e^{i\pi} + 1 = 0
+  answer: $e^{i\pi/3} = \tfrac12 + \tfrac{\sqrt3}{2}i \approx 0.5 + 0.866i$; and $e^{i\pi} = -1$.
+  sources:
+    - value: θ = π/3
+      source: Illustrative choice. Exact result.
+
+calculator:
+  solvable: [z]
+
+related: [taylor-series, logarithm-rules, circle-circumference]
+tags: [complex numbers, euler, exponential, unit circle, phasor, trigonometry, euler's identity]

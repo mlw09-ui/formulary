@@ -1,0 +1,78 @@
+id: binomial-theorem
+name: Binomial Theorem
+aliases: [Binomial expansion, Pascal's triangle formula, Newton's binomial]
+topic: mathematics/algebra/polynomials
+difficulty: intermediate
+summary: Expands any power of a sum (x + y)ⁿ into a sum of terms with binomial coefficients.
+
+latex: |-
+  (\sym{x}{x} + \sym{y}{y})^{\sym{n}{n}} = \sum_{\sym{k}{k}=0}^{\sym{n}{n}} \sym{C}{\binom{n}{k}}\,\sym{x}{x}^{\sym{n}{n}-\sym{k}{k}}\,\sym{y}{y}^{\sym{k}{k}}
+
+variables:
+  - id: x
+    symbol: x
+    name: First term
+    unit: null
+    description: Any real or complex number (or anything that commutes with $y$).
+  - id: y
+    symbol: y
+    name: Second term
+    unit: null
+    description: Any real or complex number that commutes with $x$.
+  - id: n
+    symbol: n
+    name: Exponent
+    unit: null
+    description: A non-negative integer, $n = 0, 1, 2, \ldots$
+    searchAliases: [power, exponent]
+  - id: k
+    symbol: k
+    name: Summation index
+    unit: null
+    kind: index
+    description: Runs from 0 to $n$; term $k$ contains $y^k$.
+  - id: C
+    symbol: \binom{n}{k}
+    name: Binomial coefficient
+    unit: null
+    description: '"$n$ choose $k$", $\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}$, the entries of row $n$ of Pascal''s triangle.'
+    searchAliases: [n choose k, combination, pascal]
+
+assumptions:
+  - '$n$ is a **non-negative integer**. For other exponents, use the generalised (Newton) binomial series, which is infinite and converges only for $|y/x| < 1$.'
+  - '$x$ and $y$ must **commute** ($xy = yx$). For matrices that do not commute, the expansion fails.'
+
+intuition: >-
+  Multiplying out $(x + y)^n$ means picking either $x$ or $y$ from each of the $n$ brackets. A term $x^{n-k}y^k$ appears
+  once for every way of choosing which $k$ brackets supply the $y$, and there are $\binom{n}{k}$ such ways. So the
+  coefficients count combinations, which is why the same numbers appear in probability (the binomial
+  distribution) and in Pascal's triangle, where each entry is the sum of the two above it.
+
+derivation:
+  - note: Proof by induction. For $n = 0$ both sides equal 1. Assume the formula holds for $n$ and multiply by $(x + y)$.
+    latex: (x+y)^{n+1} = \sum_{k=0}^{n}\binom{n}{k}x^{n+1-k}y^k + \sum_{k=0}^{n}\binom{n}{k}x^{n-k}y^{k+1}
+  - note: Shift the index in the second sum ($k \to k - 1$) and combine terms with the same power of $y$.
+    latex: (x+y)^{n+1} = \sum_{k=0}^{n+1}\left[\binom{n}{k} + \binom{n}{k-1}\right]x^{n+1-k}y^k
+  - note: Pascal's rule, $\binom{n}{k} + \binom{n}{k-1} = \binom{n+1}{k}$, gives the formula for $n + 1$.
+    latex: (x+y)^{n+1} = \sum_{k=0}^{n+1}\binom{n+1}{k}x^{n+1-k}y^k
+
+example:
+  title: Expanding (x + 2)⁴
+  problem: Expand $(x + 2)^4$.
+  steps:
+    - note: Row 4 of Pascal's triangle gives the coefficients 1, 4, 6, 4, 1. Here $y = 2$.
+      latex: (x+2)^4 = \binom{4}{0}x^4 + \binom{4}{1}x^3(2) + \binom{4}{2}x^2(2)^2 + \binom{4}{3}x(2)^3 + \binom{4}{4}(2)^4
+    - latex: = x^4 + 8x^3 + 24x^2 + 32x + 16
+    - note: 'Check at $x = 1$: the left side is $3^4 = 81$, and the right side is $1 + 8 + 24 + 32 + 16 = 81$.'
+  answer: $(x+2)^4 = x^4 + 8x^3 + 24x^2 + 32x + 16$
+  sources:
+    - value: (x + 2)⁴
+      source: Illustrative choice. Exact result, verified by substitution.
+
+calculator:
+  none: >-
+    The theorem is an algebraic identity: both sides are always equal, so there is nothing to solve for. To get a
+    number, evaluate $(x+y)^n$ directly. The coefficients $\binom{n}{k}$ are $n!/(k!(n-k)!)$.
+
+related: [quadratic-formula, taylor-series, normal-distribution]
+tags: [algebra, expansion, polynomial, pascal's triangle, combinatorics, binomial coefficient, n choose k]

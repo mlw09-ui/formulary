@@ -1,0 +1,86 @@
+id: gravitational-potential-energy
+name: Gravitational Potential Energy
+aliases: [Potential energy, mgh, GPE]
+topic: physics/classical-mechanics/work-and-energy
+difficulty: basic
+summary: Energy stored by lifting a mass against uniform gravity near a planet's surface.
+
+latex: |-
+  \sym{U}{U} = \sym{m}{m}\,\sym{g}{g}\,\sym{h}{h}
+
+variables:
+  - id: U
+    symbol: U
+    name: Potential energy
+    unit: J
+    description: Gravitational potential energy relative to the chosen reference level.
+    searchAliases: [potential energy, PE, energy]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Mass of the body.
+    searchAliases: [mass]
+  - id: g
+    symbol: g
+    name: Gravitational acceleration
+    unit: m/s²
+    description: Local acceleration due to gravity. 9.80665 m/s² is standard gravity on Earth.
+    searchAliases: [gravity, g]
+  - id: h
+    symbol: h
+    name: Height
+    unit: m
+    description: Height above the reference level. Negative below it.
+    searchAliases: [height, altitude, elevation]
+
+assumptions:
+  - >-
+    **Uniform gravitational field**: $g$ is the same at every height. True when $h$ is much smaller than
+    the planet's radius ($R_E \approx 6371$ km). Far from the surface use $U = -GMm/r$.
+  - Only **differences** in $U$ are physical. The reference level ($h = 0$) is arbitrary.
+  - '$h$ is the vertical height of the centre of mass. The path taken does not matter, because gravity is a conservative force.'
+
+intuition: >-
+  Lifting something stores energy that you can get back by letting it fall. The stored energy is
+  just the work done against its weight $mg$ over the height $h$. Since only height changes matter,
+  a ball on a shelf has positive energy relative to the floor and negative energy relative to the
+  ceiling, and both descriptions give the same physics.
+
+derivation:
+  - note: Lifting at constant speed takes a force equal to the weight $mg$, applied over the height $h$.
+    latex: U = W = F\,h = m g h
+  - note: >-
+      Check against the exact Newtonian potential: the energy change between radius $R$ and $R + h$
+      is
+    latex: \Delta U = GMm\left(\frac{1}{R} - \frac{1}{R+h}\right) = \frac{GMm}{R^2}\cdot\frac{h}{1 + h/R} \approx m g h \quad (h \ll R)
+  - note: with $g = GM/R^2$. The relative error of $mgh$ is $h/(R + h)$, which is about 1% at a height of 64 km.
+
+example:
+  title: Lifting a book onto a shelf
+  problem: How much potential energy does a 2 kg book gain when lifted 1.5 m onto a shelf?
+  given:
+    m: 2
+    g: 9.80665
+    h: 1.5
+  solveFor: U
+  expected:
+    U: 29.41995
+  tolerance: 1.0e-9
+  steps:
+    - latex: U = m g h = 2\ \text{kg} \times 9.80665\ \text{m/s}^2 \times 1.5\ \text{m} = 29.42\ \text{J}
+    - note: >-
+        If the book falls back down, this energy becomes kinetic energy, so it lands at
+        $v = \sqrt{2gh} = 5.4\ \text{m/s}$, whatever its mass.
+  answer: $U \approx 29.4\ \text{J}$
+  sources:
+    - value: g = 9.80665 m/s²
+      source: Standard gravity (exact by definition, CGPM 1901). Local g varies from about 9.78 to 9.83 m/s².
+    - value: m = 2 kg, h = 1.5 m
+      source: Illustrative choice.
+
+calculator:
+  solvable: [U, m, g, h]
+
+related: [kinetic-energy, work, universal-gravitation, hydrostatic-pressure]
+tags: [potential energy, gravity, height, energy, mechanics]

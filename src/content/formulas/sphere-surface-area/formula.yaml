@@ -1,0 +1,64 @@
+id: sphere-surface-area
+name: Surface Area of a Sphere
+aliases: [4πr², Sphere area]
+topic: mathematics/geometry-and-trigonometry/circles-and-spheres
+difficulty: basic
+summary: The surface area of a sphere is four times the area of its great circle, 4πr².
+
+latex: |-
+  \sym{A}{A} = 4\pi\,\sym{r}{r}^{2}
+
+variables:
+  - id: A
+    symbol: A
+    name: Surface area
+    unit: m²
+    description: Total area of the sphere's surface.
+    searchAliases: [area, surface area]
+  - id: r
+    symbol: r
+    name: Radius
+    unit: m
+    description: Radius of the sphere.
+    searchAliases: [radius]
+
+assumptions:
+  - A **perfect sphere**. The Earth is slightly flattened (oblate), by about 0.3%, but a sphere of mean radius matches its area to better than 0.01%.
+  - Euclidean three-dimensional space.
+
+intuition: >-
+  A sphere's surface has exactly the area of four flat circles of the same radius. Archimedes showed it equals the
+  curved side of the cylinder that just encloses it ($2\pi r \times 2r$), and was proud enough of this to want it on his
+  tombstone. Because area grows with $r^2$, intensity from a point source spread over a sphere falls as $1/r^2$, which is
+  the origin of every inverse-square law in physics.
+
+derivation:
+  - note: Use spherical coordinates. A small patch at polar angle $\theta$ has sides $r\,d\theta$ and $r\sin\theta\,d\phi$.
+    latex: dA = r^2\sin\theta\,d\theta\,d\phi
+  - note: Integrate over the whole sphere.
+    latex: A = \int_0^{2\pi}\!\!\int_0^{\pi} r^2\sin\theta\,d\theta\,d\phi = r^2 \cdot 2\pi \cdot \left[-\cos\theta\right]_0^{\pi} = 4\pi r^2
+
+example:
+  title: The surface area of the Earth
+  problem: Treating the Earth as a sphere of mean radius 6371 km, what is its surface area?
+  given:
+    r: 6371000
+  solveFor: A
+  expected:
+    A: 5.10064472e14
+  tolerance: 1.0e-8
+  steps:
+    - latex: A = 4\pi r^2 = 4\pi \times (6.371\times10^{6}\ \text{m})^2 = 5.101\times10^{14}\ \text{m}^2
+    - note: That is 510 million km², of which about 71% is ocean.
+  answer: $A \approx 5.10\times10^{14}\ \text{m}^2 = 510$ million km²
+  sources:
+    - value: r = 6371 km
+      source: Earth's mean radius (IUGG value 6371.0088 km).
+    - value: 71% ocean
+      source: NOAA, How much water is in the ocean? / standard references.
+
+calculator:
+  solvable: [A, r]
+
+related: [sphere-volume, circle-area, universal-gravitation]
+tags: [sphere, surface area, ball, planet, inverse square, geometry]

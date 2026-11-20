@@ -1,0 +1,116 @@
+id: lift-equation
+name: Lift Equation
+aliases: [Lift formula, Aerodynamic lift]
+topic: physics/aerodynamics/lift-and-drag
+difficulty: basic
+summary: Lift force on a wing from air density, airspeed, wing area and lift coefficient.
+
+latex: |-
+  \sym{L}{L} = \tfrac{1}{2}\,\sym{rho}{\rho}\,\sym{v}{v}^{2}\,\sym{S}{S}\,\sym{CL}{C_L}
+
+variables:
+  - id: L
+    symbol: L
+    name: Lift force
+    unit: N
+    description: Aerodynamic force component perpendicular to the oncoming (freestream) flow.
+  - id: rho
+    symbol: \rho
+    name: Air density
+    unit: kg/m³
+    description: Density of the undisturbed air. Falls with altitude and rising temperature.
+    searchAliases: [density]
+  - id: v
+    symbol: v
+    name: True airspeed
+    unit: m/s
+    description: Speed of the body relative to the undisturbed air (not ground speed).
+    searchAliases: [velocity, speed, airspeed]
+  - id: S
+    symbol: S
+    name: Reference area
+    unit: m²
+    description: Wing planform area, the area the lift coefficient was defined with.
+    searchAliases: [wing area]
+  - id: CL
+    symbol: C_L
+    name: Lift coefficient
+    unit: '1'
+    description: >-
+      Dimensionless measure of how effectively the wing produces lift. Depends on angle of attack,
+      wing geometry, Reynolds number and Mach number.
+    searchAliases: [CL, lift coefficient]
+
+assumptions:
+  - >-
+    $C_L$ must be taken from data (wind tunnel, CFD, airfoil tables) for the **same** angle of attack,
+    configuration (flaps, slats), Reynolds number and Mach number as the case being calculated.
+  - $C_L$ and $S$ must refer to the same reference area. Mixing a $C_L$ based on one area with a different $S$ gives a wrong answer.
+  - $v$ is the true airspeed relative to undisturbed air, and $\rho$ is the density of that air.
+  - Steady flow. Unsteady manoeuvres, gusts and dynamic stall need time-dependent models.
+  - >-
+    Below stall. Past the critical angle of attack the flow separates, $C_L$ drops,
+    and values extrapolated from the linear range are meaningless.
+
+intuition: >-
+  Lift scales with the dynamic pressure $\tfrac{1}{2}\rho v^2$, the kinetic energy per unit volume of
+  the oncoming air, multiplied by the area it acts on. Everything else about the wing (shape,
+  angle of attack, flaps) is collected into the single number $C_L$. In that sense the equation
+  **defines** $C_L$ rather than predicting lift from first principles. Because lift goes with $v^2$, doubling the
+  airspeed quadruples the lift, which is why aircraft need high-lift devices at low landing speeds.
+
+derivation:
+  - note: >-
+      Lift on a given wing shape at a given angle of attack depends on the fluid and the flow:
+      density $\rho$, speed $v$, a size given by area $S$, viscosity $\mu$ and speed of sound $a$.
+    latex: L = f(\rho,\ v,\ S,\ \mu,\ a)
+  - note: >-
+      Dimensional analysis (Buckingham π theorem): six quantities and three base dimensions
+      (mass, length, time) leave three independent dimensionless groups.
+    latex: \frac{L}{\rho v^2 S},\qquad \mathrm{Re} = \frac{\rho v \sqrt{S}}{\mu},\qquad \mathrm{M} = \frac{v}{a}
+  - note: >-
+      The first group can therefore depend only on the other two. By convention a factor
+      ½ is included so that the denominator is the dynamic pressure times area.
+    latex: \frac{L}{\tfrac{1}{2}\rho v^2 S} = C_L(\alpha,\ \mathrm{Re},\ \mathrm{M})
+  - note: Rearranging gives the lift equation. All the physics is now inside $C_L$.
+    latex: L = \tfrac{1}{2}\rho v^2 S\, C_L
+
+example:
+  title: Lift coefficient for level cruise
+  problem: >-
+    A light aircraft of mass 1100 kg flies straight and level at sea level (ISA) at a true airspeed
+    of 55 m/s. Its wing area is 16.2 m². What lift coefficient must the wing produce?
+  given:
+    L: 10787.315
+    rho: 1.225
+    v: 55
+    S: 16.2
+    a: 340.3
+  solveFor: CL
+  expected:
+    CL: 0.35939
+  tolerance: 1.0e-4
+  steps:
+    - note: In level, unaccelerated flight lift equals weight.
+      latex: L = mg = 1100\ \text{kg} \times 9.80665\ \text{m/s}^2 = 10\,787\ \text{N}
+    - note: Dynamic pressure of the oncoming air.
+      latex: q = \tfrac{1}{2}\rho v^2 = \tfrac{1}{2}(1.225)(55)^2 = 1852.8\ \text{Pa}
+    - note: Solve the lift equation for $C_L$.
+      latex: C_L = \frac{L}{q\,S} = \frac{10\,787\ \text{N}}{1852.8\ \text{Pa} \times 16.2\ \text{m}^2} = 0.3594
+    - note: >-
+        Check: Mach $= 55/340.3 = 0.16$, well inside the incompressible range, so low-speed
+        $C_L$ data apply. A cruise $C_L$ of about 0.36 is a typical value for a light aircraft.
+  answer: $C_L \approx 0.359$
+  sources:
+    - value: ρ = 1.225 kg/m³, a = 340.3 m/s
+      source: ICAO / ISA Standard Atmosphere, sea-level values (ISO 2533:1975).
+    - value: g = 9.80665 m/s²
+      source: Standard gravity (exact by definition, CGPM 1901).
+    - value: m = 1100 kg, S = 16.2 m², v = 55 m/s
+      source: Illustrative light-aircraft figures (typical of a four-seat trainer), not a specific type.
+
+calculator:
+  solvable: [L, rho, v, S, CL]
+
+related: [drag-equation, dynamic-pressure, induced-drag-coefficient, mach-number]
+tags: [aircraft, wing, aerodynamics, lift coefficient, dynamic pressure, flight]

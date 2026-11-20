@@ -1,0 +1,105 @@
+id: ampere-maxwell-law
+name: Ampère–Maxwell Law
+aliases: [Ampère's circuital law with Maxwell's correction, Maxwell's fourth equation, Curl of B]
+topic: physics/electromagnetism/maxwells-equations
+difficulty: advanced
+summary: Electric currents and changing electric fields create circulating magnetic fields.
+
+latex: |-
+  \sym{nabla}{\nabla}\times\sym{B}{\mathbf{B}} = \sym{mu0}{\mu_0}\sym{J}{\mathbf{J}} + \sym{mu0}{\mu_0}\sym{eps0}{\varepsilon_0}\frac{\partial \sym{E}{\mathbf{E}}}{\partial \sym{t}{t}}
+
+variables:
+  - id: nabla
+    symbol: \nabla\times
+    name: Curl operator
+    unit: 1/m
+    kind: operator
+    description: Measures the circulation of a vector field around a point, per unit area.
+    searchAliases: [curl, nabla]
+  - id: B
+    symbol: \mathbf{B}
+    name: Magnetic flux density
+    unit: T
+    description: Magnetic field vector.
+    searchAliases: [magnetic field]
+  - id: mu0
+    symbol: \mu_0
+    name: Vacuum permeability
+    unit: N/A²
+    kind: constant
+    description: $\mu_0 = 1.256\,637\,061\,27 \times 10^{-6}$ N/A² (CODATA 2022), very close to $4\pi \times 10^{-7}$.
+    searchAliases: [permeability, mu zero]
+  - id: J
+    symbol: \mathbf{J}
+    name: Current density
+    unit: A/m²
+    description: Electric current per unit cross-sectional area (total current, free and bound).
+    searchAliases: [current density]
+  - id: eps0
+    symbol: \varepsilon_0
+    name: Vacuum permittivity
+    unit: F/m
+    kind: constant
+    description: $\varepsilon_0 = 8.854\,187\,8188 \times 10^{-12}$ F/m. Note $\mu_0\varepsilon_0 = 1/c^2$.
+    searchAliases: [permittivity]
+  - id: E
+    symbol: \mathbf{E}
+    name: Electric field
+    unit: V/m
+    description: Electric field vector. $\varepsilon_0\,\partial\mathbf{E}/\partial t$ is Maxwell's displacement current density.
+    searchAliases: [electric field, displacement current]
+  - id: t
+    symbol: t
+    name: Time
+    unit: s
+    description: Time, for the rate of change of $\mathbf{E}$ at a fixed point.
+
+assumptions:
+  - '**Microscopic (vacuum) form**: $\mathbf{J}$ is the total current density. In matter, use $\nabla\times\mathbf{H} = \mathbf{J}_{\text{free}} + \partial\mathbf{D}/\partial t$.'
+  - Holds at every point and instant in an inertial frame.
+  - Requires differentiable fields. Otherwise use the integral form $\oint \mathbf{B}\cdot d\mathbf{l} = \mu_0 I_{\text{enc}} + \mu_0\varepsilon_0\, d\Phi_E/dt$.
+
+intuition: >-
+  Currents wrap themselves in circling magnetic fields, which is why a compass needle swings near a wire. Maxwell
+  noticed that a changing electric field must do the same, even where no charge flows, such as in the gap of a
+  charging capacitor. That one extra term is what makes light possible. A changing $\mathbf{E}$ makes $\mathbf{B}$,
+  and (by Faraday's law) a changing $\mathbf{B}$ makes $\mathbf{E}$, so the two fields sustain each other and travel
+  as a wave at $c = 1/\sqrt{\mu_0\varepsilon_0}$.
+
+derivation:
+  - note: Ampère's original law (from experiment, for steady currents) says currents produce circulating magnetic fields.
+    latex: \nabla\times\mathbf{B} = \mu_0\mathbf{J}
+  - note: >-
+      Taking the divergence exposes an inconsistency. The divergence of a curl is always zero, but charge
+      conservation says $\nabla\cdot\mathbf{J} = -\partial\rho/\partial t$, which is not zero when charge accumulates.
+    latex: 0 = \nabla\cdot(\nabla\times\mathbf{B}) = \mu_0\nabla\cdot\mathbf{J} = -\mu_0\frac{\partial\rho}{\partial t} \quad (\text{contradiction})
+  - note: Gauss's law gives $\rho = \varepsilon_0\nabla\cdot\mathbf{E}$, so adding $\varepsilon_0\,\partial\mathbf{E}/\partial t$ to the current makes the divergence vanish.
+    latex: \nabla\cdot\left(\mathbf{J} + \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}\right) = \nabla\cdot\mathbf{J} + \frac{\partial\rho}{\partial t} = 0
+  - note: Maxwell's corrected law is therefore
+    latex: \nabla\times\mathbf{B} = \mu_0\mathbf{J} + \mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}
+
+example:
+  title: Magnetic field around a wire
+  problem: A long straight wire carries a steady current of 10 A. How strong is the magnetic field 5 cm from it?
+  steps:
+    - note: Steady current, so $\partial\mathbf{E}/\partial t = 0$. Use the integral form on a circle of radius $r$ around the wire. By symmetry $B$ is tangential and constant on it.
+      latex: \oint \mathbf{B}\cdot d\mathbf{l} = B \cdot 2\pi r = \mu_0 I
+    - latex: B = \frac{\mu_0 I}{2\pi r} = \frac{1.2566\times10^{-6} \times 10}{2\pi \times 0.05} = 4.0\times10^{-5}\ \text{T}
+    - note: That is 40 μT, comparable to Earth's magnetic field (about 25–65 μT), enough to deflect a nearby compass noticeably.
+  answer: $B \approx 40\ \mu\text{T}$, circling the wire (right-hand rule).
+  sources:
+    - value: μ₀ = 1.25663706127 × 10⁻⁶ N/A²
+      source: CODATA 2022 recommended value (NIST).
+    - value: Earth's field 25–65 μT
+      source: NOAA / World Magnetic Model, typical surface intensity.
+    - value: I = 10 A, r = 5 cm
+      source: Illustrative choice.
+
+calculator:
+  none: >-
+    A differential equation linking the curl of the magnetic field to currents and changing electric fields
+    at every point, with no single numeric output. Symmetric cases, like the wire in the example, are
+    solved with the integral form.
+
+related: [gauss-law, gauss-law-for-magnetism, faraday-law, ohms-law]
+tags: [maxwell, ampere, magnetic field, current, displacement current, curl, electromagnetic waves, electromagnetism]

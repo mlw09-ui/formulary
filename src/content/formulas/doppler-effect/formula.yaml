@@ -1,0 +1,92 @@
+id: doppler-effect
+name: Doppler Effect (Sound)
+aliases: [Doppler shift, Doppler formula, Frequency shift of a moving source]
+topic: physics/waves-and-optics/wave-motion
+difficulty: intermediate
+summary: Observed frequency changes when the source or the receiver moves through the medium.
+
+latex: |-
+  \sym{fo}{f_o} = \sym{fs}{f_s}\,\frac{\sym{v}{v} + \sym{vr}{v_r}}{\sym{v}{v} - \sym{vs}{v_s}}
+
+variables:
+  - id: fo
+    symbol: f_o
+    name: Observed frequency
+    unit: Hz
+    description: Frequency heard by the receiver.
+    searchAliases: [observed frequency, frequency]
+  - id: fs
+    symbol: f_s
+    name: Source frequency
+    unit: Hz
+    description: Frequency emitted by the source, in its own frame.
+    searchAliases: [source frequency]
+  - id: v
+    symbol: v
+    name: Wave speed in the medium
+    unit: m/s
+    description: Speed of sound in the (still) medium, e.g. 343 m/s in air at 20 °C.
+    searchAliases: [speed of sound]
+  - id: vr
+    symbol: v_r
+    name: Receiver speed
+    unit: m/s
+    description: Receiver's speed along the line to the source. **Positive when moving toward** the source.
+    searchAliases: [observer speed, receiver]
+  - id: vs
+    symbol: v_s
+    name: Source speed
+    unit: m/s
+    description: Source's speed along the line to the receiver. **Positive when moving toward** the receiver.
+    searchAliases: [source speed]
+
+assumptions:
+  - '**Sign convention**: $v_r$ and $v_s$ are positive when moving **toward** the other. Mixing conventions is the most common error with this formula.'
+  - Motion is along the line joining source and receiver. Otherwise, use only the velocity components along that line.
+  - '**Still medium** (no wind). Wind changes the effective wave speed.'
+  - '**Subsonic**: $v_s < v$ and $|v_r| < v$. A source at or above the wave speed creates a shock wave (sonic boom) instead.'
+  - For **light**, use the relativistic Doppler formula, which depends only on relative velocity because there is no medium.
+
+intuition: >-
+  An approaching source catches up a little with each wave it has just emitted, so the crests bunch
+  together and the pitch rises. A receding source stretches them out. A moving receiver meets the
+  crests more or less often. That is why an ambulance siren drops in pitch as it passes. The same idea,
+  in its relativistic form, measures the expansion of the universe and the speed of cars at radar
+  checkpoints.
+
+derivation:
+  - note: A source moving toward the receiver at $v_s$ emits crests every $T = 1/f_s$. In that time it moves $v_s T$, so the crests ahead of it are closer together.
+    latex: \lambda' = (v - v_s)\,T = \frac{v - v_s}{f_s}
+  - note: A receiver moving toward the source at $v_r$ meets those crests at the relative speed $v + v_r$.
+    latex: f_o = \frac{v + v_r}{\lambda'} = f_s\,\frac{v + v_r}{v - v_s}
+
+example:
+  title: An approaching ambulance
+  problem: An ambulance siren emits 700 Hz and approaches a pedestrian standing still at 30 m/s (108 km/h). Air temperature is 20 °C. What frequency does the pedestrian hear, before and after it passes?
+  given:
+    fs: 700
+    v: 343
+    vr: 0
+    vs: 30
+  solveFor: fo
+  expected:
+    fo: 767.09265
+  tolerance: 1.0e-7
+  steps:
+    - note: Approaching, $v_s = +30$ m/s.
+      latex: f_o = 700 \times \frac{343 + 0}{343 - 30} = 700 \times 1.0958 = 767.1\ \text{Hz}
+    - note: After it passes it is moving away, so $v_s = -30$ m/s.
+      latex: f_o = 700 \times \frac{343}{343 + 30} = 643.7\ \text{Hz}
+    - note: The pitch drops by about 123 Hz as the ambulance passes, roughly three semitones.
+  answer: About 767 Hz approaching, 644 Hz receding.
+  sources:
+    - value: v = 343 m/s
+      source: Speed of sound in dry air at 20 °C, standard tables.
+    - value: f_s = 700 Hz, 30 m/s
+      source: Illustrative choice.
+
+calculator:
+  solvable: [fo, fs, v, vr, vs]
+
+related: [wave-speed, mach-number, lorentz-factor]
+tags: [doppler, frequency shift, sound, siren, radar, wave, pitch]

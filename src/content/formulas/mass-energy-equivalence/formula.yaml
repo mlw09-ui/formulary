@@ -1,0 +1,78 @@
+id: mass-energy-equivalence
+name: Mass–Energy Equivalence
+aliases: [E = mc², Rest energy, Einstein's equation]
+topic: physics/modern-physics/relativity
+difficulty: basic
+summary: A body at rest has energy equal to its mass times the speed of light squared.
+
+latex: |-
+  \sym{E}{E} = \sym{m}{m}\,\sym{c}{c}^{2}
+
+variables:
+  - id: E
+    symbol: E
+    name: Rest energy
+    unit: J
+    description: Energy a body has by virtue of its mass, in its own rest frame.
+    searchAliases: [energy, rest energy]
+  - id: m
+    symbol: m
+    name: Mass
+    unit: kg
+    description: Invariant (rest) mass of the body.
+    searchAliases: [mass]
+  - id: c
+    symbol: c
+    name: Speed of light
+    unit: m/s
+    kind: constant
+    description: $c = 299\,792\,458$ m/s (exact). $c^2 \approx 8.988\times10^{16}$ J/kg.
+    searchAliases: [speed of light]
+
+assumptions:
+  - >-
+    This is the **rest energy**, for a body at rest. A moving body has total energy $E = \gamma m c^2$; in general
+    $E^2 = (pc)^2 + (mc^2)^2$. Photons have $m = 0$ and $E = pc$.
+  - $m$ is the invariant (rest) mass. The old "relativistic mass" $\gamma m$ is no longer used.
+  - Converting mass into usable energy requires a process that actually does it (fission, fusion, annihilation). The formula itself says nothing about how.
+
+intuition: >-
+  Mass is an extremely concentrated form of energy, and $c^2$ is the exchange rate, about $9 \times 10^{16}$ joules
+  per kilogram. In nuclear reactions the products weigh slightly less than the reactants, and that tiny mass
+  difference is released as energy. That is what powers the Sun and nuclear reactors. In chemistry the mass
+  change also exists but is far too small to measure.
+
+derivation:
+  - note: In special relativity the energy of a free body of mass $m$ moving at speed $v$ is
+    latex: E = \gamma m c^2 = \frac{m c^2}{\sqrt{1 - v^2/c^2}}
+  - note: Expand for $v \ll c$ with $(1 - x)^{-1/2} \approx 1 + x/2 + 3x^2/8$.
+    latex: E \approx m c^2 + \tfrac{1}{2} m v^2 + \tfrac{3}{8}\,\frac{m v^4}{c^2} + \cdots
+  - note: The second term is the Newtonian kinetic energy. The first term remains even at $v = 0$, and it is the rest energy.
+    latex: E_0 = m c^2
+
+example:
+  title: The energy in one gram of mass
+  problem: How much energy corresponds to a mass of 1 gram?
+  given:
+    m: 0.001
+  solveFor: E
+  expected:
+    E: 8.98755178737e13
+  tolerance: 1.0e-9
+  steps:
+    - latex: E = m c^2 = 10^{-3}\ \text{kg} \times (299\,792\,458\ \text{m/s})^2 = 8.988\times10^{13}\ \text{J}
+    - note: With 1 kiloton of TNT defined as $4.184\times10^{12}$ J, this equals about 21.5 kt. The Hiroshima bomb (about 15 kt) converted roughly 0.7 g of mass into energy.
+  answer: $E \approx 9.0\times10^{13}\ \text{J}$, about 21 kilotons of TNT.
+  sources:
+    - value: c = 299 792 458 m/s
+      source: Exact (SI definition of the metre).
+    - value: 1 kt TNT = 4.184 × 10¹² J
+      source: Conventional definition of the TNT equivalent.
+    - value: Hiroshima yield ≈ 15 kt
+      source: U.S. Department of Energy, The Manhattan Project history (yield estimates 12–18 kt).
+
+calculator:
+  solvable: [E, m]
+
+related: [lorentz-factor, photon-energy, kinetic-energy]
+tags: [relativity, energy, mass, einstein, nuclear, rest energy, emc2]

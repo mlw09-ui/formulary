@@ -1,0 +1,90 @@
+id: quadratic-formula
+name: Quadratic Formula
+aliases: [Roots of a quadratic, ABC formula, Solving ax² + bx + c = 0]
+topic: mathematics/algebra/polynomials
+difficulty: basic
+summary: The two roots of any quadratic equation ax² + bx + c = 0 in terms of its coefficients.
+
+latex: |-
+  \sym{x}{x} = \frac{-\sym{b}{b} \pm \sqrt{\sym{b}{b}^{2} - 4\sym{a}{a}\sym{c}{c}}}{2\sym{a}{a}}
+
+variables:
+  - id: x
+    symbol: x
+    name: Root
+    unit: null
+    description: A value of $x$ that satisfies $ax^2 + bx + c = 0$. The $\pm$ gives the two roots.
+    searchAliases: [solution, zero, root]
+  - id: a
+    symbol: a
+    name: Quadratic coefficient
+    unit: null
+    description: Coefficient of $x^2$. Must be non-zero.
+  - id: b
+    symbol: b
+    name: Linear coefficient
+    unit: null
+    description: Coefficient of $x$.
+  - id: c
+    symbol: c
+    name: Constant term
+    unit: null
+    description: The term without $x$; equals the parabola's $y$-intercept.
+
+assumptions:
+  - The equation is in standard form $ax^2 + bx + c = 0$ (everything moved to one side).
+  - $a \neq 0$. If $a = 0$ the equation is linear, $x = -c/b$, and the formula divides by zero.
+  - >-
+    The discriminant $\Delta = b^2 - 4ac$ decides the kind of roots. $\Delta > 0$: two distinct
+    real roots. $\Delta = 0$: one repeated real root. $\Delta < 0$: two complex-conjugate roots.
+  - >-
+    Holds for real or complex coefficients. The calculator accepts real coefficients and returns
+    complex roots when $\Delta < 0$.
+
+intuition: >-
+  Every parabola $y = ax^2 + bx + c$ is symmetric about its vertex at $x = -b/(2a)$. The roots sit
+  an equal distance $\sqrt{\Delta}/(2|a|)$ either side of that axis. If $\Delta$ is negative the
+  parabola never crosses the axis, and the roots become complex. The formula is just completing the
+  square, done once in general so you never have to do it again.
+
+derivation:
+  - note: Start from the standard form and divide by $a$, which is allowed because $a \neq 0$.
+    latex: x^2 + \frac{b}{a}x + \frac{c}{a} = 0
+  - note: Complete the square by adding and subtracting $(b/2a)^2$.
+    latex: \left(x + \frac{b}{2a}\right)^2 - \frac{b^2}{4a^2} + \frac{c}{a} = 0
+  - note: Move the constants to the right and combine them over a common denominator.
+    latex: \left(x + \frac{b}{2a}\right)^2 = \frac{b^2 - 4ac}{4a^2}
+  - note: Take the square root of both sides. Both signs are solutions.
+    latex: x + \frac{b}{2a} = \pm\frac{\sqrt{b^2 - 4ac}}{2a}
+  - note: Isolate $x$.
+    latex: x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+
+example:
+  title: Solving 2x² − 5x − 3 = 0
+  problem: Find both roots of $2x^2 - 5x - 3 = 0$.
+  given:
+    a: 2
+    b: -5
+    c: -3
+  solveFor: x
+  expected:
+    x: [3, -0.5]
+  tolerance: 1.0e-9
+  steps:
+    - note: Identify the coefficients and compute the discriminant.
+      latex: a = 2,\quad b = -5,\quad c = -3, \qquad \Delta = (-5)^2 - 4(2)(-3) = 25 + 24 = 49
+    - note: $\Delta > 0$, so there are two distinct real roots, and $\sqrt{49} = 7$.
+      latex: x = \frac{-(-5) \pm 7}{2 \cdot 2} = \frac{5 \pm 7}{4}
+    - note: Evaluate both signs.
+      latex: x_1 = \frac{12}{4} = 3, \qquad x_2 = \frac{-2}{4} = -\tfrac{1}{2}
+    - note: 'Check by substitution: $2(3)^2 - 5(3) - 3 = 18 - 15 - 3 = 0$ and $2(\tfrac14) + \tfrac52 - 3 = 0$.'
+  answer: $x = 3$ or $x = -\tfrac{1}{2}$
+  sources:
+    - value: a = 2, b = −5, c = −3
+      source: Illustrative choice. Roots are exact and verified by substitution.
+
+calculator:
+  solvable: [x]
+
+related: [binomial-theorem, law-of-cosines]
+tags: [algebra, polynomial, roots, discriminant, parabola, completing the square, equation]

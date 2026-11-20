@@ -1,0 +1,71 @@
+id: electric-power
+name: Electric Power
+aliases: [P = VI, Joule heating, Power in a circuit]
+topic: physics/electromagnetism/circuits
+difficulty: basic
+summary: Rate of electrical energy transfer, voltage times current. Equivalent to I²R and V²/R for resistors.
+
+latex: |-
+  \sym{P}{P} = \sym{V}{V}\,\sym{I}{I}
+
+variables:
+  - id: P
+    symbol: P
+    name: Power
+    unit: W
+    description: Rate at which electrical energy is delivered to (or taken from) a component.
+    searchAliases: [power, watts]
+  - id: V
+    symbol: V
+    name: Voltage
+    unit: V
+    description: Potential difference across the component.
+    searchAliases: [voltage]
+  - id: I
+    symbol: I
+    name: Current
+    unit: A
+    description: Current through the component.
+    searchAliases: [current, amps]
+
+assumptions:
+  - '**DC**, or AC with RMS values and a **purely resistive** load. For loads with phase shift (motors, transformers), the real power is $P = V I \cos\varphi$.'
+  - $V$ and $I$ are measured at the same component. For a resistor, Ohm's law then gives $P = I^2R = V^2/R$.
+
+intuition: >-
+  Voltage is energy per unit charge (joules per coulomb). Current is charge per second. Multiply them
+  and you get joules per second, which is power. For a heater, $P = I^2 R$ explains why power lines
+  use high voltage: delivering the same power at ten times the voltage needs a tenth of the
+  current, and cuts the heating losses in the line a hundred-fold.
+
+derivation:
+  - note: Moving charge $dq$ through potential difference $V$ transfers energy $dW = V\,dq$. Divide by time.
+    latex: P = \frac{dW}{dt} = V\frac{dq}{dt} = V I
+  - note: For a resistor, substitute Ohm's law $V = IR$.
+    latex: P = I^2 R = \frac{V^2}{R}
+
+example:
+  title: Current drawn by a kettle
+  problem: A 2000 W kettle runs on 230 V mains. What current does it draw? Is a 13 A fuse enough?
+  given:
+    P: 2000
+    V: 230
+  solveFor: I
+  expected:
+    I: 8.6956522
+  tolerance: 1.0e-7
+  steps:
+    - latex: I = \frac{P}{V} = \frac{2000\ \text{W}}{230\ \text{V}} = 8.70\ \text{A}
+    - note: The kettle element is resistive, so RMS values apply directly. 8.7 A is comfortably below a 13 A fuse. The element's resistance is $R = V^2/P = 26.5\ \Omega$.
+  answer: $I \approx 8.7\ \text{A}$. A 13 A fuse is sufficient.
+  sources:
+    - value: V = 230 V
+      source: Nominal mains voltage in Europe and the UK (IEC 60038).
+    - value: P = 2000 W
+      source: Illustrative, typical kettle rating.
+
+calculator:
+  solvable: [P, V, I]
+
+related: [ohms-law, first-law-of-thermodynamics, sensible-heat]
+tags: [power, watts, voltage, current, energy, circuit, electricity, joule heating]

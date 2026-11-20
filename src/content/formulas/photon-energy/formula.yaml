@@ -1,0 +1,79 @@
+id: photon-energy
+name: Photon Energy
+aliases: [Planck–Einstein relation, E = hf, Energy of a photon]
+topic: physics/modern-physics/quantum-mechanics
+difficulty: basic
+summary: The energy of a single photon is Planck's constant times its frequency.
+
+latex: |-
+  \sym{E}{E} = \sym{h}{h}\,\sym{f}{f}
+
+variables:
+  - id: E
+    symbol: E
+    name: Photon energy
+    unit: J
+    description: Energy carried by one photon. 1 eV = 1.602 176 634 × 10⁻¹⁹ J.
+    searchAliases: [energy, photon energy, eV]
+  - id: h
+    symbol: h
+    name: Planck constant
+    unit: J·s
+    kind: constant
+    description: $h = 6.626\,070\,15 \times 10^{-34}$ J·s, exact in the SI since 2019.
+    searchAliases: [planck]
+  - id: f
+    symbol: f
+    name: Frequency
+    unit: Hz
+    description: Frequency of the light. Related to wavelength by $f = c/\lambda$ in vacuum.
+    searchAliases: [frequency]
+
+assumptions:
+  - Applies to **each individual photon**. The total energy of a beam is $N h f$ for $N$ photons.
+  - $f$ is the frequency in the frame where $E$ is measured; Doppler shifts change both together.
+  - Equivalent forms are $E = \hbar\omega$ and $E = hc/\lambda$, with $\lambda$ the **vacuum** wavelength.
+
+intuition: >-
+  Light comes in packets, and each packet's energy depends only on its colour (frequency), not on
+  the brightness. Brighter light means more photons, not stronger ones. That explains the photoelectric
+  effect: red light, however intense, cannot knock electrons out of a metal whose binding energy exceeds a
+  red photon's energy, but faint ultraviolet light can. It also explains why UV causes sunburn and visible light
+  does not.
+
+derivation:
+  - note: >-
+      Planck (1900) found that the measured blackbody spectrum is reproduced only if oscillators exchange energy in
+      discrete steps proportional to frequency.
+    latex: E_n = n h f, \qquad n = 0, 1, 2, \ldots
+  - note: Einstein (1905) proposed that light itself consists of such quanta, which explained the photoelectric effect. The maximum electron energy depends on frequency, not intensity.
+    latex: E_{k,\max} = h f - \phi
+  - note: The energy of one quantum of light is therefore
+    latex: E = h f = \frac{h c}{\lambda}
+
+example:
+  title: Photons from a green laser pointer
+  problem: A green laser pointer emits at 532 nm. What is the energy of one photon, in joules and in electronvolts?
+  given:
+    f: 5.635196578947368e14
+  solveFor: E
+  expected:
+    E: 3.7339208e-19
+  tolerance: 1.0e-7
+  steps:
+    - latex: f = \frac{c}{\lambda} = \frac{299\,792\,458}{532\times10^{-9}} = 5.635\times10^{14}\ \text{Hz}
+    - latex: E = h f = 6.62607015\times10^{-34} \times 5.635\times10^{14} = 3.734\times10^{-19}\ \text{J}
+    - latex: E = \frac{3.734\times10^{-19}\ \text{J}}{1.602\times10^{-19}\ \text{J/eV}} = 2.33\ \text{eV}
+    - note: A 5 mW pointer therefore emits $0.005 / 3.734\times10^{-19} \approx 1.3\times10^{16}$ photons every second.
+  answer: $E \approx 3.73\times10^{-19}\ \text{J} = 2.33\ \text{eV}$
+  sources:
+    - value: h = 6.62607015 × 10⁻³⁴ J·s, e = 1.602176634 × 10⁻¹⁹ C, c
+      source: Exact defining constants of the 2019 SI.
+    - value: λ = 532 nm, 5 mW
+      source: Typical frequency-doubled Nd:YAG green laser pointer.
+
+calculator:
+  solvable: [E, f]
+
+related: [wave-speed, de-broglie-wavelength, mass-energy-equivalence, schrodinger-equation]
+tags: [photon, quantum, planck, light, frequency, electronvolt, photoelectric effect]

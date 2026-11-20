@@ -1,0 +1,35 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
+import RichText from './RichText.astro';
+import type { IconName } from '../lib/icons';
+
+interface Props {
+  crumbs: Array<{ label: string; path: string }>;
+  title: string;
+  description: string;
+  icon?: IconName;
+  eyebrow?: string;
+}
+const { crumbs, title, description, icon, eyebrow } = Astro.props;
+---
+
+<div class="border-b border-border bg-surface">
+  <div class="mx-auto max-w-6xl px-4 pb-10 pt-6 sm:px-6">
+    <Breadcrumbs items={crumbs} current={title} />
+    <div class="mt-8 flex items-start gap-4">
+      {
+        icon && (
+          <span class="mt-1 hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border bg-raised text-accent sm:flex">
+            <Icon name={icon} class="h-7 w-7" />
+          </span>
+        )
+      }
+      <div>
+        {eyebrow && <p class="text-xs font-semibold uppercase tracking-wider text-accent">{eyebrow}</p>}
+        <h1 class="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
+        <p class="mt-3 max-w-2xl text-lg leading-relaxed text-muted"><RichText text={description} /></p>
+      </div>
+    </div>
+  </div>
+</div>

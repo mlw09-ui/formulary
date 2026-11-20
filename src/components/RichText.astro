@@ -1,0 +1,9 @@
+---
+import { renderRichText } from '../lib/latex';
+
+interface Props {
+  text: string;
+}
+---
+
+<Fragment set:html={renderRichText(Astro.props.text)} />

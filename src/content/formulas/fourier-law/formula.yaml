@@ -1,0 +1,104 @@
+id: fourier-law
+name: Fourier's Law of Heat Conduction
+aliases: [Fourier's law, Heat conduction through a wall, Thermal conduction]
+topic: physics/thermodynamics/heat-transfer
+difficulty: intermediate
+summary: Steady heat flow through a flat wall is proportional to conductivity, area and temperature difference.
+
+latex: |-
+  \sym{Qdot}{\dot{Q}} = \sym{k}{k}\,\sym{A}{A}\,\frac{\sym{T1}{T_1} - \sym{T2}{T_2}}{\sym{L}{L}}
+
+variables:
+  - id: Qdot
+    symbol: \dot{Q}
+    name: Heat flow rate
+    unit: W
+    description: Heat conducted through the wall per second, from side 1 to side 2.
+    searchAliases: [heat flow, heat rate, power]
+  - id: k
+    symbol: k
+    name: Thermal conductivity
+    unit: W/(m·K)
+    description: Material property. Copper ≈ 400, steel ≈ 50, brick ≈ 0.7, wood ≈ 0.12, mineral wool ≈ 0.04.
+    searchAliases: [conductivity, lambda]
+  - id: A
+    symbol: A
+    name: Area
+    unit: m²
+    description: Area of the wall perpendicular to the heat flow.
+    searchAliases: [area]
+  - id: T1
+    symbol: T_1
+    name: Hot-side temperature
+    unit: K
+    description: Surface temperature on side 1. Only the difference matters, so °C works too.
+    searchAliases: [temperature]
+  - id: T2
+    symbol: T_2
+    name: Cold-side temperature
+    unit: K
+    description: Surface temperature on side 2.
+  - id: L
+    symbol: L
+    name: Wall thickness
+    unit: m
+    description: Thickness of the wall in the direction of heat flow.
+    searchAliases: [thickness]
+
+assumptions:
+  - '**Steady state**: temperatures no longer change with time.'
+  - '**One-dimensional** conduction through a flat, homogeneous slab. Edges and corners are neglected.'
+  - '**Constant conductivity** $k$, and no heat generated inside the wall.'
+  - $T_1$ and $T_2$ are **surface** temperatures. Air temperatures on either side differ from them by the convective resistances, which are often significant.
+
+intuition: >-
+  Heat flows downhill in temperature, and the general law is $\mathbf{q} = -k\nabla T$: the heat flux is
+  proportional to the steepness of the temperature drop. Across a flat wall the drop is linear, so the
+  steepness is just $(T_1 - T_2)/L$. Doubling the insulation thickness halves the heat loss. Doubling the
+  area or the temperature difference doubles it. Comparing $k$ values shows why insulation works: mineral
+  wool conducts about 20 times less heat than brick.
+
+derivation:
+  - note: Fourier's law in its general form (an empirical law) says the heat flux vector points down the temperature gradient.
+    latex: \mathbf{q} = -k\,\nabla T
+  - note: >-
+      In one dimension through a slab, energy conservation at steady state with no heat generation means the
+      flux $q_x$ is the same at every depth, so $dT/dx$ is constant and the profile is linear.
+    latex: q_x = -k\frac{dT}{dx}, \qquad \frac{dT}{dx} = \frac{T_2 - T_1}{L}
+  - note: Multiply the flux by the area.
+    latex: \dot{Q} = q_x A = k A\,\frac{T_1 - T_2}{L}
+
+example:
+  title: Heat loss through a brick wall
+  problem: >-
+    An uninsulated brick wall is 0.20 m thick with an area of 10 m². Its inner surface is at 20 °C and its outer
+    surface at 0 °C. How much heat does it conduct?
+  given:
+    k: 0.72
+    A: 10
+    T1: 293.15
+    T2: 273.15
+    L: 0.2
+  solveFor: Qdot
+  expected:
+    Qdot: 720
+  tolerance: 1.0e-9
+  steps:
+    - latex: \dot{Q} = k A \frac{T_1 - T_2}{L} = 0.72 \times 10 \times \frac{20\ \text{K}}{0.20\ \text{m}} = 720\ \text{W}
+    - note: >-
+        Adding 0.10 m of mineral wool ($k = 0.04$) in series multiplies the wall's thermal resistance by about
+        $1 + (0.10/0.04)/(0.20/0.72) = 10$, cutting the loss to about 72 W.
+  answer: $\dot{Q} = 720\ \text{W}$
+  sources:
+    - value: k = 0.72 W/(m·K)
+      source: Common building brick, Incropera et al., Fundamentals of Heat and Mass Transfer, Table A.3.
+    - value: k = 0.04 W/(m·K)
+      source: Typical mineral-wool insulation (manufacturer data, 0.032–0.044).
+    - value: A = 10 m², L = 0.20 m, 20 °C / 0 °C
+      source: Illustrative choice.
+
+calculator:
+  solvable: [Qdot, k, A, T1, T2, L]
+
+related: [sensible-heat, first-law-of-thermodynamics, ohms-law]
+tags: [conduction, heat transfer, insulation, thermal conductivity, u-value, building, thermodynamics]

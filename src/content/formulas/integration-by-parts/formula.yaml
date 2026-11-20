@@ -1,0 +1,61 @@
+id: integration-by-parts
+name: Integration by Parts
+aliases: [Partial integration, ∫u dv = uv − ∫v du]
+topic: mathematics/calculus/integration
+difficulty: intermediate
+summary: Integrates a product by trading it for a simpler integral, reversing the product rule.
+
+latex: |-
+  \int \sym{u}{u}\,d\sym{v}{v} = \sym{u}{u}\,\sym{v}{v} - \int \sym{v}{v}\,d\sym{u}{u}
+
+variables:
+  - id: u
+    symbol: u
+    name: Part to differentiate
+    unit: null
+    description: A function $u(x)$, chosen so that $du = u'(x)\,dx$ is simpler than $u$.
+  - id: v
+    symbol: v
+    name: Part to integrate
+    unit: null
+    description: A function $v(x)$ such that $dv = v'(x)\,dx$ is the rest of the integrand, and $v$ can be found.
+
+assumptions:
+  - $u$ and $v$ are continuously differentiable on the interval (or, more generally, absolutely continuous).
+  - 'For definite integrals the boundary term is evaluated at the limits: $\int_a^b u\,dv = [uv]_a^b - \int_a^b v\,du$.'
+  - 'Choose $u$ to become simpler when differentiated. The LIATE ordering (Log, Inverse trig, Algebraic, Trig, Exponential) is a useful heuristic.'
+
+intuition: >-
+  This is the product rule run backwards. If one factor of the integrand gets simpler when differentiated
+  (like $x$) and the other is easy to integrate (like $e^x$), you can move the derivative from one factor to the
+  other and end up with an easier integral. It is the integration equivalent of rearranging a problem into a
+  form you already know how to solve.
+
+derivation:
+  - note: Start from the product rule.
+    latex: \frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}
+  - note: Integrate both sides with respect to $x$. The left side integrates back to $uv$.
+    latex: uv = \int u\,dv + \int v\,du
+  - note: Rearrange.
+    latex: \int u\,dv = uv - \int v\,du
+
+example:
+  title: The integral of x eˣ
+  problem: Evaluate $\int x e^x\,dx$, and the definite integral from 0 to 1.
+  steps:
+    - note: Choose $u = x$ (simplifies when differentiated) and $dv = e^x dx$, so $du = dx$ and $v = e^x$.
+      latex: \int x e^x\,dx = x e^x - \int e^x\,dx = x e^x - e^x + C = (x - 1)e^x + C
+    - note: 'Check by differentiating: $\frac{d}{dx}[(x-1)e^x] = e^x + (x-1)e^x = x e^x$.'
+    - latex: \int_0^1 x e^x\,dx = \Big[(x-1)e^x\Big]_0^1 = 0 - (-1) = 1
+  answer: $\int x e^x\,dx = (x - 1)e^x + C$; the definite integral from 0 to 1 is exactly 1.
+  sources:
+    - value: ∫ x eˣ dx
+      source: Illustrative choice. Exact result, verified by differentiation.
+
+calculator:
+  none: >-
+    Integration by parts transforms one integral into another; it is a technique, not a formula that outputs a
+    number from inputs.
+
+related: [product-rule, fundamental-theorem-of-calculus, chain-rule]
+tags: [integration, integral, calculus, by parts, antiderivative, liate]

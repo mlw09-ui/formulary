@@ -1,0 +1,70 @@
+id: gauss-law-for-magnetism
+name: Gauss's Law for Magnetism
+aliases: [No magnetic monopoles, Maxwell's second equation, Divergence of B]
+topic: physics/electromagnetism/maxwells-equations
+difficulty: advanced
+summary: The magnetic field has no sources or sinks; magnetic field lines never begin or end.
+
+latex: |-
+  \sym{nabla}{\nabla}\cdot\sym{B}{\mathbf{B}} = 0
+
+variables:
+  - id: nabla
+    symbol: \nabla\cdot
+    name: Divergence operator
+    unit: 1/m
+    kind: operator
+    description: Net outflow of a vector field from a point per unit volume.
+    searchAliases: [divergence, del, nabla]
+  - id: B
+    symbol: \mathbf{B}
+    name: Magnetic flux density
+    unit: T
+    description: Magnetic field vector (tesla = Wb/m²).
+    searchAliases: [magnetic field, B field, tesla]
+
+assumptions:
+  - '**No magnetic monopoles** exist. None has ever been observed; if one were found, the right-hand side would become $\mu_0\rho_m$.'
+  - Holds for static and time-varying fields, in vacuum and in matter.
+  - Requires differentiable fields. Otherwise use the integral form $\oint \mathbf{B}\cdot d\mathbf{A} = 0$.
+
+intuition: >-
+  There is no magnetic "charge". Every magnetic field line closes on itself, so whatever field enters a closed
+  surface must leave it again. Cut a bar magnet in half and you do not get a separate north and south
+  pole: you get two smaller magnets, each with both poles. The magnetic flux through any closed
+  surface is always exactly zero.
+
+derivation:
+  - note: >-
+      Gauss's law for magnetism is a postulate, an experimental fact. Its integral form says the magnetic flux through any
+      closed surface is zero.
+    latex: \oint_{\partial V} \mathbf{B}\cdot d\mathbf{A} = 0
+  - note: The divergence theorem converts it to a volume integral that vanishes for every volume, so the integrand vanishes.
+    latex: \int_V \nabla\cdot\mathbf{B}\,dV = 0 \ \ \forall V \quad\Rightarrow\quad \nabla\cdot\mathbf{B} = 0
+  - note: Consequently $\mathbf{B}$ can always be written as the curl of a vector potential, $\mathbf{B} = \nabla\times\mathbf{A}$, because $\nabla\cdot(\nabla\times\mathbf{A}) = 0$ identically.
+
+example:
+  title: Flux through a closed cube
+  problem: >-
+    A uniform magnetic field of 0.5 T points along $x$. Find the magnetic flux through each face of a cube of
+    side 0.1 m whose edges are aligned with the axes, and the total flux through the cube.
+  steps:
+    - note: Each face has area $A = 0.1^2 = 0.01\ \text{m}^2$. On the face at the back ($-x$), the outward normal opposes $\mathbf{B}$.
+      latex: \Phi_{-x} = -B A = -0.5 \times 0.01 = -0.005\ \text{Wb}
+    - note: On the front face ($+x$), the outward normal is along $\mathbf{B}$.
+      latex: \Phi_{+x} = +B A = +0.005\ \text{Wb}
+    - note: On the four side faces, $\mathbf{B}$ is parallel to the surface, so the flux is zero.
+      latex: \Phi_{\text{total}} = -0.005 + 0.005 + 4 \times 0 = 0
+    - note: The same total, zero, holds for any closed surface in any magnetic field, however non-uniform.
+  answer: ±0.005 Wb through the two end faces, zero through the sides, **zero in total**.
+  sources:
+    - value: B = 0.5 T, side 0.1 m
+      source: Illustrative choice.
+
+calculator:
+  none: >-
+    This is a constraint every magnetic field satisfies (its divergence is zero everywhere), not a relation
+    that outputs a number from inputs.
+
+related: [gauss-law, faraday-law, ampere-maxwell-law]
+tags: [maxwell, magnetic field, monopole, divergence, flux, magnetism, electromagnetism]

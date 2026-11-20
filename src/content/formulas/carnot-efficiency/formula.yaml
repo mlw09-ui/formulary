@@ -1,0 +1,78 @@
+id: carnot-efficiency
+name: Carnot Efficiency
+aliases: [Carnot limit, Maximum heat engine efficiency, Carnot cycle efficiency]
+topic: physics/thermodynamics/energy-and-state
+difficulty: intermediate
+summary: The maximum possible efficiency of any heat engine operating between two temperatures.
+
+latex: |-
+  \sym{eta}{\eta} = 1 - \frac{\sym{Tc}{T_C}}{\sym{Th}{T_H}}
+
+variables:
+  - id: eta
+    symbol: \eta
+    name: Maximum efficiency
+    unit: '1'
+    description: Fraction of the heat taken in that can at most be converted into work (0 to 1).
+    searchAliases: [efficiency, eta]
+  - id: Tc
+    symbol: T_C
+    name: Cold reservoir temperature
+    unit: K
+    description: Absolute temperature at which waste heat is rejected (e.g. the condenser or the environment).
+    searchAliases: [cold temperature]
+  - id: Th
+    symbol: T_H
+    name: Hot reservoir temperature
+    unit: K
+    description: Absolute temperature at which heat is supplied.
+    searchAliases: [hot temperature]
+
+assumptions:
+  - '**Temperatures in kelvin.** Using °C gives nonsense.'
+  - It is an **upper bound**, reached only by a reversible engine (infinitely slow, frictionless). Real engines reach roughly 50–70% of it.
+  - The engine exchanges heat with two reservoirs at fixed temperatures $T_H > T_C$.
+
+intuition: >-
+  You cannot turn heat completely into work. Some heat must always be dumped into a colder place, and
+  the colder that place is relative to the hot source, the less you have to throw away. This is the
+  second law of thermodynamics in its most practical form. It is why power stations push their steam
+  temperatures as high as materials allow, and why even a perfect engine running between 25 °C and
+  100 °C could convert at most 20% of its heat into work.
+
+derivation:
+  - note: >-
+      In a reversible cycle, the total entropy change of the two reservoirs is zero. The hot reservoir loses entropy
+      $Q_H/T_H$ and the cold one gains $Q_C/T_C$.
+    latex: \frac{Q_H}{T_H} = \frac{Q_C}{T_C} \quad\Rightarrow\quad \frac{Q_C}{Q_H} = \frac{T_C}{T_H}
+  - note: Energy conservation gives the work $W = Q_H - Q_C$, and the efficiency is work out per heat in.
+    latex: \eta = \frac{W}{Q_H} = 1 - \frac{Q_C}{Q_H} = 1 - \frac{T_C}{T_H}
+  - note: Any irreversibility generates entropy, which forces more heat into the cold reservoir, so every real engine does worse.
+
+example:
+  title: Limit for a steam power plant
+  problem: A steam power plant takes steam at 550 °C and condenses it at 30 °C. What is the maximum possible efficiency?
+  given:
+    Tc: 303.15
+    Th: 823.15
+  solveFor: eta
+  expected:
+    eta: 0.631720
+  tolerance: 1.0e-6
+  steps:
+    - note: Convert to kelvin.
+      latex: T_H = 550 + 273.15 = 823.15\ \text{K}, \qquad T_C = 30 + 273.15 = 303.15\ \text{K}
+    - latex: \eta = 1 - \frac{303.15}{823.15} = 1 - 0.368 = 0.632
+    - note: Real supercritical coal plants of this kind reach about 42–45%, roughly two thirds of the Carnot limit.
+  answer: $\eta_{\max} \approx 63\%$
+  sources:
+    - value: 550 °C / 30 °C
+      source: Illustrative values typical of a modern steam power plant.
+    - value: Real efficiency 42–45%
+      source: 'Typical supercritical coal-fired plant efficiency (IEA, Technology Roadmap: High-Efficiency, Low-Emissions Coal Power, 2012).'
+
+calculator:
+  solvable: [eta, Tc, Th]
+
+related: [first-law-of-thermodynamics, ideal-gas-law, sensible-heat]
+tags: [heat engine, efficiency, second law, entropy, carnot cycle, thermodynamics, power plant]

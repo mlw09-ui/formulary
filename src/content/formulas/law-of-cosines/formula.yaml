@@ -1,0 +1,77 @@
+id: law-of-cosines
+name: Law of Cosines
+aliases: [Cosine rule, Cosine law, Generalised Pythagorean theorem]
+topic: mathematics/geometry-and-trigonometry/triangles
+difficulty: basic
+summary: Relates the three sides of any triangle to one of its angles; generalises Pythagoras.
+
+latex: |-
+  \sym{c}{c}^{2} = \sym{a}{a}^{2} + \sym{b}{b}^{2} - 2\sym{a}{a}\sym{b}{b}\cos\sym{C}{C}
+
+variables:
+  - id: c
+    symbol: c
+    name: Side c
+    unit: m
+    description: Side opposite angle $C$.
+    searchAliases: [side]
+  - id: a
+    symbol: a
+    name: Side a
+    unit: m
+    description: One side adjacent to angle $C$.
+  - id: b
+    symbol: b
+    name: Side b
+    unit: m
+    description: The other side adjacent to angle $C$.
+  - id: C
+    symbol: C
+    name: Angle C
+    unit: °
+    description: Interior angle between sides $a$ and $b$. The calculator uses degrees.
+    searchAliases: [angle, included angle]
+
+assumptions:
+  - Any triangle in a **flat (Euclidean) plane**.
+  - $C$ is the angle **between** sides $a$ and $b$ (the included angle), opposite side $c$.
+  - 'To solve for $C$, the sides must satisfy the triangle inequality: each side shorter than the sum of the other two.'
+  - Solving for $a$ or $b$ from the other two sides and $C$ is a quadratic, so it can have zero, one or two solutions (the ambiguous case).
+
+intuition: >-
+  For a right angle, $\cos C = 0$ and this is Pythagoras. The extra term $-2ab\cos C$ corrects for the angle:
+  closing the angle below 90° makes $c$ shorter, opening it beyond 90° makes $c$ longer. Use it when you know
+  two sides and the angle between them (to get the third side), or all three sides (to get any angle).
+
+derivation:
+  - note: Place $C$ at the origin, side $b$ along the $x$-axis, and side $a$ at angle $C$. The vertices are then
+    latex: P_A = (b,\ 0), \qquad P_B = (a\cos C,\ a\sin C)
+  - note: Side $c$ is the distance between them (Pythagoras in coordinates).
+    latex: c^2 = (a\cos C - b)^2 + (a\sin C)^2 = a^2\cos^2 C - 2ab\cos C + b^2 + a^2\sin^2 C
+  - note: Use $\sin^2 C + \cos^2 C = 1$.
+    latex: c^2 = a^2 + b^2 - 2ab\cos C
+
+example:
+  title: The third side of a triangle
+  problem: Two sides of a triangle are 5 m and 7 m long, with an angle of 60° between them. How long is the third side?
+  given:
+    a: 5
+    b: 7
+    C: 60
+  solveFor: c
+  expected:
+    c: 6.2449980
+  tolerance: 1.0e-7
+  steps:
+    - latex: c^2 = 5^2 + 7^2 - 2(5)(7)\cos 60^\circ = 25 + 49 - 35 = 39
+    - latex: c = \sqrt{39} = 6.245\ \text{m}
+  answer: $c = \sqrt{39} \approx 6.24\ \text{m}$
+  sources:
+    - value: a = 5 m, b = 7 m, C = 60°
+      source: Illustrative choice (exact answer √39).
+
+calculator:
+  solvable: [c, C, a, b]
+
+related: [pythagorean-theorem, law-of-sines, dot-product, quadratic-formula]
+tags: [triangle, trigonometry, cosine, sides, angles, geometry, sas, sss]

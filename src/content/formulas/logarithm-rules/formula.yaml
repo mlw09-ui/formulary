@@ -1,0 +1,84 @@
+id: logarithm-rules
+name: Logarithm Rules
+aliases: [Laws of logarithms, Log identities, Change of base formula]
+topic: mathematics/algebra/exponents-and-logarithms
+difficulty: basic
+summary: Product, quotient, power and change-of-base rules for manipulating logarithms.
+
+latex: |-
+  \begin{aligned}
+  \log_{\sym{b}{b}}(\sym{x}{x}\sym{y}{y}) &= \log_{\sym{b}{b}}\sym{x}{x} + \log_{\sym{b}{b}}\sym{y}{y} \\
+  \log_{\sym{b}{b}}\!\left(\frac{\sym{x}{x}}{\sym{y}{y}}\right) &= \log_{\sym{b}{b}}\sym{x}{x} - \log_{\sym{b}{b}}\sym{y}{y} \\
+  \log_{\sym{b}{b}}\!\left(\sym{x}{x}^{\sym{p}{p}}\right) &= \sym{p}{p}\,\log_{\sym{b}{b}}\sym{x}{x} \\
+  \log_{\sym{b}{b}}\sym{x}{x} &= \frac{\log_{\sym{k}{k}}\sym{x}{x}}{\log_{\sym{k}{k}}\sym{b}{b}}
+  \end{aligned}
+
+variables:
+  - id: b
+    symbol: b
+    name: Base
+    unit: null
+    description: The base of the logarithm, with $b > 0$ and $b \neq 1$. Common bases are 10, $e$ (natural log, ln) and 2.
+    searchAliases: [base]
+  - id: x
+    symbol: x
+    name: Argument
+    unit: null
+    description: A positive real number.
+  - id: y
+    symbol: y
+    name: Second argument
+    unit: null
+    description: A positive real number.
+  - id: p
+    symbol: p
+    name: Exponent
+    unit: null
+    description: Any real number.
+    searchAliases: [power]
+  - id: k
+    symbol: k
+    name: New base
+    unit: null
+    description: Any other valid base ($k > 0$, $k \neq 1$), typically $e$ or 10 because calculators have those.
+
+assumptions:
+  - $x > 0$ and $y > 0$ for real logarithms. Logarithms of zero or negative numbers are undefined over the reals.
+  - The base satisfies $b > 0$ and $b \neq 1$ (likewise $k$).
+  - 'In complex analysis the logarithm is multivalued, and these rules hold only up to multiples of $2\pi i$.'
+
+intuition: >-
+  A logarithm answers "which power?": $\log_b x$ is the exponent you raise $b$ to in order to get $x$. Since
+  multiplying powers adds their exponents, logarithms turn multiplication into addition, division into subtraction,
+  and powers into multiplication. That is why slide rules worked, and why logarithmic scales (decibels, pH, the
+  Richter scale) compress huge ranges into manageable numbers.
+
+derivation:
+  - note: Let $x = b^u$ and $y = b^v$, so $u = \log_b x$ and $v = \log_b y$. Exponent rules give the product and quotient rules.
+    latex: xy = b^{u+v} \Rightarrow \log_b(xy) = u + v, \qquad \frac{x}{y} = b^{u-v} \Rightarrow \log_b\frac{x}{y} = u - v
+  - note: 'Power rule: raise $x = b^u$ to the power $p$.'
+    latex: x^p = b^{pu} \quad\Rightarrow\quad \log_b(x^p) = p\,u = p\log_b x
+  - note: 'Change of base: take $\log_k$ of both sides of $x = b^u$ and use the power rule.'
+    latex: \log_k x = u\,\log_k b \quad\Rightarrow\quad \log_b x = \frac{\log_k x}{\log_k b}
+
+example:
+  title: Solving an exponential equation
+  problem: Solve $2^t = 50$ for $t$.
+  steps:
+    - note: Take the logarithm of both sides (any base) and use the power rule.
+      latex: \ln(2^t) = \ln 50 \quad\Rightarrow\quad t\ln 2 = \ln 50
+    - note: This is the change-of-base formula, $t = \log_2 50$.
+      latex: t = \frac{\ln 50}{\ln 2} = \frac{3.9120}{0.6931} = 5.644
+    - note: 'Check: $2^{5.644} = 50.0$. Since $2^5 = 32$ and $2^6 = 64$, a value between 5 and 6 makes sense.'
+  answer: $t = \log_2 50 \approx 5.644$
+  sources:
+    - value: 2ᵗ = 50
+      source: Illustrative choice. Result verified by substitution.
+
+calculator:
+  none: >-
+    These are identities that hold for all valid inputs, so they do not compute a single unknown. To evaluate a
+    logarithm in any base, use the change-of-base form with ln on any calculator.
+
+related: [eulers-formula, taylor-series, power-rule]
+tags: [logarithm, log, ln, exponent, change of base, algebra, exponential equation]

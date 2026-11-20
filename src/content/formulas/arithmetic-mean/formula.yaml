@@ -1,0 +1,76 @@
+id: arithmetic-mean
+name: Arithmetic Mean
+aliases: [Mean, Average, Sample mean]
+topic: mathematics/probability-and-statistics/descriptive-statistics
+difficulty: basic
+summary: The sum of all values divided by how many there are.
+
+latex: |-
+  \sym{xbar}{\bar{x}} = \frac{1}{\sym{n}{n}}\sum_{\sym{i}{i}=1}^{\sym{n}{n}} \sym{x}{x}_{\sym{i}{i}}
+
+variables:
+  - id: xbar
+    symbol: \bar{x}
+    name: Mean
+    unit: null
+    description: The arithmetic mean (average), in the same units as the data.
+    searchAliases: [mean, average, x bar]
+  - id: x
+    symbol: x_i
+    name: Data values
+    unit: null
+    shape: list
+    description: The individual observations $x_1, x_2, \ldots, x_n$.
+    searchAliases: [data, values, observations, sample]
+  - id: n
+    symbol: n
+    name: Number of values
+    unit: null
+    kind: index
+    description: How many data values there are (counted automatically by the calculator).
+    searchAliases: [count, sample size]
+  - id: i
+    symbol: i
+    name: Index
+    unit: null
+    kind: index
+    description: Runs over the data values, $1$ to $n$.
+
+assumptions:
+  - Numeric data on an **interval or ratio scale**, where adding values makes sense. Averaging categories or ranks can mislead.
+  - '**Sensitive to outliers**: one extreme value can move the mean a lot. For skewed data such as incomes, the median is often more representative.'
+  - If the data are a sample, $\bar{x}$ estimates the population mean $\mu$ without bias.
+
+intuition: >-
+  The mean is the balance point of the data. Put equal weights at each value on a ruler, and it balances at $\bar{x}$.
+  Equivalently, it is the value that would give the same total if every observation were replaced by it. It also
+  minimises the sum of squared deviations, which is why it pairs naturally with the standard deviation.
+
+derivation:
+  - note: The mean is the constant $c$ that minimises the total squared deviation from the data. Set the derivative to zero.
+    latex: \frac{d}{dc}\sum_{i=1}^{n}(x_i - c)^2 = -2\sum_{i=1}^{n}(x_i - c) = 0
+  - note: Solve for $c$.
+    latex: \sum x_i = n\,c \quad\Rightarrow\quad c = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}
+
+example:
+  title: Mean of a small data set
+  problem: Find the mean of the data 2, 4, 4, 4, 5, 5, 7, 9.
+  given:
+    x: [2, 4, 4, 4, 5, 5, 7, 9]
+  solveFor: xbar
+  expected:
+    xbar: 5
+  tolerance: 1.0e-12
+  steps:
+    - latex: \sum x_i = 2 + 4 + 4 + 4 + 5 + 5 + 7 + 9 = 40, \qquad n = 8
+    - latex: \bar{x} = \frac{40}{8} = 5
+  answer: $\bar{x} = 5$
+  sources:
+    - value: Data 2, 4, 4, 4, 5, 5, 7, 9
+      source: Standard textbook data set (chosen so mean and population standard deviation are whole numbers).
+
+calculator:
+  solvable: [xbar]
+
+related: [standard-deviation, normal-distribution]
+tags: [mean, average, statistics, data, central tendency, expected value]
