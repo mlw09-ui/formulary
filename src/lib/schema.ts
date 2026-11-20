@@ -108,9 +108,16 @@ export const exampleSchema = z.strictObject({
   sources: z.array(sourceSchema).min(1),
 });
 
+/**
+ * Interactive widgets for formulas that do not fit the solve-for-a-variable
+ * calculator. Each name maps to a component in src/components/Widget.astro.
+ */
+export const WIDGETS = ['taylor'] as const;
+
 export const calculatorSchema = z.union([
   z.strictObject({ solvable: z.array(z.string()).min(1) }),
   z.strictObject({ none: z.string().min(20, 'explain why there is no calculator') }),
+  z.strictObject({ widget: z.enum(WIDGETS) }),
 ]);
 
 export const formulaSchema = z.strictObject({

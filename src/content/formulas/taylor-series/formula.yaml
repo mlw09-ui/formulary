@@ -76,9 +76,7 @@ example:
       source: Exact value to the digits shown (any reference table or high-precision computation).
 
 calculator:
-  none: >-
-    A Taylor series depends on a whole function and all its derivatives, not on a few numeric inputs. A numeric tool
-    would need a choice of function and a number of terms, which is beyond a single formula calculator.
+  widget: taylor
 
 related: [power-rule, eulers-formula, binomial-theorem, fundamental-theorem-of-calculus]
 tags: [series, taylor, maclaurin, approximation, power series, calculus, small angle]

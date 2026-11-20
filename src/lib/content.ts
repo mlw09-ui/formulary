@@ -177,7 +177,7 @@ export function buildLibrary(
         }
       }
     } else {
-      if (calc) errors.push(`${file}: has calc.ts but calculator is "none"`);
+      if (calc) errors.push(`${file}: has calc.ts but calculator is ${'widget' in f.calculator ? `a widget ("${f.calculator.widget}")` : '"none"'}`);
       if (f.example.given || f.example.expected) {
         errors.push(`${file}: example.given/expected are only used with a calculator; put the numbers in the steps`);
       }

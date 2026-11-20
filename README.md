@@ -7,7 +7,7 @@ with validity warnings, a worked example with sourced numbers, a step-by-step de
 - **Navigation:** Domain → Field → Topic → Formula, with breadcrumbs on every page. Field pages group their formulas under topic headings.
 - **Search:** <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd> or <kbd>/</kbd>. Matches names, aliases, symbols (`ρ`, `rho`, `ΔP`, `Re`), tags and descriptions, and formula-style queries such as `E=mc^2`.
 - **Stack:** Astro (static output), TypeScript, Tailwind CSS v4, KaTeX (rendered at build time), Preact (calculator only), Fuse.js (search), Zod (schema), Vitest (tests). No backend, no database.
-- **Content:** 64 formulas (39 physics, 25 mathematics), 50 with calculators.
+- **Content:** 64 formulas (39 physics, 25 mathematics), 50 with calculators and an interactive Taylor-series explorer.
 
 ## Commands
 
@@ -128,6 +128,8 @@ calculator:
   solvable: [V, I, R]                      # must match the solvers in calc.ts
   # or, if a calculator makes no sense:
   # none: Explanation (≥ 20 characters) of why there is no calculator.
+  # or, for a custom interactive tool (see "Widgets" below):
+  # widget: taylor
 
 related: [electric-power]                  # ids of existing formulas
 tags: [circuit, voltage, current]          # at least one
@@ -198,6 +200,17 @@ export default defineCalculator({
 | `CalcError` | Throw it when inputs admit no answer. Its message is shown to the user, so say *why*. NaN and Infinity are caught automatically as "no real solution". |
 
 Shared checks live in `src/lib/checks.ts`: `relativisticCheck(v, quantity, relError)` and `machCheck(v, a, what)`.
+
+#### Widgets
+
+Some formulas need an interactive tool that is not a solve-for-a-variable calculator, such as the Taylor-series
+explorer (pick a function, centre, point and number of terms; see the polynomial converge or diverge on a chart).
+A widget is UI code, so adding one is the one case where you write a component:
+
+1. Put the maths in a pure module under `src/lib/` (e.g. `taylor.ts`) and test it in `tests/` against the formula's worked example.
+2. Write the Preact component in `src/components/` (e.g. `TaylorExplorer.tsx`).
+3. Register the name in `WIDGETS` (`src/lib/schema.ts`) and in `src/components/Widget.astro`.
+4. Use it from any formula with `calculator: { widget: <name> }`.
 
 ### 4. Run `npm test`
 

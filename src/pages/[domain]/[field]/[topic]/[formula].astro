@@ -9,6 +9,7 @@ import Steps from '../../../../components/Steps.astro';
 import RichText from '../../../../components/RichText.astro';
 import FormulaCard from '../../../../components/FormulaCard.astro';
 import Calculator, { type CalcVar } from '../../../../components/Calculator.tsx';
+import Widget from '../../../../components/Widget.astro';
 import { calcVariables, getLibrary, solverInputs } from '../../../../lib/content';
 import { renderInlineMath } from '../../../../lib/latex';
 import { formatNumber } from '../../../../lib/format';
@@ -128,7 +129,7 @@ const description = `${f.name}: ${f.summary}`;
     </Section>
 
     <!-- 5. Calculator -->
-    <Section id="calculator" title="Calculator">
+    <Section id="calculator" title={'widget' in f.calculator ? 'Explorer' : 'Calculator'}>
       {
         'solvable' in f.calculator ? (
           <>
@@ -145,6 +146,13 @@ const description = `${f.name}: ${f.summary}`;
               defaults={defaults}
               initialTarget={f.example.solveFor!}
             />
+          </>
+        ) : 'widget' in f.calculator ? (
+          <>
+            <p class="-mt-2 mb-4 text-sm text-muted">
+              Interactive explorer. Starts at the worked example below; hover or use the arrow keys on the chart to read values.
+            </p>
+            <Widget name={f.calculator.widget} />
           </>
         ) : (
           <div class="rounded-xl border border-dashed border-border-strong px-5 py-4 text-sm leading-relaxed text-muted">

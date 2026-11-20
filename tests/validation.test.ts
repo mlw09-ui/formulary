@@ -86,6 +86,8 @@ describe('content validation', () => {
     ['calculator without calc.ts', base, /calc\.ts is missing/, {}],
     ['broken LaTeX in a derivation step', mutate((f) => (f.derivation = [{ latex: '\\frac{1}{' }])), /derivation\[0\]\.latex/],
     ['broken inline math in an assumption', mutate((f) => (f.assumptions = ['Holds for $\\sqrt{x$.'])), /assumptions\[0\]/],
+    ['unknown widget', mutate((f) => { f.calculator = { widget: 'nope' }; delete f.example.given; delete f.example.expected; }), /calculator/, {}],
+    ['calc.ts alongside a widget', mutate((f) => { f.calculator = { widget: 'taylor' }; delete f.example.given; delete f.example.expected; }), /calculator is a widget/],
     ['calc.ts with calculator none', mutate((f) => (f.calculator = { none: 'A long enough reason for no calculator.' })), /calculator is "none"/],
   ];
 

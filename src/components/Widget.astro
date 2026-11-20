@@ -1,0 +1,17 @@
+---
+/**
+ * Maps a formula's `calculator: { widget: name }` to its interactive component.
+ * Add new widgets here and to WIDGETS in src/lib/schema.ts.
+ */
+import TaylorExplorer from './TaylorExplorer.tsx';
+import { renderInlineMath } from '../lib/latex';
+import { TAYLOR_FUNCTIONS } from '../lib/taylor';
+
+interface Props {
+  name: 'taylor';
+}
+const { name } = Astro.props;
+const fnLabels = Object.fromEntries(TAYLOR_FUNCTIONS.map((f) => [f.id, renderInlineMath(f.tex)]));
+---
+
+{name === 'taylor' && <TaylorExplorer client:idle fnLabels={fnLabels} />}
